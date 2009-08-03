@@ -60,7 +60,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     public void Setup ()
     {
       // Create DB tables
-      _schemaExport.Execute (false, true, false, false);
+      _schemaExport.Execute (false, true, false);
 
       SetupTestData();
     }

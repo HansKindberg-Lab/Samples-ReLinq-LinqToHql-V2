@@ -32,6 +32,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       return visitor.GetHqlString();
     }
 
+    // Instead of generating an HQL string, we could also use a NHibernate ASTFactory to generate IASTNodes.
     private StringBuilder _hqlStringBuilder;
 
     public string GetHqlString()
