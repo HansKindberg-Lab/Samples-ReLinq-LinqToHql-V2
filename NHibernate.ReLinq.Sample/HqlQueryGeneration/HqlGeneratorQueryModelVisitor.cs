@@ -71,6 +71,26 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       base.VisitWhereClause (whereClause, queryModel, index);
     }
 
+    public override void VisitOrderByClause (OrderByClause orderByClause, QueryModel queryModel, int index)
+    {
+      _hqlStringBuilder.Append ("order by ");
+
+      bool first = true;
+      foreach (var ordering in orderByClause.Orderings)
+      {
+        if (!first)
+          _hqlStringBuilder.Append (", ");
+
+        _hqlStringBuilder.Append (GetHqlExpression (ordering.Expression));
+
+        first = false;
+      }
+
+      _hqlStringBuilder.Append (" ");
+
+      base.VisitOrderByClause (orderByClause, queryModel, index);
+    }
+
     private string GetHqlExpression (Expression expression)
     {
       return HqlGeneratorExpressionTreeVisitor.GetHqlExpression (expression, _parameterAggregator);
