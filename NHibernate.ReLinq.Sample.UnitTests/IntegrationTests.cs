@@ -39,6 +39,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     private Person _person;
     private Person _person2;
     private Person _person3;
+    private Person _person4;
     private PhoneNumber _phoneNumber;
     private PhoneNumber _phoneNumber2;
     private PhoneNumber _phoneNumber3;
@@ -135,7 +136,28 @@ namespace NHibernate.ReLinq.Sample.UnitTests
         Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4 }));
       }
     }
-    
+
+    [Test]
+    public void SelectFromWhere_WithContains ()
+    {
+      // Implement VisitMethodCallExpression
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from p in new NHQueryable<Person> (session)
+                    where p.Surname.Contains (p.FirstName)
+                    select p;
+
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where p.Surname like '%'+p.FirstName+'%' "));
+
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] { _person4 }));
+      }
+    }
+
+   
     //[Test]
     //public void ImplicitJoinTest ()
     //{
@@ -878,12 +900,13 @@ namespace NHibernate.ReLinq.Sample.UnitTests
       _person = Person.NewObject ("Pierre", "Oerson", _location2);
       _person2 = Person.NewObject ("Max", "Muster", _location);
       _person3 = Person.NewObject ("Minny", "Mauser", _location2);
+      _person4 = Person.NewObject ("John", "Johnson", _location2);
       _phoneNumber = PhoneNumber.NewObject ("11111", "2-111", "3-111111", "4-11", _person2);
       _phoneNumber2 = PhoneNumber.NewObject ("22222", "2-222", "3-22222", "4-22", _person);
       _phoneNumber3 = PhoneNumber.NewObject ("11111", "2-333", "3-333333", "4-33", _person);
       _phoneNumber4 = PhoneNumber.NewObject ("11111", "2-444", "3-44444", "4-44444", _person2);
 
-      NHibernateSaveOrUpdate (_location, _location2, _person, _person2, _person3);
+      NHibernateSaveOrUpdate (_location, _location2, _person, _person2, _person3, _person4);
     }
 
     private void NHibernateSaveOrUpdate (params object[] objectsToSave)

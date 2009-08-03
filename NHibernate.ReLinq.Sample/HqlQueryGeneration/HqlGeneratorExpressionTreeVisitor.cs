@@ -21,6 +21,7 @@ using System;
 using System.Linq.Expressions;
 using System.Text;
 using Remotion.Data.Linq.Clauses.Expressions;
+using Remotion.Data.Linq.Clauses.ExpressionTreeVisitors;
 using Remotion.Data.Linq.Parsing;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
@@ -59,6 +60,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
       VisitExpression (expression.Left);
 
+      // In a more complex LINQ provider, handle this via lookup tables.
       switch (expression.NodeType)
       {
         case ExpressionType.Equal:
@@ -102,13 +104,37 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       return expression;
     }
 
+    protected override Expression VisitMethodCallExpression (MethodCallExpression expression)
+    {
+      // In a more complex LINQ provider, handle this via method lookup tables.
+
+      var supportedMethod = typeof (string).GetMethod ("Contains");
+      if (expression.Method.Equals (supportedMethod))
+      {
+        VisitExpression (expression.Object);
+        _hqlExpression.Append (" like '%'+");
+        VisitExpression (expression.Arguments[0]);
+        _hqlExpression.Append ("+'%'");
+        return expression;
+      }
+      else
+      {
+        return base.VisitMethodCallExpression (expression);
+      }
+    }
+
     // Called when a LINQ expression type is not handled above.
     protected override Exception CreateUnhandledItemException<T>(T unhandledItem, string visitMethod)
     {
-      var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", unhandledItem, typeof (T));
+      string itemText = FormatUnhandledItem(unhandledItem);
+      var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", itemText, typeof (T));
       return new NotSupportedException (message);
     }
 
-
+    private string FormatUnhandledItem<T>(T unhandledItem)
+    {
+      var itemAsExpression = unhandledItem as Expression;
+      return itemAsExpression != null ? FormattingExpressionTreeVisitor.Format (itemAsExpression) : unhandledItem.ToString ();
+    }
   }
 }
