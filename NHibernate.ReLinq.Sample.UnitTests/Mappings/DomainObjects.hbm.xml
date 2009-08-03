@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                  assembly="NHibernate.ReLinq.Sample.UnitTests"
+                  namespace="NHibernate.ReLinq.Sample.UnitTests.DomainObjects">
+
+  <!-- Location -->
+  <class name="Location">
+    
+    <id name="NHibernateId" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <property name="Street" />
+    <property name="No" />
+    <property name="City" />
+    <property name="Country" />
+    <property name="ZipCode" />
+
+    <many-to-one name="Owner"
+    class="Person"
+    cascade="none"
+    unique="false"/>
+
+  </class>
+
+
+  <!-- PhoneNumber -->
+  <class name="PhoneNumber">
+
+    <id name="NHibernateId" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <property name="CountryCode" length="6"/>
+    <property name="AreaCode" length="8"/>
+    <property name="Number" length="10"/>
+    <property name="Extension" length="7"/>
+
+    <many-to-one
+    name="Person"
+    class="Person"
+    not-null="true" />
+  </class>
+
+
+  <!-- Person -->
+  <class name="Person">
+
+    <id name="NHibernateId" unsaved-value="00000000-0000-0000-0000-000000000000">
+      <generator class="guid" />
+    </id>
+
+    <property name="FirstName" length="30" />
+    <property name="Surname" length="30" />
+
+    <many-to-one name="Location"
+    class="Location"
+    cascade="all"
+    unique="false"/>
+
+    <list
+    name="PhoneNumbers"
+    cascade="save-update">
+      <key/>
+      <index/>
+      <one-to-many class="PhoneNumber"/>
+    </list>
+
+  </class>
+  
+</hibernate-mapping>
+
+
+

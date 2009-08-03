@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.ReLinq.Sample", "NHibernate.ReLinq.Sample\NHibernate.ReLinq.Sample.csproj", "{58908F3F-5961-4666-AF85-5AFE7BBC7828}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.ReLinq.Sample.UnitTests", "NHibernate.ReLinq.Sample.UnitTests\NHibernate.ReLinq.Sample.UnitTests.csproj", "{0DD578B0-AC74-44FB-877E-318F45544251}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58908F3F-5961-4666-AF85-5AFE7BBC7828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58908F3F-5961-4666-AF85-5AFE7BBC7828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58908F3F-5961-4666-AF85-5AFE7BBC7828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58908F3F-5961-4666-AF85-5AFE7BBC7828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DD578B0-AC74-44FB-877E-318F45544251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DD578B0-AC74-44FB-877E-318F45544251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DD578B0-AC74-44FB-877E-318F45544251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DD578B0-AC74-44FB-877E-318F45544251}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
