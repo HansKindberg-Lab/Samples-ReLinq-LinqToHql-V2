@@ -61,9 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HqlQueryGeneration\CommandData.cs" />
     <Compile Include="HqlQueryGeneration\HqlGeneratorExpressionTreeVisitor.cs" />
     <Compile Include="HqlQueryGeneration\HqlGeneratorQueryModelVisitor.cs" />
-    <Compile Include="HqlQueryGenerator.cs" />
+    <Compile Include="HqlQueryGeneration\ParameterAggregator.cs" />
+    <Compile Include="HqlQueryGeneration\NamedParameter.cs" />
     <Compile Include="NHQueryable.cs" />
     <Compile Include="NHQueryExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

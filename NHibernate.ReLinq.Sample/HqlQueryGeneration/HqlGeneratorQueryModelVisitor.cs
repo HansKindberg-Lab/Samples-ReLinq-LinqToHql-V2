@@ -17,6 +17,7 @@
 // along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
 // 
 
+using System.Linq.Expressions;
 using Remotion.Data.Linq;
 using Remotion.Data.Linq.Clauses;
 using System.Text;
@@ -25,27 +26,27 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
   public class HqlGeneratorQueryModelVisitor : QueryModelVisitorBase
   {
-    public static string GenerateHqlQuery (QueryModel queryModel)
+    public static CommandData GenerateHqlQuery (QueryModel queryModel)
     {
       var visitor = new HqlGeneratorQueryModelVisitor ();
       visitor.VisitQueryModel (queryModel);
-      return visitor.GetHqlString();
+      return visitor.GetHqlCommand();
     }
 
     // Instead of generating an HQL string, we could also use a NHibernate ASTFactory to generate IASTNodes.
-    private StringBuilder _hqlStringBuilder;
+    private readonly StringBuilder _hqlStringBuilder = new StringBuilder();
+    private readonly ParameterAggregator _parameterAggregator = new ParameterAggregator();
 
-    public string GetHqlString()
+    public CommandData GetHqlCommand()
     {
-      return _hqlStringBuilder.ToString();
+      return new CommandData (_hqlStringBuilder.ToString(), _parameterAggregator.GetParameters());
     }
 
     public override void VisitQueryModel (QueryModel queryModel)
     {
-      _hqlStringBuilder = new StringBuilder ();
-
       queryModel.SelectClause.Accept (this, queryModel);
       queryModel.MainFromClause.Accept (this, queryModel);
+      VisitBodyClauses (queryModel.BodyClauses, queryModel);
     }
 
     public override void VisitMainFromClause (MainFromClause fromClause, QueryModel queryModel)
@@ -58,9 +59,21 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
     public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
     {
-      _hqlStringBuilder.AppendFormat ("select {0} ", HqlGeneratorExpressionTreeVisitor.GetHqlExpression (selectClause.Selector));
+      _hqlStringBuilder.AppendFormat ("select {0} ", GetHqlExpression (selectClause.Selector));
 
       base.VisitSelectClause (selectClause, queryModel);
+    }
+
+    public override void VisitWhereClause (WhereClause whereClause, QueryModel queryModel, int index)
+    {
+      _hqlStringBuilder.AppendFormat ("where {0} ", GetHqlExpression (whereClause.Predicate));
+
+      base.VisitWhereClause (whereClause, queryModel, index);
+    }
+
+    private string GetHqlExpression (Expression expression)
+    {
+      return HqlGeneratorExpressionTreeVisitor.GetHqlExpression (expression, _parameterAggregator);
     }
   }
 }

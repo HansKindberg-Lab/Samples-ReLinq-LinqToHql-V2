@@ -16,26 +16,24 @@
 // You should have received a copy of the Lesser GNU General Public License
 // along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
 // 
+using System.Collections.Generic;
 
-using System;
-using NHibernate.ReLinq.Sample.HqlQueryGeneration;
-using Remotion.Data.Linq;
-
-namespace NHibernate.ReLinq.Sample
+namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class HqlQueryGenerator
+  public class ParameterAggregator
   {
-    private readonly ISession _session;
+    private readonly List<NamedParameter> _parameters = new List<NamedParameter> ();
 
-    public HqlQueryGenerator(ISession session)
+    public NamedParameter AddParameter (object value)
     {
-      _session = session;
+      var parameter = new NamedParameter ("p" + (_parameters.Count + 1), value);
+      _parameters.Add (parameter);
+      return parameter;
     }
 
-    public IQuery CreateQuery (QueryModel queryModel)
+    public NamedParameter[] GetParameters ()
     {
-      var queryString = HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel);
-      return _session.CreateQuery (queryString);
+      return _parameters.ToArray ();
     }
   }
 }

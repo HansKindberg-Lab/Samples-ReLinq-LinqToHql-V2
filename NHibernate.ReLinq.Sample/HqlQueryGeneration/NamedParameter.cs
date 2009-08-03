@@ -16,33 +16,17 @@
 // You should have received a copy of the Lesser GNU General Public License
 // along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
 // 
-
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using Remotion.Data.Linq;
-
-namespace NHibernate.ReLinq.Sample
+namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  /// <summary>
-  /// Provides the main entry point to a LINQ query.
-  /// </summary>
-  public class NHQueryable<T> : QueryableBase<T>
+  public class NamedParameter
   {
-    private static IQueryExecutor CreateExecutor (ISession session)
+    public NamedParameter (string name, object value)
     {
-      return new NHQueryExecutor (session);
-    }
-    
-    // This constructor is called by our users, create a new IQueryExecutor.
-    public NHQueryable (ISession session)
-        : base (CreateExecutor (session))
-    {
+      Name = name;
+      Value = value;
     }
 
-    // This constructor is called indirectly by LINQ's query methods, just pass to base.
-    public NHQueryable (IQueryProvider provider, Expression expression) : base(provider, expression)
-    {
-    }
+    public string Name { get; set; }
+    public object Value { get; set; }
   }
 }

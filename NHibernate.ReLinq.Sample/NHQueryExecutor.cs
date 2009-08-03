@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.ReLinq.Sample.HqlQueryGeneration;
 using Remotion.Data.Linq;
 
 namespace NHibernate.ReLinq.Sample
@@ -27,11 +28,11 @@ namespace NHibernate.ReLinq.Sample
   // Called by re-linq when a query is to be executed.
   public class NHQueryExecutor : IQueryExecutor
   {
-    private readonly HqlQueryGenerator _queryGenerator;
+    private readonly ISession _session;
 
-    public NHQueryExecutor (HqlQueryGenerator queryGenerator)
+    public NHQueryExecutor (ISession session)
     {
-      _queryGenerator = queryGenerator;
+      _session = session;
     }
 
     // Executes a query with a scalar result, i.e. a query that ends with a result operator such as Count, Sum, or Average.
@@ -49,7 +50,8 @@ namespace NHibernate.ReLinq.Sample
     // Executes a query with a collection result.
     public IEnumerable<T> ExecuteCollection<T> (QueryModel queryModel)
     {
-      var query = _queryGenerator.CreateQuery (queryModel);
+      var commandData = HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel);
+      var query = commandData.CreateQuery (_session);
       return query.Enumerable<T> ();
     }
   }

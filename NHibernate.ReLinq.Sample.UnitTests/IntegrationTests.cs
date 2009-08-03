@@ -17,7 +17,9 @@
 // along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
 // 
 using System.Linq;
+using System.Linq.Expressions;
 using NHibernate.Cfg;
+using NHibernate.ReLinq.Sample.HqlQueryGeneration;
 using NHibernate.ReLinq.Sample.UnitTests.DomainObjects;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework.SyntaxHelpers;
@@ -74,51 +76,66 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
 
     [Test]
-    public void SelectAllTest ()
+    public void SelectFrom ()
     {
+      // Implement VisitMainFromClause, VisitSelectClause
+      // Implement VisitQuerySourceReferenceExpression
+
       using (ISession session = _sessionFactory.OpenSession ())
       {
         var query = from pn in new NHQueryable<PhoneNumber> (session)
                     select pn;
 
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString, Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
+
         var result = query.ToList ();
         Assert.That (result, Is.EquivalentTo (new[] {_phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4}));
-
-        var nhibernateQuery = new HqlQueryGenerator (session).CreateQuery (new QueryParser ().GetParsedQuery (query.Expression));
-        Assert.That (nhibernateQuery.QueryString, Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
       }
     }
 
+    [Test]
+    public void SelectFromWhere ()
+    {
+      // Implement VisitWhereClause
+      // Implement VisitBinaryExpression (Equal), VisitMemberExpression, VisitConstantExpression (+ ParameterAggregator, etc.)
 
-    //[Test]
-    //public void SelectFromPhoneNumberWithWhereTest ()
-    //{
-    //  var location = Location.NewObject ("Personenstraﬂe", "1111", Country.BurkinaFaso, 99999, "Ouagadougou");
-    //  var location2 = Location.NewObject ("Gassengasse", "22", Country.Australia, 12345, "Sydney");
-    //  var person = Person.NewObject ("Pierre", "Oerson", location2);
-    //  var person2 = Person.NewObject ("Max", "Muster", location);
-    //  var person3 = Person.NewObject ("Minny", "Mauser", location2);
-    //  var phoneNumber = PhoneNumber.NewObject ("11111", "2-111", "3-111111", "4-11", person2);
-    //  var phoneNumber3 = PhoneNumber.NewObject ("11111", "2-333", "3-333333", "4-33", person);
-    //  var phoneNumber4 = PhoneNumber.NewObject ("11111", "2-444", "3-44444", "4-44444", person2);
-    //  NHibernateSaveOrUpdate (location, location2, person, person2, person3);
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from pn in new NHQueryable<PhoneNumber> (session)
+                    where pn.CountryCode == "11111"
+                    select pn;
 
-    //  using (ISession session = _sessionFactory.OpenSession ())
-    //  {
-    //    var query = from pn in QueryFactory.CreateLinqQuery<PhoneNumber> (session)
-    //                where pn.CountryCode == "11111"
-    //                select pn;
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn where (pn.CountryCode = :p1) "));
 
-    //    var result = query.ToList ();
-    //    CommandData commandData = GetCommandData (query);
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber3, _phoneNumber4 }));
+      }
+    }
 
-    //    Assert.That (commandData.Statement, Is.EqualTo ("select pn from PhoneNumber as pn where (pn.CountryCode = :p1)"));
-    //    Assert.That (result, Is.EquivalentTo (ListMother.New (phoneNumber, phoneNumber3, phoneNumber4)));
-    //  }
-    //}
+    [Test]
+    public void SelectFromWhere_WithAndOr ()
+    {
+      // Implement VisitBinaryExpression (And/AndAlso/Or/OrElse)
 
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from pn in new NHQueryable<PhoneNumber> (session)
+                    where pn.CountryCode == "11111" || (pn.Person.FirstName == "Pierre" && pn.Person.Surname == "Oerson")
+                    select pn;
 
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString, 
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
+                + "where ((pn.CountryCode = :p1) or ((pn.Person.FirstName = :p2) and (pn.Person.Surname = :p3))) "));
 
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4 }));
+      }
+    }
+    
     //[Test]
     //public void ImplicitJoinTest ()
     //{
@@ -861,10 +878,11 @@ namespace NHibernate.ReLinq.Sample.UnitTests
       _person = Person.NewObject ("Pierre", "Oerson", _location2);
       _person2 = Person.NewObject ("Max", "Muster", _location);
       _person3 = Person.NewObject ("Minny", "Mauser", _location2);
-      _phoneNumber = PhoneNumber.NewObject ("1-1", "2-111", "3-111111", "4-11", _person2);
-      _phoneNumber2 = PhoneNumber.NewObject ("1-2", "2-222", "3-22222", "4-22", _person);
-      _phoneNumber3 = PhoneNumber.NewObject ("1-3", "2-333", "3-333333", "4-33", _person);
-      _phoneNumber4 = PhoneNumber.NewObject ("1-4", "2-444", "3-44444", "4-44444", _person2);
+      _phoneNumber = PhoneNumber.NewObject ("11111", "2-111", "3-111111", "4-11", _person2);
+      _phoneNumber2 = PhoneNumber.NewObject ("22222", "2-222", "3-22222", "4-22", _person);
+      _phoneNumber3 = PhoneNumber.NewObject ("11111", "2-333", "3-333333", "4-33", _person);
+      _phoneNumber4 = PhoneNumber.NewObject ("11111", "2-444", "3-44444", "4-44444", _person2);
+
       NHibernateSaveOrUpdate (_location, _location2, _person, _person2, _person3);
     }
 
@@ -881,5 +899,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
       }
     }
 
+    private IQuery CreateNHQuery (ISession session, Expression queryExpression)
+    {
+      var queryModel = new QueryParser ().GetParsedQuery (queryExpression);
+      return HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel).CreateQuery (session);
+    }
   }
 }

@@ -27,14 +27,20 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
   public class HqlGeneratorExpressionTreeVisitor : ThrowingExpressionTreeVisitor
   {
-    public static string GetHqlExpression (Expression linqExpression)
+    public static string GetHqlExpression (Expression linqExpression, ParameterAggregator parameterAggregator)
     {
-      var visitor = new HqlGeneratorExpressionTreeVisitor ();
+      var visitor = new HqlGeneratorExpressionTreeVisitor (parameterAggregator);
       visitor.VisitExpression (linqExpression);
       return visitor.GetHqlExpression ();
     }
 
     private readonly StringBuilder _hqlExpression = new StringBuilder ();
+    private readonly ParameterAggregator _parameterAggregator;
+
+    private HqlGeneratorExpressionTreeVisitor (ParameterAggregator parameterAggregator)
+    {
+      _parameterAggregator = parameterAggregator;
+    }
 
     public string GetHqlExpression ()
     {
@@ -47,10 +53,59 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       return expression;
     }
 
+    protected override Expression VisitBinaryExpression (BinaryExpression expression)
+    {
+      _hqlExpression.Append ("(");
+
+      VisitExpression (expression.Left);
+
+      switch (expression.NodeType)
+      {
+        case ExpressionType.Equal:
+          _hqlExpression.Append (" = ");
+          break;
+
+        case ExpressionType.AndAlso:
+        case ExpressionType.And:
+          _hqlExpression.Append (" and ");
+          break;
+        
+        case ExpressionType.OrElse:
+        case ExpressionType.Or:
+          _hqlExpression.Append (" or ");
+          break;
+
+        default:
+          base.VisitBinaryExpression (expression);
+          break;
+      }
+
+      VisitExpression (expression.Right);
+      _hqlExpression.Append (")");
+
+      return expression;
+    }
+
+    protected override Expression VisitMemberExpression (MemberExpression expression)
+    {
+      VisitExpression (expression.Expression);
+      _hqlExpression.AppendFormat (".{0}", expression.Member.Name);
+
+      return expression;
+    }
+
+    protected override Expression VisitConstantExpression (ConstantExpression expression)
+    {
+      var namedParameter = _parameterAggregator.AddParameter (expression.Value);
+      _hqlExpression.AppendFormat (":{0}", namedParameter.Name);
+
+      return expression;
+    }
+
     // Called when a LINQ expression type is not handled above.
     protected override Exception CreateUnhandledItemException<T>(T unhandledItem, string visitMethod)
     {
-      var message = string.Format ("The expression type '{0}' is not supported by this LINQ provider.", typeof (T));
+      var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", unhandledItem, typeof (T));
       return new NotSupportedException (message);
     }
 
