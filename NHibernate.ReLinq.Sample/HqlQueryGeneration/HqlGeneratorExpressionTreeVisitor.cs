@@ -111,10 +111,11 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       var supportedMethod = typeof (string).GetMethod ("Contains");
       if (expression.Method.Equals (supportedMethod))
       {
+        _hqlExpression.Append ("(");
         VisitExpression (expression.Object);
         _hqlExpression.Append (" like '%'+");
         VisitExpression (expression.Arguments[0]);
-        _hqlExpression.Append ("+'%'");
+        _hqlExpression.Append ("+'%')");
         return expression;
       }
       else

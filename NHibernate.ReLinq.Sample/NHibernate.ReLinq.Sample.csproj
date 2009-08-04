@@ -66,6 +66,7 @@
     <Compile Include="HqlQueryGeneration\HqlGeneratorQueryModelVisitor.cs" />
     <Compile Include="HqlQueryGeneration\ParameterAggregator.cs" />
     <Compile Include="HqlQueryGeneration\NamedParameter.cs" />
+    <Compile Include="HqlQueryGeneration\QueryParts.cs" />
     <Compile Include="NHQueryable.cs" />
     <Compile Include="NHQueryExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

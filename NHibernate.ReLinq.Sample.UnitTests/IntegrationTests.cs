@@ -46,6 +46,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     private PhoneNumber _phoneNumber2;
     private PhoneNumber _phoneNumber3;
     private PhoneNumber _phoneNumber4;
+    private PhoneNumber _phoneNumber5;
 
     [TestFixtureSetUp]
     public void TestFixtureSetUp ()
@@ -90,10 +91,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
                     select pn;
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
-        Assert.That (nhibernateQuery.QueryString, Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
+        Assert.That (nhibernateQuery.QueryString, Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"));
 
         var result = query.ToList ();
-        Assert.That (result, Is.EquivalentTo (new[] {_phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4}));
+        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4, _phoneNumber5 }));
       }
     }
 
@@ -111,10 +112,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn where (pn.CountryCode = :p1) "));
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn where (pn.CountryCode = :p1)"));
 
         var result = query.ToList ();
-        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber3, _phoneNumber4 }));
+        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber3, _phoneNumber4, _phoneNumber5 }));
       }
     }
 
@@ -132,10 +133,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString, 
             Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
-                + "where ((pn.CountryCode = :p1) or ((pn.Person.FirstName = :p2) and (pn.Person.Surname = :p3))) "));
+                + "where ((pn.CountryCode = :p1) or ((pn.Person.FirstName = :p2) and (pn.Person.Surname = :p3)))"));
 
         var result = query.ToList ();
-        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4 }));
+        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4, _phoneNumber5 }));
       }
     }
 
@@ -152,7 +153,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where p.Surname like '%'+p.FirstName+'%' "));
+            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where (p.Surname like '%'+p.FirstName+'%')"));
 
         var result = query.ToList ();
         Assert.That (result, Is.EquivalentTo (new[] { _person4 }));
@@ -172,10 +173,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn order by pn.Number, pn.CountryCode "));
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn order by pn.Number, pn.CountryCode"));
 
         var result = query.ToList ();
-        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber4, _phoneNumber3 }));
+        Assert.That (result, Is.EqualTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber4, _phoneNumber3, _phoneNumber5 }));
       }
     }
 
@@ -191,10 +192,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, MakeExpression (query, q => q.Count()));
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select cast(count(pn) as int) from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
+            Is.EqualTo ("select cast(count(pn) as int) from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"));
 
         var result = query.Count();
-        Assert.That (result, Is.EqualTo (4));
+        Assert.That (result, Is.EqualTo (5));
       }
     }
 
@@ -212,8 +213,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn ,"
-                + " NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where (pn.CountryCode = :p1) and (pn.Person = p) "));
+            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn, "
+                + "NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where (pn.Person = p) and (pn.CountryCode = :p1)"));
 
         var result = query.ToList ();
         Assert.That (result, Is.EquivalentTo (new[] { _person }));
@@ -234,8 +235,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn ,"
-                + " NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where ((pn.Person = p) and (pn.CountryCode = :p1)) "));
+            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn, "
+                + "NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where ((pn.Person = p) and (pn.CountryCode = :p1))"));
 
         var result = query.ToList ();
         Assert.That (result, Is.EquivalentTo (new[] { _person }));
@@ -243,9 +244,9 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     }
 
     [Test]
-    public void SelectFromWhereOrderByFrom_Ordering ()
+    public void SelectFromWhereOrderByFrom_ClauseOrder ()
     {
-      // Implement clause sorting
+      // Implicitly sorted via QueryParts class
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
@@ -257,13 +258,41 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
         Assert.That (nhibernateQuery.QueryString, 
-            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p , "
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p, "
             + "NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
             + "where (p.Surname = :p1) and (p = pn.Person) "
-            + "order by p.Surname "));
+            + "order by p.Surname"));
 
         var result = query.ToList ();
         Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber2, _phoneNumber3 }));
+      }
+    }
+
+    [Test]
+    public void SelectFromFromWhereWhereOrderByOrderBy ()
+    {
+      // Implicitly concatenated via QueryParts
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from p in new NHQueryable<Person> (session)
+                    from pn in new NHQueryable<PhoneNumber> (session)
+                    where p.Surname.Contains ("M")
+                    where p == pn.Person
+                    orderby pn.AreaCode
+                    orderby p.Surname
+                    orderby p.FirstName
+                    select pn;
+
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p, "
+            + "NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
+            + "where (p.Surname like '%'+:p1+'%') and (p = pn.Person) "
+            + "order by p.FirstName, p.Surname, pn.AreaCode"));
+
+        var result = query.ToList ();
+        Assert.That (result, Is.EqualTo (new[] { _phoneNumber, _phoneNumber4, _phoneNumber5 }));
       }
     }
 
@@ -279,6 +308,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
       _phoneNumber2 = PhoneNumber.NewObject ("22222", "2-222", "3-22222", "4-22", _person);
       _phoneNumber3 = PhoneNumber.NewObject ("11111", "2-333", "3-44444", "4-33", _person);
       _phoneNumber4 = PhoneNumber.NewObject ("11111", "2-444", "3-333333", "4-44444", _person2);
+      _phoneNumber5 = PhoneNumber.NewObject ("11111", "2-555", "3-55555", "4-55", _person3);
 
       NHibernateSaveOrUpdate (_location, _location2, _person, _person2, _person3, _person4);
     }
