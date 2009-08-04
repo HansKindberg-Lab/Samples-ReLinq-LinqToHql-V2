@@ -243,40 +243,27 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     }
 
     [Test]
-    [Explicit]
-    public void Spike ()
-    {
-      using (ISession session = _sessionFactory.OpenSession ())
-      {
-        var nhibernateQuery = session.CreateQuery ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
-                + ", NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where pn.Person = p "
-                + "and (pn.CountryCode = '22222')");
-
-        var result = nhibernateQuery.List<Person> ();
-        Assert.That (result, Is.EquivalentTo (new[] { _person }));
-      }
-    }
-
-    [Test]
-    [Ignore ("TODO")]
-    public void SelectFromWhereFromOrderByWhere ()
+    public void SelectFromWhereOrderByFrom_Ordering ()
     {
       // Implement clause sorting
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
         var query = from p in new NHQueryable<Person> (session)
-                    where p.Surname == "Johnson" || p.Surname.Contains ("M")
-                    from pn in p.PhoneNumbers
-                    orderby pn.Number
-                    where pn.Person == p
+                    where p.Surname == "Oerson"
+                    orderby p.Surname
+                    join pn in new NHQueryable<PhoneNumber> (session) on p equals pn.Person
                     select pn;
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
-        Assert.That (nhibernateQuery.QueryString, Is.EqualTo ("?"));
+        Assert.That (nhibernateQuery.QueryString, 
+            Is.EqualTo ("select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p , "
+            + "NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
+            + "where (p.Surname = :p1) and (p = pn.Person) "
+            + "order by p.Surname "));
 
         var result = query.ToList ();
-        Assert.That (result, Is.EquivalentTo (new[] { _person4 }));
+        Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber2, _phoneNumber3 }));
       }
     }
 

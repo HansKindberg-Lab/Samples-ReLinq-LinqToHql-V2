@@ -18,8 +18,10 @@
 // 
 
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using NHibernate.Type;
+using Remotion.Collections;
 using Remotion.Data.Linq;
 using Remotion.Data.Linq.Clauses;
 using System.Text;
@@ -53,6 +55,8 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       VisitResultOperators (queryModel.ResultOperators, queryModel);
       queryModel.SelectClause.Accept (this, queryModel);
       queryModel.MainFromClause.Accept (this, queryModel);
+
+      SortBodyClauses(queryModel);
       VisitBodyClauses (queryModel.BodyClauses, queryModel);
     }
 
@@ -139,6 +143,37 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
     public override void VisitGroupJoinClause (GroupJoinClause groupJoinClause, QueryModel queryModel, int index)
     {
       throw new NotSupportedException ("This query provider does not support join ... into ...");
+    }
+
+    private void SortBodyClauses (QueryModel queryModel)
+    {
+      var bodyClauseList = new List<IBodyClause> (queryModel.BodyClauses);
+      bodyClauseList.Sort (CompareBodyClauses);
+      queryModel.BodyClauses.Clear ();
+      foreach (var bodyClause in bodyClauseList)
+        queryModel.BodyClauses.Add (bodyClause);
+    }
+
+    private int CompareBodyClauses (IBodyClause left, IBodyClause right)
+    {
+      var leftPriority = GetBodyClausePriority (left);
+      var rightPriority = GetBodyClausePriority (right);
+
+      return leftPriority.CompareTo (rightPriority);
+    }
+
+    private int GetBodyClausePriority (IBodyClause bodyClause)
+    {
+      if (bodyClause is AdditionalFromClause)
+        return 0;
+      else if (bodyClause is JoinClause)
+        return 1;
+      else if (bodyClause is WhereClause)
+        return 2;
+      else if (bodyClause is OrderByClause)
+        return 4;
+      else
+        throw new NotSupportedException ("Body clause type '" + bodyClause.GetType () + "' is not supported by this query provider.");
     }
 
     private string GetEntityName (IQuerySource querySource)
