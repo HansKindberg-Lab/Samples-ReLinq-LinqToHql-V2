@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" ?>
 <hibernate-configuration  xmlns="urn:nhibernate-configuration-2.2" >
-   <session-factory name="remotion_orm_research">
+   <session-factory name="nhibernate_relinq_sample">
+     <!-- Adapt the following 3 property|s to your DBMS and create the DB given under Catalog="..." (default: NHibernate_ReLinq) -->
     <property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
     <property name="dialect">NHibernate.Dialect.MsSql2005Dialect</property>
     <property name="connection.connection_string">Integrated Security=SSPI;Initial Catalog=NHibernate_ReLinq;Data Source=localhost</property>
     <property name="proxyfactory.factory_class">NHibernate.ByteCode.LinFu.ProxyFactoryFactory, NHibernate.ByteCode.LinFu</property>
-    <!--<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>-->
     <property name="show_sql">false</property>
   </session-factory>
 </hibernate-configuration>
