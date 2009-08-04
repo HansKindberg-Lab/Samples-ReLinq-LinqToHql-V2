@@ -87,7 +87,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
                     select pn;
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
@@ -106,7 +106,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
                     where pn.CountryCode == "11111"
                     select pn;
 
@@ -126,7 +126,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
                     where pn.CountryCode == "11111" || (pn.Person.FirstName == "Pierre" && pn.Person.Surname == "Oerson")
                     select pn;
 
@@ -148,7 +148,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from l in new NHQueryable<Location> (session)
+        var query = from l in NHQueryFactory.Queryable<Location> (session)
                     where ((l.ZipCode + 1) == 12346) || ((l.ZipCode - 99990) == 9)
                     select l;
 
@@ -170,7 +170,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from p in new NHQueryable<Person> (session)
+        var query = from p in NHQueryFactory.Queryable<Person> (session)
                     where p.Surname.Contains (p.FirstName)
                     select p;
 
@@ -190,7 +190,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
                     orderby pn.Number, pn.CountryCode
                     select pn;
 
@@ -210,7 +210,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
                     select pn;
 
         var nhibernateQuery = CreateNHQuery (session, MakeExpression (query, q => q.Count()));
@@ -229,8 +229,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
-                    join p in new NHQueryable<Person> (session) on pn.Person equals p
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
+                    join p in NHQueryFactory.Queryable<Person> (session) on pn.Person equals p
                     where pn.CountryCode == "22222"
                     select p;
 
@@ -251,8 +251,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from pn in new NHQueryable<PhoneNumber> (session)
-                    from p in new NHQueryable<Person> (session)
+        var query = from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
+                    from p in NHQueryFactory.Queryable<Person> (session)
                     where pn.Person == p && pn.CountryCode == "22222"
                     select p;
 
@@ -273,10 +273,10 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from p in new NHQueryable<Person> (session)
+        var query = from p in NHQueryFactory.Queryable<Person> (session)
                     where p.Surname == "Oerson"
                     orderby p.Surname
-                    join pn in new NHQueryable<PhoneNumber> (session) on p equals pn.Person
+                    join pn in NHQueryFactory.Queryable<PhoneNumber> (session) on p equals pn.Person
                     select pn;
 
         var nhibernateQuery = CreateNHQuery (session, query.Expression);
@@ -298,8 +298,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from p in new NHQueryable<Person> (session)
-                    from pn in new NHQueryable<PhoneNumber> (session)
+        var query = from p in NHQueryFactory.Queryable<Person> (session)
+                    from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
                     where p.Surname.Contains ("M")
                     where p == pn.Person
                     orderby pn.AreaCode
@@ -335,8 +335,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from l in new NHQueryable<Location> (session)
-                    from p in new NHQueryable<Person> (session)
+        var query = from l in NHQueryFactory.Queryable<Location> (session)
+                    from p in NHQueryFactory.Queryable<Person> (session)
                     where (((((3 * l.ZipCode - 3) / 7)) == 9) 
                       && p.Surname.Contains ("M") && p.Location == l)  
                     select l;
@@ -366,8 +366,8 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
-        var query = from l in new NHQueryable<Location> (session)
-                    from p in new NHQueryable<Person> (session)
+        var query = from l in NHQueryFactory.Queryable<Location> (session)
+                    from p in NHQueryFactory.Queryable<Person> (session)
                     where (l.Owner == p) && (p.Location == l)
                     select p;
 
