@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="doc\codeproject\nhibernate_relinq_sample_codeproject.html" />
-    <Content Include="doc\codeproject\remotion.PNG" />
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
