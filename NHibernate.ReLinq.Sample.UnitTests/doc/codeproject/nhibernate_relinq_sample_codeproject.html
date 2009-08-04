@@ -50,7 +50,7 @@ Level:       Intermediate
 Description: An article on how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to NHibernate.
 Section      Suggest a section...
 SubSection   Suggest a subsection...
-License:     Choose your license (<a href="http://www.codeproject.com/info/licenses.aspx">LGPL</a>)
+License:     Choose your license (<a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>)
 </pre>
 
 <!-------------------------------     STEP 2      --------------------------->
@@ -79,6 +79,14 @@ with an SQL/HQL like syntax.
 This article shows how one can use re-linq to implement a feature rich Linq provider for the open source NHibernate O/R mapper.
 <p>After having read this article and having looked at the accompanying sourcecode, you should have all the information you need to get started on 
 implemening an arbitrary Linq provider based on re-linq.
+
+
+<h2>Why re-linq</h2>
+
+re-linq is a Linq provider library which is especially well suited to transform the tree representation of a Linq query (i.e.
+the only representation which is programmatically accessible in .NET) into a SQL (or SQL-like, such as HQL) represenation. Typical 
+Linq provider implementations are tree based, which is not well suited to be transformed into SQL-like output
+(although not impossible if one is prepared to invest a large amount of effort, as proven by Microsoft's Linq2SQL).
 
 
 <h2>Background</h2>
@@ -110,9 +118,7 @@ under "Mappings" (Note: You do not need to know how an NHibernate mapping works;
 how to persist instances of our test domain in the DBMS, and how to query them using its SQL-like HQL query language).
 
 
-<h2>Re-linquing NHibernate</h2>
-
-<h3>Fast Forward</h3>
+<h2>Fast Forward</h2>
 If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
 <code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
 <code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
@@ -136,6 +142,9 @@ These two classes constitute the heart of any specific re-linq based Linq provid
 (or SQL) with regards to the order of operations. <code>QueryPartsAggregator</code> might be moved to re-linq or the 
 <a href="https://svn.re-motion.org/svn/Remotion-Contrib">re-motion contrib library</a> in the future.
 
+
+
+<h2>Re-linquing NHibernate</h2>
 
 <h3>select ... from</h3>
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
