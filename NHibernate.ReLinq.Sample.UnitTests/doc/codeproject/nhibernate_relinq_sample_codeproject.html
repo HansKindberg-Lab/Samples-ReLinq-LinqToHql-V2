@@ -76,18 +76,25 @@ truth, which can easily be seen by the lack of availability of non-commercial, a
 The TDD developed open source re-motion framework supplies a
 commercial class Linq provider library in the form of its re-linq component, which is especially well suited for creating resulting queries
 with an SQL/HQL like syntax.
-This article how one can use re-linq to implement a feature rich Linq provider for the open source NHibernate O/R mapper.
-After having read this article and having looked at the accompanying sourcecode, you should have all the information you need to get started on 
+This article shows how one can use re-linq to implement a feature rich Linq provider for the open source NHibernate O/R mapper.
+<p>After having read this article and having looked at the accompanying sourcecode, you should have all the information you need to get started on 
 implemening an arbitrary Linq provider based on re-linq.
 
-<!--
-<h2>Background (optional)</h2>
+<h2>Background</h2>
 
-<p>Is there any background to this article that may be useful such as an introduction
-to the basic ideas presented?
--->
+<p>To understand this article you will need to have a basic knowledge of Microsoft <a href="http://en.wikipedia.org/wiki/Linq">Linq</a> technology. 
+The article describes how to implement a Linq provider for <a href="http://en.wikipedia.org/wiki/NHibernate">NHibernate</a>, so
+knowing the Hibernate Query Language (HQL) is optimal; however, due to the syntactic similarity of HQL to SQL, the principles
+can easily be translated into using re-linq to implement a SQL Linq provider instead.
+<p>Knowing the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor pattern</a> is not required, but might aid in understanding the 
+working of re-linq.
 
-<h2>Getting Started</h2>
+<h2>[Setup]</h2>
+
+<p>
+Before you get started you will need to download and unzip the sample sourcecode. 
+Then open to the "DomainObjects.hbm.xml" file in the NHibernate.ReLinq.Sample.UnitTests project and adapt the DBMS connection data to your DBMS.
+You will als need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
 
 <p>A brief description of how to use the article or code. The class names, the
 methods and properties, any tricks or tips.
@@ -108,6 +115,9 @@ methods and properties, any tricks or tips.
 
 <p>Did you learn anything interesting/fun/annoying while writing the code? Did you
 do anything particularly clever or wild or zany?
+
+<h2>[Teardown]</h2>
+
 
 <h2>History</h2>
 
