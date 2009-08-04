@@ -19,6 +19,7 @@
 
 using System;
 using System.Linq.Expressions;
+using NHibernate.Type;
 using Remotion.Data.Linq;
 using Remotion.Data.Linq.Clauses;
 using System.Text;
@@ -40,6 +41,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
     private readonly ParameterAggregator _parameterAggregator = new ParameterAggregator();
 
     private bool _countSelected;
+    private string _joinWhereCondition;
 
     public CommandData GetHqlCommand()
     {
@@ -54,10 +56,19 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       VisitBodyClauses (queryModel.BodyClauses, queryModel);
     }
 
+    public override void VisitResultOperator (ResultOperatorBase resultOperator, QueryModel queryModel, int index)
+    {
+      if (!(resultOperator is CountResultOperator))
+        throw new NotSupportedException ("This query provider only supports Count() as a result operator.");
+
+      _countSelected = true;
+
+      base.VisitResultOperator (resultOperator, queryModel, index);
+    }
+
     public override void VisitMainFromClause (MainFromClause fromClause, QueryModel queryModel)
     {
-      var entityName = NHibernateUtil.Entity (fromClause.ItemType);
-      _hqlStringBuilder.AppendFormat ("from {0} as {1} ", entityName.Name, fromClause.ItemName);
+      _hqlStringBuilder.AppendFormat ("from {0} as {1} ", GetEntityName (fromClause), fromClause.ItemName);
 
       base.VisitMainFromClause (fromClause, queryModel);
     }
@@ -65,7 +76,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
     public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
     {
       if (_countSelected)
-        _hqlStringBuilder.AppendFormat ("select cast(count(*) as int) "); // NH's count returns long, we need int
+        _hqlStringBuilder.AppendFormat ("select cast(count({0}) as int) ", GetHqlExpression (selectClause.Selector)); // NH's count returns long, we need int
       else
         _hqlStringBuilder.AppendFormat ("select {0} ", GetHqlExpression (selectClause.Selector));
 
@@ -75,6 +86,9 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
     public override void VisitWhereClause (WhereClause whereClause, QueryModel queryModel, int index)
     {
       _hqlStringBuilder.AppendFormat ("where {0} ", GetHqlExpression (whereClause.Predicate));
+      if (_joinWhereCondition != null)
+        _hqlStringBuilder.AppendFormat ("and {0} ", _joinWhereCondition);
+
 
       base.VisitWhereClause (whereClause, queryModel, index);
     }
@@ -99,14 +113,23 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       base.VisitOrderByClause (orderByClause, queryModel, index);
     }
 
-    public override void VisitResultOperator (ResultOperatorBase resultOperator, QueryModel queryModel, int index)
+    public override void VisitJoinClause (JoinClause joinClause, QueryModel queryModel, int index)
     {
-      if (!(resultOperator is CountResultOperator))
-        throw new NotSupportedException ("This query provider only supports Count() as a result operator.");
+      // HQL joins work differently, need to simulate using a cross join with a where condition
+      _hqlStringBuilder.AppendFormat (", {0} as {1} ", 
+          GetEntityName (joinClause), 
+          joinClause.ItemName);
+      _joinWhereCondition = string.Format (
+          "({0} = {1})",
+          GetHqlExpression (joinClause.OuterKeySelector), 
+          GetHqlExpression (joinClause.InnerKeySelector));
 
-      _countSelected = true;
-      
-      base.VisitResultOperator (resultOperator, queryModel, index);
+      base.VisitJoinClause (joinClause, queryModel, index);
+    }
+
+    private string GetEntityName (IQuerySource querySource)
+    {
+      return NHibernateUtil.Entity (querySource.ItemType).Name;
     }
 
     private string GetHqlExpression (Expression expression)

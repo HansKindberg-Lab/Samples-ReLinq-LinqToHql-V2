@@ -191,10 +191,47 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
         var nhibernateQuery = CreateNHQuery (session, MakeExpression (query, q => q.Count()));
         Assert.That (nhibernateQuery.QueryString,
-            Is.EqualTo ("select cast(count(*) as int) from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
+            Is.EqualTo ("select cast(count(pn) as int) from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
 
         var result = query.Count();
         Assert.That (result, Is.EqualTo (4));
+      }
+    }
+
+    [Test]
+    public void SelectFromJoin()
+    {
+      // Implement VisitJoinClause
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from pn in new NHQueryable<PhoneNumber> (session)
+                    join p in new NHQueryable<Person> (session) on pn.Person equals p
+                    where pn.CountryCode == "22222"
+                    select p;
+
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn ,"
+                + " NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where (pn.CountryCode = :p1) and (pn.Person = p) "));
+
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] { _person }));
+      }
+    }
+
+    [Test]
+    [Explicit]
+    public void Spike ()
+    {
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var nhibernateQuery = session.CreateQuery ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
+                + ", NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where pn.Person = p "
+                + "and (pn.CountryCode = '22222')");
+
+        var result = nhibernateQuery.List<Person> ();
+        Assert.That (result, Is.EquivalentTo (new[] { _person }));
       }
     }
 
