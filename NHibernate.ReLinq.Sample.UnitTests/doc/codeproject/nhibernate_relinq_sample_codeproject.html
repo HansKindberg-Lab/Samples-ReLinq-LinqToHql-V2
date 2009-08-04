@@ -197,16 +197,60 @@ public void AddFromPart (IQuerySource querySource)
   FromParts.Add (string.Format ("{0} as {1}", GetEntityName (querySource), querySource.ItemName));
 }
 </pre>
+Note that this is easy to do, since re-linq already supplies us with the information we need.
+
 
 
 <h3>where Statement</h3>
 
-The next test 
+The next test introduces the <code>select</code>-statement and the binary equality comparison operator:
 
+<pre>
+from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
+  where pn.CountryCode == "11111"
+  select pn;
+</pre>
 
+The implementation is as straightforward as above:
+<pre>
+public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
+{
+  _queryParts.SelectPart = GetHqlExpression (selectClause.Selector);
+  base.VisitSelectClause (selectClause, queryModel);
+}
+</pre>
 
+<code>GetHqlExpression</code> uses a <code>HqlGeneratorExpressionTreeVisitor</code> (which derives from re-linq's 
+<code>ThrowingExpressionTreeVisitor</code>, aptly named since he throws when he encounters an expression for which no
+handler has been implemented.), which handles e.g. binary expression evaluation; in the case of the equality operator:
 
+<pre>
+protected override Expression VisitBinaryExpression (BinaryExpression expression)
+{
+  _hqlExpression.Append ("(");
+  VisitExpression (expression.Left);
 
+  switch (expression.NodeType)
+  {
+    case ExpressionType.Equal:
+      _hqlExpression.Append (" = ");
+      break;
+
+    // handle additional binary expressions
+
+    default:
+      base.VisitBinaryExpression (expression); // throws
+      break;
+  }
+
+  VisitExpression (expression.Right);
+  _hqlExpression.Append (")");
+
+  return expression;
+}
+</pre>
+(Note: In production code using a lookup table instead of the switch-case-construct will be the better choice).
+<p>The <code>VisitExpression</code> method call is executed by re-linq code and does the required traversal of data structures.
 
 
 <h2>Points of Interest</h2>
