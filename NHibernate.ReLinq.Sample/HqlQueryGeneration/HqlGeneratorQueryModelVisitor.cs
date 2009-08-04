@@ -159,7 +159,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       var leftPriority = GetBodyClausePriority (left);
       var rightPriority = GetBodyClausePriority (right);
 
-      if (leftPriority == rightPriority)
+      if (leftPriority == rightPriority && left != right)
       {
         var message = string.Format (
             "This query provider only supports one of each body clause kinds. Clause kind '{0}' occurs twice.", 
