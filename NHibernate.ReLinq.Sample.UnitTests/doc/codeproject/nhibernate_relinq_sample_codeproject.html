@@ -66,7 +66,7 @@ License:     Choose your license (<a href="http://www.gnu.org/licenses/lgpl-3.0.
 
 <!-------------------------------     STEP 3      --------------------------->
 
-<!--  Add the article text. Please use simple formatting (<h2>, <p> etc)   --> 
+<!--  Add the article text. Please use simple formatting --> 
 
 <h2>Introduction</h2>
 
@@ -88,13 +88,15 @@ the only representation which is programmatically accessible in .NET) into a SQL
 Linq provider implementations are tree based, which is not well suited to be transformed into SQL-like output
 (although not impossible if one is prepared to invest a large amount of effort, as proven by Microsoft's Linq2SQL).
 
+<p>(In addition re-linq is TDD developed open source software. If that doesn't convince you, we don't know what will ;-) )
+
 
 <h2>Background</h2>
 
 <p>To understand this article you will need to have a basic knowledge of Microsoft <a href="http://en.wikipedia.org/wiki/Linq">Linq</a> technology. 
 The article describes how to implement a Linq provider for <a href="http://en.wikipedia.org/wiki/NHibernate">NHibernate</a>, so
-knowing the Hibernate Query Language (HQL) is optimal; however, due to the syntactic similarity of HQL to SQL, the principles
-can easily be translated into using re-linq to implement a SQL Linq provider instead.
+it is beneficial if you know the Hibernate Query Language (HQL); however, due to the syntactic similarity of HQL to SQL, the principles
+shown in the sample can easily be translated into using re-linq to implement a SQL Linq provider instead (even most of the code would be identical).
 <p>Knowing the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor pattern</a> is not required, but might aid in understanding the 
 working of re-linq.
 
@@ -166,6 +168,25 @@ In the case of NHibernate it has to be passed the <code>NHibernate.ISession</cod
 corresponding to the Linq <code>query</code>, which equals 
 <pre>"select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"</pre>
 Executing the <code>query</code> directly gives all 5 <code>PhoneNumber</code>|s in the test domain, as expected.
+
+<p>The implementation shows that re-linq does most of the work for us. All we have to do is override <code>VisitMainFromClause</code> and 
+<code>VisitSelectClause</code> in <code>HqlGeneratorQueryModelVisitor</code> (which derives from re-linq's <code>QueryModelVisitorBase</code>), with
+the following trivial implementation. 
+<pre>
+public override void VisitMainFromClause (MainFromClause fromClause, QueryModel queryModel)
+{
+  _queryParts.AddFromPart (fromClause);
+  base.VisitMainFromClause (fromClause, queryModel);
+}
+
+public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
+{
+  _queryParts.SelectPart = GetHqlExpression (selectClause.Selector);
+  base.VisitSelectClause (selectClause, queryModel);
+}
+</pre>
+All the work is done <code>QueryParts</code>, a simple &amp; convient helper class, which collects together different query components of the same type
+(e.g. <code>from</code>-statements) and emits them in the correct order at the end.
 
 
 <h3>where</h3>
