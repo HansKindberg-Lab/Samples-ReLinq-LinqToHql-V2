@@ -127,6 +127,20 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       base.VisitJoinClause (joinClause, queryModel, index);
     }
 
+    public override void VisitAdditionalFromClause (AdditionalFromClause fromClause, QueryModel queryModel, int index)
+    {
+      _hqlStringBuilder.AppendFormat (", {0} as {1} ",
+          GetEntityName (fromClause),
+          fromClause.ItemName);
+
+      base.VisitAdditionalFromClause (fromClause, queryModel, index);
+    }
+
+    public override void VisitGroupJoinClause (GroupJoinClause groupJoinClause, QueryModel queryModel, int index)
+    {
+      throw new NotSupportedException ("This query provider does not support join ... into ...");
+    }
+
     private string GetEntityName (IQuerySource querySource)
     {
       return NHibernateUtil.Entity (querySource.ItemType).Name;

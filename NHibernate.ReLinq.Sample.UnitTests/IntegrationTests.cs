@@ -221,6 +221,28 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     }
 
     [Test]
+    public void SelectFromFromWhere ()
+    {
+      // Implement VisitAdditionalFromClause
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from pn in new NHQueryable<PhoneNumber> (session)
+                    from p in new NHQueryable<Person> (session)
+                    where pn.Person == p && pn.CountryCode == "22222"
+                    select p;
+
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select p from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn ,"
+                + " NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person as p where ((pn.Person = p) and (pn.CountryCode = :p1)) "));
+
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] { _person }));
+      }
+    }
+
+    [Test]
     [Explicit]
     public void Spike ()
     {
