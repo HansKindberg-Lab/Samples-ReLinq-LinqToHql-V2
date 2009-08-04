@@ -286,7 +286,21 @@ Since re-linq is already SQL/HQL-friendly, binary expressions can all be handled
 </pre>
 
 
+<h3>join Clause</h3>
+Implementing <code>join</code>-operations also takes only a few lines of code: 
+<pre>
+public override void VisitJoinClause (JoinClause joinClause, QueryModel queryModel, int index)
+{
+  _queryParts.AddFromPart (joinClause);
+  _queryParts.AddWherePart (
+      "({0} = {1})",
+      GetHqlExpression (joinClause.OuterKeySelector), 
+      GetHqlExpression (joinClause.InnerKeySelector));
 
+  base.VisitJoinClause (joinClause, queryModel, index);
+}
+</pre>
+Where again the <code>VisitJoinClause</code> call is executed by re-linq.
 
 
 
