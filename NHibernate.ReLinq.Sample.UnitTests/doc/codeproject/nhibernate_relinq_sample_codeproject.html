@@ -41,16 +41,16 @@ CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
 <pre>
 Title:       Using the re-linq Library To Implement a Linq Provider on the Example of NHibernate
 Author:      Markus Giegl 
-Email:       author@email.com
+Email:       markus.giegl@rubicon.eu
 Member ID:   12345
 Language:    C# 3.0
 Platform:    .NET 3.5
 Technology:  Linq, NHibernate
 Level:       Intermediate
-Description: An article on how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to NHibernate.
-Section      Suggest a section...
-SubSection   Suggest a subsection...
-License:     Choose your license (<a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>)
+Description: This article shows how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to NHibernate.
+Section      Platforms, Frameworks & Libraries
+SubSection   LINQ
+License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
 </pre>
 
 <!-------------------------------     STEP 2      --------------------------->
@@ -60,7 +60,7 @@ License:     Choose your license (<a href="http://www.gnu.org/licenses/lgpl-3.0.
 <li><a href="Article_demo.zip">Download re-linq|ing NHibernate demo project - XXX Kb </a></li>
 </ul>
 
-<p><img src="remotion.png" alt="re-motion" width=392 height=82></p>
+<p><center><img src="remotion.png" alt="re-motion" width=392 height=82></center></p>
 
 
 <!-------------------------------     STEP 3      --------------------------->
@@ -327,7 +327,9 @@ protected override Expression VisitMethodCallExpression (MethodCallExpression ex
 </pre>
 
 <h3>The Rest</h3>
-The examples above are about as complex as it gets. For further exploration please have a look at the demo project (download link at top of page).
+The examples above are about as complex as it gets, you should now have a good idea of how to go about
+writing a Linq provider based on re-linq. For further exploration please have a look at the
+demo project (download link at top of page).
 
 
 <h2>[Teardown]</h2>
@@ -335,9 +337,9 @@ In this article we have shown how the <a href="http://www.re-motion.org/">re-mot
 implement Linq to SQL-like languages conversions, by successive overriding of methods in two <code>HqlGeneratorQueryModelVisitor</code> and
 <code>HqlGeneratorExpressionTreeVisitor</code> visitor classes. 
 
-May all your tests be green.
-Cleanup();
-// Ma;-)rkus
+<p><code>// May all your tests be green.</code>
+<br/><code>Cleanup();</code>
+<br/><code>// Ma;-)rkus</code>
 
 
 <h2>History</h2>
