@@ -65,7 +65,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     [SetUp]
     public void Setup ()
     {
-      // Create DB tables
+      // Create NHibernate DB tables
       _schemaExport.Execute (false, true, false);
 
       SetupTestData();
@@ -74,7 +74,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     [TearDown]
     public void TearDown ()
     {
-      // Drop DB tables
+      // Drop NHibernate DB tables
       _schemaExport.Drop (false, true);
     }
 
@@ -139,6 +139,29 @@ namespace NHibernate.ReLinq.Sample.UnitTests
         Assert.That (result, Is.EquivalentTo (new[] { _phoneNumber, _phoneNumber2, _phoneNumber3, _phoneNumber4, _phoneNumber5 }));
       }
     }
+
+
+    [Test]
+    public void SelectFromWhere_WithPlusMinus ()
+    {
+      // Implement VisitBinaryExpression (Add/Subtract)
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from l in new NHQueryable<Location> (session)
+                    where ((l.ZipCode + 1) == 12346) || ((l.ZipCode - 99990) == 9)
+                    select l;
+
+        var nhibernateQuery = CreateNHQuery (session, query.Expression);
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select l from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Location as l "
+                + "where (((l.ZipCode + :p1) = :p2) or ((l.ZipCode - :p3) = :p4))"));
+
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] { _location, _location2 }));
+      }
+    }
+
 
     [Test]
     public void SelectFromWhere_WithContains ()
@@ -296,9 +319,69 @@ namespace NHibernate.ReLinq.Sample.UnitTests
       }
     }
 
+
+
+
+    [Test]
+    public void ComplexTest ()
+    {
+      var location1 = Location.NewObject ("Personenstraﬂe", "1111", Country.BurkinaFaso, 3, "Ouagadougou");
+      var location2 = Location.NewObject ("Gassengasse", "12", Country.Australia, 22, "Sydney");
+      var location3 = Location.NewObject ("Howard Street", "100", Country.Australia, 22, "Sydney");
+      var person1 = Person.NewObject ("Pierre", "Oerson", location2);
+      var person2 = Person.NewObject ("Piea", "Muster", location1);
+      var person3 = Person.NewObject ("Minny", "Mauser", location2);
+      NHibernateSaveOrUpdate (location1, location2, location3, person1, person2, person3);
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from l in new NHQueryable<Location> (session)
+                    from p in new NHQueryable<Person> (session)
+                    where (((((3 * l.ZipCode - 3) / 7)) == 9) 
+                      && p.Surname.Contains ("M") && p.Location == l)  
+                    select l;
+
+        var result = query.ToList ();
+        Assert.That (result, Is.EquivalentTo (new[] {location2}));
+      }
+    }
+
+
+    // Find all Person|s who own their home.
+    [Test]
+    public void ComplexTest2 ()
+    {
+      var location1 = Location.NewObject ("Personenstraﬂe", "1111", Country.BurkinaFaso, 3, "Ouagadougou");
+      var location2 = Location.NewObject ("Gassengasse", "22", Country.Australia, 12, "Sydney");
+      var location3 = Location.NewObject ("Gassengasse", "22", Country.Austria, 100, "Vienna");
+      var person1 = Person.NewObject ("Pierre", "Oerson", location1);
+      var person2 = Person.NewObject ("Piea", "Muster", location3);
+      var person3 = Person.NewObject ("Minny", "Mauser", location3);
+
+      location1.Owner = person1;
+      location2.Owner = person2;
+      location3.Owner = person3;
+
+      NHibernateSaveOrUpdate (location1, location2, location3, person1, person2, person3);
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from l in new NHQueryable<Location> (session)
+                    from p in new NHQueryable<Person> (session)
+                    where (l.Owner == p) && (p.Location == l)
+                    select p;
+
+        var result = query.ToList ();
+        //CommandData commandData = GetCommandData (query);
+        //Assert.That (commandData.Statement, Is.EqualTo ("select p from Location as l, Person as p where (((l.Owner is null and p is null) or l.Owner = p) and ((p.Location is null and l is null) or p.Location = l))"));
+        Assert.That (result, Is.EquivalentTo (new[] {person1, person3}));
+      }
+    }
+
+
     private void SetupTestData ()
     {
-      _location = Location.NewObject ("Personenstraﬂe", "1111", Country.BurkinaFaso, 99999, "Ouagadougou");
+      _location = Location.NewObject ("Johnson Street", "1111", Country.BurkinaFaso, 99999, "Ouagadougou");
       _location2 = Location.NewObject ("Gassengasse", "22", Country.Australia, 12345, "Sydney");
       _person = Person.NewObject ("Pierre", "Oerson", _location2);
       _person2 = Person.NewObject ("Max", "Muster", _location);
@@ -334,7 +417,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 
     // Takes a queryable and a transformation of that queryable and returns an expression representing that transformation,
     // This is required to get an expression with a result operator such as Count or First.
-    // Use like this:
+    // Use as follows:
     // var query = from ... select ...;
     // var countExpression = MakeExpression (query, q => q.Count());
     private Expression MakeExpression<TSource, TResult> (IQueryable<TSource> queryable, Expression<Func<IQueryable<TSource>, TResult>> func)

@@ -60,7 +60,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
       VisitExpression (expression.Left);
 
-      // In a more complex LINQ provider, handle this via lookup tables.
+      // In production code, handle this via lookup tables.
       switch (expression.NodeType)
       {
         case ExpressionType.Equal:
@@ -75,6 +75,22 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
         case ExpressionType.OrElse:
         case ExpressionType.Or:
           _hqlExpression.Append (" or ");
+          break;
+
+        case ExpressionType.Add:
+          _hqlExpression.Append (" + ");
+          break;
+
+        case ExpressionType.Subtract:
+          _hqlExpression.Append (" - ");
+          break;
+
+        case ExpressionType.Multiply:
+          _hqlExpression.Append (" * ");
+          break;
+
+        case ExpressionType.Divide:
+          _hqlExpression.Append (" / ");
           break;
 
         default:
