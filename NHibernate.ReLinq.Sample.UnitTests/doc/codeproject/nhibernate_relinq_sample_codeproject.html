@@ -148,7 +148,7 @@ These two classes constitute the heart of any specific re-linq based Linq provid
 
 <h2>Re-linquing NHibernate</h2>
 
-<h3>select ... from</h3>
+<h3>select ... from Statement</h3>
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
 setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
 <code>SelectFrom()</code>.
@@ -185,13 +185,23 @@ public override void VisitSelectClause (SelectClause selectClause, QueryModel qu
   base.VisitSelectClause (selectClause, queryModel);
 }
 </pre>
-All the work is done <code>QueryParts</code>, a simple &amp; convient helper class, which collects together different query components of the same type
+All the work is done <code>QueryParts</code>, a simple helper class, which collects together 
+different query components of the same type
 (e.g. <code>from</code>-statements) and emits them in the correct order at the end.
 
+<p>
+In the case of the <code>from</code>-statement, he also handles emission of the correct HQL alias syntax:
+<pre>
+public void AddFromPart (IQuerySource querySource)
+{
+  FromParts.Add (string.Format ("{0} as {1}", GetEntityName (querySource), querySource.ItemName));
+}
+</pre>
 
-<h3>where</h3>
 
+<h3>where Statement</h3>
 
+The next test 
 
 
 
