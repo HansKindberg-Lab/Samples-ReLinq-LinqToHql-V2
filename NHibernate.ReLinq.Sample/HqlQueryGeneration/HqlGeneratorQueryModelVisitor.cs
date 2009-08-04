@@ -54,10 +54,10 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
     public override void VisitResultOperator (ResultOperatorBase resultOperator, QueryModel queryModel, int index)
     {
-      if (!(resultOperator is CountResultOperator))
-        throw new NotSupportedException ("This query provider only supports Count() as a result operator.");
-
-      _queryParts.SelectPart = string.Format ("cast(count({0}) as int)", _queryParts.SelectPart);
+      if (resultOperator is CountResultOperator)
+        _queryParts.SelectPart = string.Format ("cast(count({0}) as int)", _queryParts.SelectPart);
+      else
+        throw new NotSupportedException ("Only Count() result operator is showcased in this sample. Adding Sum, Min, Max is left to the reader.");
 
       base.VisitResultOperator (resultOperator, queryModel, index);
     }
@@ -112,7 +112,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
     public override void VisitGroupJoinClause (GroupJoinClause groupJoinClause, QueryModel queryModel, int index)
     {
-      throw new NotSupportedException ("This query provider does not support join ... into ...");
+      throw new NotSupportedException ("Adding a join ... into ... implementation to the query provider is left to the reader for extra points.");
     }
 
     private string GetHqlExpression (Expression expression)
