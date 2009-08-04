@@ -112,6 +112,13 @@ how to persist instances of our test domain in the DBMS, and how to query them u
 
 <h2>Re-linquing NHibernate</h2>
 
+<h3>Fast Forward</h3>
+If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
+<code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
+<code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
+concrete query provider implementations through its  <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
+<code>ExecuteCollection&lt;T></code> methods.
+
 <h3>select ... from</h3>
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
 setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
@@ -134,6 +141,7 @@ corresponding to the Linq <code>query</code>, which equals
 Executing the <code>query</code> directly gives all 5 <code>PhoneNumber</code>|s in the test domain, as expected.
 
 
+<h3>where</h3>
 
 
 
