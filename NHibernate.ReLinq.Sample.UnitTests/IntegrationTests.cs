@@ -16,6 +16,7 @@
 // You should have received a copy of the Lesser GNU General Public License
 // along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
 // 
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using NHibernate.Cfg;
@@ -24,6 +25,7 @@ using NHibernate.ReLinq.Sample.UnitTests.DomainObjects;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework.SyntaxHelpers;
 using NUnit.Framework;
+using Remotion.Data.Linq.Parsing.ExpressionTreeVisitors;
 using Remotion.Data.Linq.Parsing.Structure;
 
 namespace NHibernate.ReLinq.Sample.UnitTests
@@ -178,6 +180,25 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     }
 
     [Test]
+    public void SelectFromCount ()
+    {
+      // Implement VisitResultOperator
+
+      using (ISession session = _sessionFactory.OpenSession ())
+      {
+        var query = from pn in new NHQueryable<PhoneNumber> (session)
+                    select pn;
+
+        var nhibernateQuery = CreateNHQuery (session, MakeExpression (query, q => q.Count()));
+        Assert.That (nhibernateQuery.QueryString,
+            Is.EqualTo ("select cast(count(*) as int) from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "));
+
+        var result = query.Count();
+        Assert.That (result, Is.EqualTo (4));
+      }
+    }
+
+    [Test]
     [Ignore ("TODO")]
     public void SelectFromWhereFromOrderByWhere ()
     {
@@ -233,6 +254,16 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     {
       var queryModel = new QueryParser ().GetParsedQuery (queryExpression);
       return HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel).CreateQuery (session);
+    }
+
+    // Takes a queryable and a transformation of that queryable and returns an expression representing that transformation,
+    // This is required to get an expression with a result operator such as Count or First.
+    // Use like this:
+    // var query = from ... select ...;
+    // var countExpression = MakeExpression (query, q => q.Count());
+    private Expression MakeExpression<TSource, TResult> (IQueryable<TSource> queryable, Expression<Func<IQueryable<TSource>, TResult>> func)
+    {
+      return ReplacingExpressionTreeVisitor.Replace (func.Parameters[0], queryable.Expression, func.Body);
     }
   }
 }

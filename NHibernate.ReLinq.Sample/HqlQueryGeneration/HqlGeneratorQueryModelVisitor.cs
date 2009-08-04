@@ -17,10 +17,12 @@
 // along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
 // 
 
+using System;
 using System.Linq.Expressions;
 using Remotion.Data.Linq;
 using Remotion.Data.Linq.Clauses;
 using System.Text;
+using Remotion.Data.Linq.Clauses.ResultOperators;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
@@ -37,6 +39,8 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
     private readonly StringBuilder _hqlStringBuilder = new StringBuilder();
     private readonly ParameterAggregator _parameterAggregator = new ParameterAggregator();
 
+    private bool _countSelected;
+
     public CommandData GetHqlCommand()
     {
       return new CommandData (_hqlStringBuilder.ToString(), _parameterAggregator.GetParameters());
@@ -44,6 +48,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
     public override void VisitQueryModel (QueryModel queryModel)
     {
+      VisitResultOperators (queryModel.ResultOperators, queryModel);
       queryModel.SelectClause.Accept (this, queryModel);
       queryModel.MainFromClause.Accept (this, queryModel);
       VisitBodyClauses (queryModel.BodyClauses, queryModel);
@@ -59,7 +64,10 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
     public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
     {
-      _hqlStringBuilder.AppendFormat ("select {0} ", GetHqlExpression (selectClause.Selector));
+      if (_countSelected)
+        _hqlStringBuilder.AppendFormat ("select cast(count(*) as int) "); // NH's count returns long, we need int
+      else
+        _hqlStringBuilder.AppendFormat ("select {0} ", GetHqlExpression (selectClause.Selector));
 
       base.VisitSelectClause (selectClause, queryModel);
     }
@@ -89,6 +97,16 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       _hqlStringBuilder.Append (" ");
 
       base.VisitOrderByClause (orderByClause, queryModel, index);
+    }
+
+    public override void VisitResultOperator (ResultOperatorBase resultOperator, QueryModel queryModel, int index)
+    {
+      if (!(resultOperator is CountResultOperator))
+        throw new NotSupportedException ("This query provider only supports Count() as a result operator.");
+
+      _countSelected = true;
+      
+      base.VisitResultOperator (resultOperator, queryModel, index);
     }
 
     private string GetHqlExpression (Expression expression)
