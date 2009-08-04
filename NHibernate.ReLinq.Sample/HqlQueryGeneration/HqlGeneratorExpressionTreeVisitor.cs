@@ -136,7 +136,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
       }
       else
       {
-        return base.VisitMethodCallExpression (expression);
+        return base.VisitMethodCallExpression (expression); // throws
       }
     }
 

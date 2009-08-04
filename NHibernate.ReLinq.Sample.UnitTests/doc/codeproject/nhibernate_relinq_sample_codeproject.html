@@ -303,8 +303,29 @@ public override void VisitJoinClause (JoinClause joinClause, QueryModel queryMod
 Where again the <code>VisitJoinClause</code> call is executed by re-linq.
 
 
+<h3>Method Calls</h3>
 
-
+The following shows the implementation of a method call, in this case the test whether a string contains the given substring; the 
+call to <code>Contains</code> is transformed into the SQL/HQL "<code>like %</code>&lt;substring><code>%</code>" syntax:
+<pre>
+protected override Expression VisitMethodCallExpression (MethodCallExpression expression)
+{
+  var supportedMethod = typeof (string).GetMethod ("Contains");
+  if (expression.Method.Equals (supportedMethod))
+  {
+    _hqlExpression.Append ("(");
+    VisitExpression (expression.Object);
+    _hqlExpression.Append (" like '%'+");
+    VisitExpression (expression.Arguments[0]);
+    _hqlExpression.Append ("+'%')");
+    return expression;
+  }
+  else
+  {
+    return base.VisitMethodCallExpression (expression); // throws
+  }
+}
+</pre>
 
 
 
