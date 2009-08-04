@@ -24,9 +24,9 @@ using Remotion.Text;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class QueryParts
+  public class QueryPartsAggregator
   {
-    public QueryParts()
+    public QueryPartsAggregator()
     {
       FromParts = new List<string> ();
       WhereParts = new List<string> ();

@@ -269,7 +269,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     [Test]
     public void SelectFromWhereOrderByFrom_ClauseOrder ()
     {
-      // Implicitly sorted via QueryParts class
+      // Implicitly sorted via QueryPartsAggregator class
 
       using (ISession session = _sessionFactory.OpenSession ())
       {
@@ -294,7 +294,7 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     [Test]
     public void SelectFromFromWhereWhereOrderByOrderBy ()
     {
-      // Implicitly concatenated via QueryParts
+      // Implicitly concatenated via QueryPartsAggregator
 
       using (ISession session = _sessionFactory.OpenSession ())
       {

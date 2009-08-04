@@ -36,7 +36,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
     }
 
     // Instead of generating an HQL string, we could also use a NHibernate ASTFactory to generate IASTNodes.
-    private readonly QueryParts _queryParts = new QueryParts ();
+    private readonly QueryPartsAggregator _queryParts = new QueryPartsAggregator ();
     private readonly ParameterAggregator _parameterAggregator = new ParameterAggregator();
 
     public CommandData GetHqlCommand()

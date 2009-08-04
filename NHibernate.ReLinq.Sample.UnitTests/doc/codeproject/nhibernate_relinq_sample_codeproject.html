@@ -116,8 +116,26 @@ how to persist instances of our test domain in the DBMS, and how to query them u
 If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
 <code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
 <code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
-concrete query provider implementations through its  <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
-<code>ExecuteCollection&lt;T></code> methods.
+concrete query provider implementations through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
+<code>ExecuteCollection&lt;T></code> methods. Here it suffices for <code>ExecuteScalar&lt;T></code> and <code>ExecuteSingle&lt;T></code> 
+to simply forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
+<code>HqlGeneratorQueryModelVisitor</code> to traverse the re-linq <code>QueryModel</code> and retrieve the resulting
+HQL query string. 
+
+<p>The <code>HqlGeneratorQueryModelVisitor</code> contains the specific Linq provider code which creates the resulting HQL for the Linq
+<code>select</code>, <code>from</code>, <code>where</code>, <code>orderby</code>, <code>join</code>, etc commands through
+its <code>VisitSelectClause</code>, <code>VisitWhereClause</code>, etc methods. 
+Internally it uses an also Linq provider specific <code>HqlGeneratorExpressionTreeVisitor</code> to process different Linq expressions, such as
+binary expressions (<code>Equal</code>, <code>Add</code>,  <code>Multiply</code>,...), member access (<code>person.Location</code>), 
+method calls (<code>person.FirstName.Contains("John")</code>), etc through its 
+<code>VisitBinaryExpression</code>, <code>VisitMemberExpression</code>,... methods.
+These two classes constitute the heart of any specific re-linq based Linq provider.
+
+<p><code>HqlGeneratorQueryModelVisitor</code> internally uses a <code>QueryPartsAggregator</code> to collect multiple <code>from</code>, 
+<code>where</code>, etc statements and emit them in the correct HQL order. This is necessary, since Linq is much more flexible than HQL 
+(or SQL) with regards to the order of operations. <code>QueryPartsAggregator</code> might be moved to re-linq or the 
+<a href="https://svn.re-motion.org/svn/Remotion-Contrib">re-motion contrib library</a> in the future.
+
 
 <h3>select ... from</h3>
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
