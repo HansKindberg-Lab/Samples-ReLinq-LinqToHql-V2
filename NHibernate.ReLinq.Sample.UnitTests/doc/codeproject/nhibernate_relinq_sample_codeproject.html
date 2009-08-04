@@ -57,7 +57,7 @@ License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
 <!--  Include download and sample image information.                       --> 
 
 <ul class=download>
-<li><a href="relinquing_nhibernate.zip">Download re-linq|ing NHibernate demo project - XXX Kb </a></li>
+<li><a href="relinquing_nhibernate.zip">Download re-linq|ing NHibernate demo project - 4400 Kb </a></li>
 </ul>
 
 <!--
@@ -83,12 +83,10 @@ implemening an arbitrary Linq provider based on re-linq.
 
 <h2>Why re-linq</h2>
 
-re-linq is a Linq provider library which is especially well suited to transform the tree representation of a Linq query (i.e.
-the only representation which is programmatically accessible in .NET) into a SQL (or SQL-like, such as HQL) represenation. Typical 
+re-linq is a TDD developed open source Linq provider library which is especially well suited for transforming the tree representation of a Linq query (i.e.
+the only representation which is programmatically accessible in .NET) into a SQL (or SQL-like, such as HQL) representation. Typical 
 Linq provider implementations are tree based, which is not well suited to be transformed into SQL-like output
-(although not impossible if one is prepared to invest a large amount of effort, as proven by Microsoft's Linq2SQL).
-
-<p>(In addition re-linq is TDD developed open source software. If that doesn't convince you, we don't know what will ;-) )
+(although not impossible, if one is prepared to invest a large amount of effort, as proven by Microsoft's Linq2SQL).
 
 
 <h2>Background</h2>
@@ -96,7 +94,7 @@ Linq provider implementations are tree based, which is not well suited to be tra
 <p>To understand this article you will need to have a basic knowledge of Microsoft <a href="http://en.wikipedia.org/wiki/Linq">Linq</a> technology. 
 The article describes how to implement a Linq provider for <a href="http://en.wikipedia.org/wiki/NHibernate">NHibernate</a>, so
 it is beneficial if you know the Hibernate Query Language (HQL); however, due to the syntactic similarity of HQL to SQL, the principles
-shown in the sample can easily be translated into using re-linq to implement a SQL Linq provider instead (even most of the code would be identical).
+shown in the sample can easily be translated into using re-linq to implement a SQL Linq provider instead (even most of the code will be identical).
 <p>Knowing the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor pattern</a> is not required, but might aid in understanding the 
 working of re-linq.
 
@@ -111,6 +109,33 @@ You will als need to create the sample DB given under Catalog="...", which defau
 <p>Note that while re-linq is implemented following TDD principles, the sample code is only an intergration test spike 
 (It can be a good exercise for someone getting started with TDD to turn the sample spike into a TDD implementation). 
 
+
+<h2>Fast Forward</h2>
+If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
+<code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
+<code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
+concrete query provider implementations through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
+<code>ExecuteCollection&lt;T></code> methods. Here it suffices for <code>ExecuteScalar&lt;T></code> and <code>ExecuteSingle&lt;T></code> 
+to basically forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
+<code>HqlGeneratorQueryModelVisitor</code> to traverse the re-linq <code>QueryModel</code> and retrieve the resulting
+HQL query string. 
+
+<p>The <code>HqlGeneratorQueryModelVisitor</code> contains the specific Linq provider code which creates the resulting HQL for the Linq
+<code>select</code>, <code>from</code>, <code>where</code>, <code>orderby</code>, <code>join</code>, etc commands through
+its <code>VisitSelectClause</code>, <code>VisitWhereClause</code>, etc methods. 
+Internally it uses an (also Linq-provider-specific) <code>HqlGeneratorExpressionTreeVisitor</code> to process different Linq expressions, such as
+binary expressions (<code>Equal</code>, <code>Add</code>,  <code>Multiply</code>,...), member access (<code>person.Location</code>), 
+method calls (<code>person.FirstName.Contains("John")</code>), etc through its 
+<code>VisitBinaryExpression</code>, <code>VisitMemberExpression</code>,... methods.
+These two classes constitute the heart of any specific re-linq based Linq provider.
+
+<p><code>HqlGeneratorQueryModelVisitor</code> internally uses a <code>QueryPartsAggregator</code> to collect multiple <code>from</code>, 
+<code>where</code>, etc statements and emit them in the correct HQL order. This is necessary, since Linq is much more flexible than HQL 
+(or SQL) with regards to the order of operations (<code>QueryPartsAggregator</code> might be moved to re-linq or the 
+<a href="https://svn.re-motion.org/svn/Remotion-Contrib">re-motion contrib library</a> in the future).
+
+
+
 <h2>The Test Domain</h2>
 For our tests we use a simple test domain constisting of <code>Location</code>|s, <code>Person</code>|s and <code>PhoneNumber</code>|s.
  Each <code>Person</code> has exactly one <code>Location</code>
@@ -120,31 +145,6 @@ under "Mappings" (Note: You do not need to know how an NHibernate mapping works;
 how to persist instances of our test domain in the DBMS, and how to query them using its SQL-like HQL query language).
 
 
-<h2>Fast Forward</h2>
-If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
-<code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
-<code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
-concrete query provider implementations through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
-<code>ExecuteCollection&lt;T></code> methods. Here it suffices for <code>ExecuteScalar&lt;T></code> and <code>ExecuteSingle&lt;T></code> 
-to simply forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
-<code>HqlGeneratorQueryModelVisitor</code> to traverse the re-linq <code>QueryModel</code> and retrieve the resulting
-HQL query string. 
-
-<p>The <code>HqlGeneratorQueryModelVisitor</code> contains the specific Linq provider code which creates the resulting HQL for the Linq
-<code>select</code>, <code>from</code>, <code>where</code>, <code>orderby</code>, <code>join</code>, etc commands through
-its <code>VisitSelectClause</code>, <code>VisitWhereClause</code>, etc methods. 
-Internally it uses an also Linq provider specific <code>HqlGeneratorExpressionTreeVisitor</code> to process different Linq expressions, such as
-binary expressions (<code>Equal</code>, <code>Add</code>,  <code>Multiply</code>,...), member access (<code>person.Location</code>), 
-method calls (<code>person.FirstName.Contains("John")</code>), etc through its 
-<code>VisitBinaryExpression</code>, <code>VisitMemberExpression</code>,... methods.
-These two classes constitute the heart of any specific re-linq based Linq provider.
-
-<p><code>HqlGeneratorQueryModelVisitor</code> internally uses a <code>QueryPartsAggregator</code> to collect multiple <code>from</code>, 
-<code>where</code>, etc statements and emit them in the correct HQL order. This is necessary, since Linq is much more flexible than HQL 
-(or SQL) with regards to the order of operations. <code>QueryPartsAggregator</code> might be moved to re-linq or the 
-<a href="https://svn.re-motion.org/svn/Remotion-Contrib">re-motion contrib library</a> in the future.
-
-
 
 <h2>Re-linquing NHibernate</h2>
 
@@ -152,7 +152,7 @@ These two classes constitute the heart of any specific re-linq based Linq provid
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
 setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
 <code>SelectFrom()</code>.
-The test shows the simplest possible Linq query 
+The test shows the simplest possible Linq query:
 <pre>
 from pn in NHQueryFactory.Queryable<PhoneNumber> (session) 
 select pn;
@@ -185,12 +185,12 @@ public override void VisitSelectClause (SelectClause selectClause, QueryModel qu
   base.VisitSelectClause (selectClause, queryModel);
 }
 </pre>
-All the work is done <code>QueryParts</code>, a simple helper class, which collects together 
+All the work is done by <code>QueryParts</code>, a simple helper class, which collects together 
 different query components of the same type
 (e.g. <code>from</code>-statements) and emits them in the correct order at the end.
 
 <p>
-In the case of the <code>from</code>-statement, he also handles emission of the correct HQL alias syntax:
+In the case of the <code>from</code>-statement, it also handles emission of the correct HQL-alias-syntax:
 <pre>
 public void AddFromPart (IQuerySource querySource)
 {
@@ -203,7 +203,7 @@ Note that this is easy to do, since re-linq already supplies us with the informa
 
 <h3>where Statement</h3>
 
-The next test introduces the <code>select</code>-statement and the binary equality comparison operator:
+The next test introduces the <code>where</code>-statement and the equality comparison operator:
 
 <pre>
 from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
@@ -258,7 +258,7 @@ protected override Expression VisitBinaryExpression (BinaryExpression expression
 
 <h3>Binary Expressions</h3>
 
-Since re-linq is already SQL/HQL-friendly, binary expressions can all be handled as trivially as equals:
+Since re-linq is already SQL/HQL-friendly, other binary expressions can be handled as trivially as equals:
 <pre>
     case ExpressionType.Equal:
       _hqlExpression.Append (" = ");
