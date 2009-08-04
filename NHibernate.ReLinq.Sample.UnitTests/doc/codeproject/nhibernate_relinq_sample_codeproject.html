@@ -73,12 +73,13 @@ License:     Choose your license (<a href="http://www.codeproject.com/info/licen
 <p>Implementing a Linq provider which supports basic functionality is a fairly easy task. From this one might be led to deduce that implementing a 
 full blown Linq provider is also not that hard, neither implementation-logic- nor effort-wise. Unfortunately nothing could be further from the 
 truth, which can easily be seen by the lack of availability of non-commercial, above-basic-functionality Linq implementations. 
-The TDD developed open source re-motion framework supplies a
+The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source re-motion framework supplies a
 commercial class Linq provider library in the form of its re-linq component, which is especially well suited for creating resulting queries
 with an SQL/HQL like syntax.
 This article shows how one can use re-linq to implement a feature rich Linq provider for the open source NHibernate O/R mapper.
 <p>After having read this article and having looked at the accompanying sourcecode, you should have all the information you need to get started on 
 implemening an arbitrary Linq provider based on re-linq.
+
 
 <h2>Background</h2>
 
@@ -89,15 +90,32 @@ can easily be translated into using re-linq to implement a SQL Linq provider ins
 <p>Knowing the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor pattern</a> is not required, but might aid in understanding the 
 working of re-linq.
 
+
 <h2>[Setup]</h2>
 
-<p>
-Before you get started you will need to download and unzip the sample sourcecode. 
+<p>Before you get started you will need to download and unzip the sample sourcecode. 
 Then open to the "DomainObjects.hbm.xml" file in the NHibernate.ReLinq.Sample.UnitTests project and adapt the DBMS connection data to your DBMS.
 You will als need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
 
-<p>A brief description of how to use the article or code. The class names, the
-methods and properties, any tricks or tips.
+<p>Note that while re-linq is implemented following TDD principles, the sample code is only an intergration test spike 
+(It might be a good exercise for someone getting started with TDD to turn the sample spike into a TDD implementation ;-) ). 
+
+<h2>The Test Domain</h2>
+For our tests we use a simple test domain constisting of Location|s, Person|s and PhoneNumber|s. Each Person has exactly one Location
+and can have an arbitrary number of PhoneNumber|s. You can find the classes in the test project under "DomainObjects", the NHibernate mapping
+under "Mappings" (Note: You do not need to know how an NHibernate mapping works; suffice to say that that the mapping tells NHibernate 
+how to persist instances of our test domain in the DBMS, and how to query them using its SQL-like HQL query language).
+
+
+<h2>Re-linquing NHibernate</h2>
+After having set up the DB, open the file "IntegrationTests.cs" in NHibernate.ReLinq.Sample.UnitTests. It contains typical NHibernate
+setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first [Test], "SelectFrom".
+The test shows the simplest possible Linq query 
+<pre>
+from pn in NHQueryFactory.Queryable<PhoneNumber> (session) 
+select pn;
+</pre>
+which simply returns all PhoneNumber|s.
 
 <p>Blocks of code should be wrapped in &lt;pre> tags like this:
 
