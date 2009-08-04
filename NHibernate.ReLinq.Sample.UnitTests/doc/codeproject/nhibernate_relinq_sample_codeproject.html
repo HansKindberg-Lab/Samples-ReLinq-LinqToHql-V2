@@ -111,6 +111,8 @@ how to persist instances of our test domain in the DBMS, and how to query them u
 
 
 <h2>Re-linquing NHibernate</h2>
+
+<h3>select ... from</h3>
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
 setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
 <code>SelectFrom()</code>.
@@ -121,8 +123,21 @@ select pn;
 </pre>
 which simply returns all <code>PhoneNumber</code>|s created in the <code>SetupTestData()</code> method.
 
+<p><code>NHQueryFactory</code> is the re-linq NHibernate Linq queryable factory which allows domain objects of the passed generic type to
+be queried through Linq; e.g. for <code>PhoneNumber</code> instances:
+<pre>NHQueryFactory.Queryable&lt;PhoneNumber></pre>
+In the case of NHibernate it has to be passed the <code>NHibernate.ISession</code> to use.
 
-<p>Variable or class names should be wrapped in &lt;code> tags like <code>this</code>.
+<p>For testing purposes, <code>CreateNHQuery(session, query.Expression).QueryString</code> gives the HQL query string 
+corresponding to the Linq <code>query</code>, which equals 
+<pre>"select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"</pre>
+Executing the <code>query</code> directly gives all 5 <code>PhoneNumber</code>|s in the test domain, as expected.
+
+
+
+
+
+
 
 
 
