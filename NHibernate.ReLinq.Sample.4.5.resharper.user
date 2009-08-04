@@ -3,7 +3,6 @@
     <string />
     <integer />
     <boolean>
-      <setting name="livetemplates.csharp.usevar">True</setting>
       <setting name="SolutionAnalysisEnabled">False</setting>
     </boolean>
   </SettingsComponent>
@@ -16,47 +15,38 @@
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:DomainObjects/f:Location.cs" caret="2055" fromTop="19" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:DomainObjects/f:PhoneNumber.cs" caret="2915" fromTop="26" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:Mappings/f:DomainObjects.hbm.xml" caret="226" fromTop="4" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryExecutor.cs" caret="2204" fromTop="28" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:hibernate.cfg.xml" caret="0" fromTop="0" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NamedParameter.cs" caret="1248" fromTop="29" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:CommandData.cs" caret="968" fromTop="6" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryExecutor.cs" caret="2283" fromTop="27" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryable.cs" caret="1364" fromTop="19" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:ParameterAggregator.cs" caret="1323" fromTop="17" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4164" fromTop="25" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:QueryModelVisitor.cs" caret="3502" fromTop="26" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="7517" fromTop="26" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3732" fromTop="32" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="2827" fromTop="36" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryable.cs" caret="0" fromTop="0" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="3394" fromTop="21" />
     </RecentFiles>
     <RecentEdits>
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="2774" fromTop="12" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="4369" fromTop="19" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3497" fromTop="27" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4540" fromTop="20" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4861" fromTop="16" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="2497" fromTop="10" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="2343" fromTop="5" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4302" fromTop="25" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4227" fromTop="22" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4227" fromTop="31" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4164" fromTop="25" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="1709" fromTop="14" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="9170" fromTop="38" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="8518" fromTop="18" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="5520" fromTop="13" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="5319" fromTop="14" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="5688" fromTop="24" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="7517" fromTop="32" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="7132" fromTop="25" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="6000" fromTop="18" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="8295" fromTop="35" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="6049" fromTop="30" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="6251" fromTop="20" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="6553" fromTop="25" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:QueryModelVisitor.cs" caret="3193" fromTop="13" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:QueryModelVisitor.cs" caret="3502" fromTop="26" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="6864" fromTop="22" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="7371" fromTop="33" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="6770" fromTop="19" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="7517" fromTop="2" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="2582" fromTop="21" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="2400" fromTop="20" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="44130" fromTop="37" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="42850" fromTop="12" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="43757" fromTop="18" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="1669" fromTop="0" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryExecutor.cs" caret="1160" fromTop="3" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="2361" fromTop="19" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="1510" fromTop="16" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3892" fromTop="36" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3143" fromTop="13" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="44138" fromTop="37" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="44342" fromTop="38" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3878" fromTop="28" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3143" fromTop="11" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="2986" fromTop="11" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="2049" fromTop="22" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="2205" fromTop="27" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="3731" fromTop="32" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="2827" fromTop="36" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="1824" fromTop="32" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2067" fromTop="23" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="3904" fromTop="41" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="3394" fromTop="36" />
     </RecentEdits>
   </RecentFiles>
   <UnitTestRunner>
@@ -67,112 +57,67 @@
   </UnitTestRunnerMSTest>
   <CompletionStatisticsManager>
     <ItemStatistics item="Default">
-      <Item value="new" priority="17" />
+      <Item value="new" priority="11" />
       <Item value="QueryableBase" priority="0" />
       <Item value="T" priority="5" />
       <Item value="_test" priority="0" />
       <Item value="IQueryExecutor" priority="0" />
-      <Item value="var" priority="15" />
+      <Item value="var" priority="8" />
       <Item value="HqlQueryGenerator" priority="5" />
-      <Item value="public" priority="6" />
+      <Item value="public" priority="2" />
       <Item value="queryGenerator" priority="0" />
       <Item value="_queryGenerator" priority="0" />
-      <Item value="IQuery" priority="2" />
-      <Item value="return" priority="19" />
-      <Item value="query" priority="4" />
+      <Item value="IQuery" priority="1" />
+      <Item value="return" priority="14" />
+      <Item value="query" priority="2" />
       <Item value="ExecuteCollection" priority="1" />
-      <Item value="queryModel" priority="10" />
+      <Item value="queryModel" priority="9" />
       <Item value="returnDefaultWhenEmpty" priority="0" />
       <Item value="NHQueryExecutor" priority="0" />
       <Item value="QueryModelVisitorBase" priority="0" />
-      <Item value="override" priority="11" />
-      <Item value="private" priority="4" />
-      <Item value="string" priority="8" />
+      <Item value="override" priority="9" />
+      <Item value="private" priority="2" />
+      <Item value="string" priority="3" />
       <Item value="_hqlString" priority="0" />
-      <Item value="null" priority="1" />
+      <Item value="null" priority="0" />
       <Item value="static" priority="0" />
       <Item value="QueryModel" priority="0" />
       <Item value="visitor" priority="3" />
       <Item value="fromClause" priority="4" />
-      <Item value="StringBuilder" priority="3" />
+      <Item value="StringBuilder" priority="2" />
       <Item value="NHibernateUtil" priority="1" />
-      <Item value="_hqlStringBuilder" priority="3" />
+      <Item value="_hqlStringBuilder" priority="0" />
       <Item value="selectClause" priority="0" />
       <Item value="HqlGeneratorExpressionTreeVisitor" priority="1" />
       <Item value="ExpressionTreeVisitor" priority="0" />
       <Item value="linqExpression" priority="1" />
       <Item value="NotSupportedException" priority="0" />
-      <Item value="typeof" priority="1" />
-      <Item value="expression" priority="15" />
-      <Item value="_hqlExpression" priority="3" />
-      <Item value="ISession" priority="3" />
-      <Item value="HqlGeneratorQueryModelVisitor" priority="2" />
-      <Item value="_session" priority="2" />
+      <Item value="typeof" priority="0" />
+      <Item value="expression" priority="9" />
+      <Item value="_hqlExpression" priority="2" />
+      <Item value="ISession" priority="2" />
+      <Item value="HqlGeneratorQueryModelVisitor" priority="0" />
+      <Item value="_session" priority="0" />
       <Item value="queryString" priority="0" />
       <Item value="this" priority="1" />
-      <Item value="session" priority="2" />
+      <Item value="session" priority="0" />
       <Item value="QueryParser" priority="0" />
       <Item value="Is" priority="0" />
       <Item value="VisitBodyClauses" priority="0" />
-      <Item value="whereClause" priority="1" />
-      <Item value="switch" priority="1" />
-      <Item value="case" priority="1" />
+      <Item value="whereClause" priority="0" />
+      <Item value="switch" priority="0" />
+      <Item value="case" priority="0" />
       <Item value="ExpressionType" priority="0" />
-      <Item value="break" priority="2" />
-      <Item value="default" priority="1" />
-      <Item value="base" priority="1" />
-      <Item value="VisitExpression" priority="2" />
-      <Item value="CommandData" priority="2" />
-      <Item value="Param" priority="1" />
-      <Item value="object" priority="3" />
-      <Item value="NamedParameter" priority="4" />
-      <Item value="ICollection" priority="0" />
-      <Item value="List&lt;object&gt;" priority="0" />
-      <Item value="_parameters" priority="4" />
-      <Item value="value" priority="1" />
-      <Item value="parameter" priority="1" />
-      <Item value="ParameterAggregator" priority="2" />
-      <Item value="parameterAggregator" priority="0" />
-      <Item value="_parameterAggregator" priority="2" />
-      <Item value="SessionException" priority="0" />
-      <Item value="commandData" priority="1" />
-      <Item value="Statement" priority="0" />
-      <Item value="foreach" priority="1" />
-      <Item value="pn" priority="3" />
-      <Item value="unhandledItem" priority="2" />
-      <Item value="FormattingExpressionTreeVisitor" priority="1" />
-      <Item value="Expression" priority="1" />
-      <Item value="_phoneNumber" priority="1" />
-      <Item value="_phoneNumber4" priority="0" />
-      <Item value="_person2" priority="0" />
-      <Item value="_person3" priority="1" />
-      <Item value="as" priority="0" />
-      <Item value="if" priority="2" />
-      <Item value="itemAsExpression" priority="1" />
-      <Item value="else" priority="0" />
-      <Item value="itemText" priority="0" />
-      <Item value="supportedMethod" priority="0" />
-      <Item value="p" priority="4" />
-      <Item value="_person4" priority="0" />
-      <Item value="orderby" priority="1" />
-      <Item value="from" priority="1" />
-      <Item value="PhoneNumber" priority="1" />
-      <Item value="where" priority="1" />
-      <Item value="descending" priority="0" />
-      <Item value="orderByClause" priority="1" />
-      <Item value="ordering" priority="0" />
-      <Item value="bool" priority="0" />
-      <Item value="true" priority="0" />
-      <Item value="first" priority="1" />
-      <Item value="false" priority="0" />
-      <Item value="Ignore" priority="0" />
+      <Item value="break" priority="1" />
+      <Item value="default" priority="0" />
+      <Item value="base" priority="0" />
+      <Item value="VisitExpression" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:NHibernate.IQuery">
       <Item value="Enumerable" priority="0" />
       <Item value="UniqueResult" priority="0" />
       <Item value="QueryString" priority="0" />
       <Item value="NamedParameters" priority="0" />
-      <Item value="SetParameterList" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Collections.Generic.IEnumerable`1">
       <Item value="SingleOrDefault" priority="0" />
@@ -183,8 +128,8 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Text.StringBuilder">
       <Item value="ToString" priority="1" />
-      <Item value="AppendFormat" priority="5" />
-      <Item value="Append" priority="3" />
+      <Item value="AppendFormat" priority="3" />
+      <Item value="Append" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Remotion.Data.Linq.Clauses.MainFromClause">
       <Item value="ItemName" priority="0" />
@@ -197,7 +142,6 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Type">
       <Item value="Name" priority="1" />
-      <Item value="GetMethod" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@NHibernate.NHibernateUtil">
       <Item value="Enum" priority="0" />
@@ -220,10 +164,10 @@
       <Item value="ItemName" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@NHibernate.ReLinq.Sample.HqlQueryGeneration.HqlGeneratorQueryModelVisitor">
-      <Item value="GenerateHqlQuery" priority="2" />
+      <Item value="GenerateHqlQuery" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:NHibernate.ISession">
-      <Item value="CreateQuery" priority="2" />
+      <Item value="CreateQuery" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:NHibernate.Type.IType">
       <Item value="Name" priority="1" />
@@ -249,7 +193,7 @@
       <Item value="EqualTo" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Remotion.Data.Linq.Clauses.WhereClause">
-      <Item value="Predicate" priority="1" />
+      <Item value="Predicate" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Linq.Expressions.BinaryExpression">
       <Item value="NodeType" priority="0" />
@@ -258,12 +202,9 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:@System.Linq.Expressions.ExpressionType">
       <Item value="Equal" priority="0" />
-      <Item value="And" priority="0" />
-      <Item value="AndAlso" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Remotion.Data.Linq.Parsing.ThrowingExpressionTreeVisitor">
       <Item value="VisitBinaryExpression" priority="0" />
-      <Item value="VisitMethodCallExpression" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Linq.Expressions.MemberExpression">
       <Item value="Expression" priority="0" />
@@ -271,63 +212,6 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Reflection.MemberInfo">
       <Item value="Name" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
-      <Item value="Add" priority="0" />
-      <Item value="Count" priority="1" />
-      <Item value="ToArray" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:System.Int32">
-      <Item value="ToString" priority="1" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:NHibernate.ReLinq.Sample.HqlQueryGeneration.NamedParameter">
-      <Item value="Name" priority="2" />
-      <Item value="Value" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:NHibernate.ReLinq.Sample.HqlQueryGeneration.ParameterAggregator">
-      <Item value="AddParameter" priority="0" />
-      <Item value="GetParameters" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:System.Linq.Expressions.ConstantExpression">
-      <Item value="Value" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:NHibernate.ReLinq.Sample.HqlQueryGeneration.CommandData">
-      <Item value="Statement" priority="0" />
-      <Item value="CreateQuery" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber">
-      <Item value="CountryCode" priority="2" />
-      <Item value="Person" priority="3" />
-      <Item value="Number" priority="1" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:NHibernate.ReLinq.Sample.UnitTests.DomainObjects.Person">
-      <Item value="FirstName" priority="4" />
-      <Item value="Surname" priority="2" />
-      <Item value="PhoneNumbers" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:@Remotion.Data.Linq.Clauses.ExpressionTreeVisitors.FormattingExpressionTreeVisitor">
-      <Item value="Format" priority="1" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:">
-      <Item value="ToString" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:System.Linq.Expressions.MethodCallExpression">
-      <Item value="Method" priority="1" />
-      <Item value="Object" priority="0" />
-      <Item value="Arguments" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:System.Reflection.MethodInfo">
-      <Item value="Name" priority="0" />
-      <Item value="Equals" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:System.String">
-      <Item value="Contains" priority="1" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:Remotion.Data.Linq.Clauses.OrderByClause">
-      <Item value="Orderings" priority="0" />
-    </ItemStatistics>
-    <ItemStatistics item="Qualified:Remotion.Data.Linq.Clauses.Ordering">
-      <Item value="Expression" priority="0" />
     </ItemStatistics>
   </CompletionStatisticsManager>
 </Configuration>
