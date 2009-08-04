@@ -327,19 +327,22 @@ protected override Expression VisitMethodCallExpression (MethodCallExpression ex
 }
 </pre>
 
+<h3>The Rest</h3>
+The examples above are about as complex as it gets. For further exploration please have a look at the demo project (download link at top of page).
 
-
-<h2>Points of Interest</h2>
-
-<p>Did you learn anything interesting/fun/annoying while writing the code? Did you
-do anything particularly clever or wild or zany?
 
 <h2>[Teardown]</h2>
+In this article we have shown how the <a href="http://www.re-motion.org/">re-motion</a> re-linq Linq provider library can be used to easily
+implement Linq to SQL-like languages conversions, by successive overriding of methods in two <code>HqlGeneratorQueryModelVisitor</code> and
+<code>HqlGeneratorExpressionTreeVisitor</code> visitor classes. 
+
+May all your tests be green.
+Cleanup();
+// Ma;-)rkus
 
 
 <h2>History</h2>
-
-<p>Keep a running update of any changes or improvements you've made here.
+<li>2009.08.05 - Initial posting.
 
 
 <!-------------------------------    That's it!   --------------------------->
