@@ -94,40 +94,39 @@ working of re-linq.
 <h2>[Setup]</h2>
 
 <p>Before you get started you will need to download and unzip the sample sourcecode. 
-Then open to the "DomainObjects.hbm.xml" file in the NHibernate.ReLinq.Sample.UnitTests project and adapt the DBMS connection data to your DBMS.
+Then open to the "DomainObjects.hbm.xml" file in the <code>NHibernate.ReLinq.Sample.UnitTests</code> project and adapt the 
+DBMS connection data to your DBMS.
 You will als need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
 
 <p>Note that while re-linq is implemented following TDD principles, the sample code is only an intergration test spike 
-(It might be a good exercise for someone getting started with TDD to turn the sample spike into a TDD implementation ;-) ). 
+(It can be a good exercise for someone getting started with TDD to turn the sample spike into a TDD implementation). 
 
 <h2>The Test Domain</h2>
-For our tests we use a simple test domain constisting of Location|s, Person|s and PhoneNumber|s. Each Person has exactly one Location
-and can have an arbitrary number of PhoneNumber|s. You can find the classes in the test project under "DomainObjects", the NHibernate mapping
+For our tests we use a simple test domain constisting of <code>Location</code>|s, <code>Person</code>|s and <code>PhoneNumber</code>|s.
+ Each <code>Person</code> has exactly one <code>Location</code>
+and can have an arbitrary number of <code>PhoneNumber</code>|s. You can find the classes in the test project under "DomainObjects", 
+the NHibernate mapping
 under "Mappings" (Note: You do not need to know how an NHibernate mapping works; suffice to say that that the mapping tells NHibernate 
 how to persist instances of our test domain in the DBMS, and how to query them using its SQL-like HQL query language).
 
 
 <h2>Re-linquing NHibernate</h2>
-After having set up the DB, open the file "IntegrationTests.cs" in NHibernate.ReLinq.Sample.UnitTests. It contains typical NHibernate
-setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first [Test], "SelectFrom".
+After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
+setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
+<code>SelectFrom()</code>.
 The test shows the simplest possible Linq query 
 <pre>
 from pn in NHQueryFactory.Queryable<PhoneNumber> (session) 
 select pn;
 </pre>
-which simply returns all PhoneNumber|s.
+which simply returns all <code>PhoneNumber</code>|s created in the <code>SetupTestData()</code> method.
 
-<p>Blocks of code should be wrapped in &lt;pre> tags like this:
-
-<pre>
-
-//
-// Any source code blocks look like this
-//
-
-</pre>
 
 <p>Variable or class names should be wrapped in &lt;code> tags like <code>this</code>.
+
+
+
+
 
 <h2>Points of Interest</h2>
 
