@@ -38,10 +38,7 @@ namespace NHibernate.ReLinq.Sample
     // Executes a query with a scalar result, i.e. a query that ends with a result operator such as Count, Sum, or Average.
     public T ExecuteScalar<T> (QueryModel queryModel)
     {
-      var commandData = HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel);
-      var query = commandData.CreateQuery (_session);
-      var result = query.UniqueResult<T>();
-      return result;
+      return ExecuteCollection<T> (queryModel).Single();
     }
 
     // Executes a query with a single result object, i.e. a query that ends with a result operator such as First, Last, Single, Min, or Max.
