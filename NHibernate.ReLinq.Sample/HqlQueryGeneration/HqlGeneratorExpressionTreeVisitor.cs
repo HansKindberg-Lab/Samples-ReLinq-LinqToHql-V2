@@ -122,7 +122,7 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
     protected override Expression VisitMethodCallExpression (MethodCallExpression expression)
     {
-      // In a more complex LINQ provider, handle this via method lookup tables.
+      // In production code, handle this via method lookup tables.
 
       var supportedMethod = typeof (string).GetMethod ("Contains");
       if (expression.Method.Equals (supportedMethod))

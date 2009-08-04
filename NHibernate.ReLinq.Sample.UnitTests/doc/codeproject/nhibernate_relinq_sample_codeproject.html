@@ -253,6 +253,47 @@ protected override Expression VisitBinaryExpression (BinaryExpression expression
 <p>The <code>VisitExpression</code> method call is executed by re-linq code and does the required traversal of data structures.
 
 
+
+
+
+<h3>Binary Expressions</h3>
+
+Since re-linq is already SQL/HQL-friendly, binary expressions can all be handled as trivially as equals:
+<pre>
+    case ExpressionType.Equal:
+      _hqlExpression.Append (" = ");
+      break;
+
+    case ExpressionType.AndAlso:
+    case ExpressionType.And:
+      _hqlExpression.Append (" and ");
+      break;
+    
+    case ExpressionType.OrElse:
+    case ExpressionType.Or:
+      _hqlExpression.Append (" or ");
+      break;
+
+    case ExpressionType.Add:
+      _hqlExpression.Append (" + ");
+      break;
+
+    case ExpressionType.Subtract:
+      _hqlExpression.Append (" - ");
+      break;
+
+    // etc...
+</pre>
+
+
+
+
+
+
+
+
+
+
 <h2>Points of Interest</h2>
 
 <p>Did you learn anything interesting/fun/annoying while writing the code? Did you
