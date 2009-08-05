@@ -342,9 +342,10 @@ demo project (download link at top of page).
 
 
 <h2>[Teardown]</h2>
-In this article we have shown how the <a href="http://www.re-motion.org/">re-motion</a> re-linq Linq provider library can be used to easily
-implement Linq to SQL-like languages conversions, by successive overriding of methods in two <code>HqlGeneratorQueryModelVisitor</code> and
-<code>HqlGeneratorExpressionTreeVisitor</code> visitor classes. 
+In this article we have shown how the <a href="http://www.re-motion.org/">re-motion</a> re-linq library can be used to easily
+implement feature rich Linq providers with little effort. 
+re-linq makes it easy to do so, since it encapsulates the complex Linq parsing algorithms and provides a easily digestible model of the query, 
+ready to be transformed by the two provider specific <code>HqlGeneratorQueryModelVisitor</code> and <code>HqlGeneratorExpressionTreeVisitor</code> visitor classes. 
 
 <p><code>// May all your tests be green.</code>
 <br/><code>Cleanup();</code>
