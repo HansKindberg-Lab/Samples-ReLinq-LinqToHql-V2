@@ -372,7 +372,7 @@ demo project (download link at top of page).
 
 
 <h3>Sample Queries</h3>
-The following shows some sample queries which our 4 hour re-linq for NHibernate implementation can handle:
+The following shows some sample queries which our 4 hour re-linq for NHibernate implementation can handle.
 
 <p>Get all people who own their homes:
 <pre>
@@ -382,16 +382,21 @@ where (l.Owner == p) && (p.Location == l)
 select p;
 </pre>
 
+<p>Joining and sorting:
 <pre>
-
+from p in NHQueryFactory.Queryable<Person> (session)
+where p.Surname == "Oerson"
+orderby p.Surname
+join pn in NHQueryFactory.Queryable<PhoneNumber> (session) on p equals pn.Person
+select pn;
 </pre>
 
+<p>Complex expressions, member access and method calling:
 <pre>
-
-</pre>
-
-<pre>
-
+from l in NHQueryFactory.Queryable<Location> (session)
+from p in NHQueryFactory.Queryable<Person> (session)
+where (((((3 * l.ZipCode - 3) / 7)) == 9) && p.Surname.Contains ("M") && p.Location == l)  
+select l;
 </pre>
 
 
