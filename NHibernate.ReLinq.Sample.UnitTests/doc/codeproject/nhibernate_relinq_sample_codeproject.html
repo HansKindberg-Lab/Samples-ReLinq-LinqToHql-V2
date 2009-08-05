@@ -221,10 +221,10 @@ from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
 
 The implementation is as straightforward as above:
 <pre>
-public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
+public override void VisitWhereClause (WhereClause whereClause, QueryModel queryModel, int index)
 {
-  _queryParts.SelectPart = GetHqlExpression (selectClause.Selector);
-  base.VisitSelectClause (selectClause, queryModel);
+  _queryParts.AddWherePart (GetHqlExpression (whereClause.Predicate));
+  base.VisitWhereClause (whereClause, queryModel, index);
 }
 </pre>
 
