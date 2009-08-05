@@ -139,14 +139,15 @@ DBMS connection data to your DBMS.
 You will also need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
 
 <p>Note that while re-linq is implemented following TDD principles, the sample code is only an integration test spike 
-(It can be a good exercise for someone getting started with TDD to turn the sample spike into a TDD implementation). 
+(It can be a good exercise for someone getting started with TDD to turn the spike into a TDD implementation). 
+
 
 
 <h2>Fast Forward</h2>
 If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
 <code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
-<code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
-concrete query provider implementations through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
+<code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and the
+concrete query provider implementation through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
 <code>ExecuteCollection&lt;T></code> methods. For the NHibernate Linq provider it suffices for <code>ExecuteScalar&lt;T></code> and
 <code>ExecuteSingle&lt;T></code> to basically forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
 <code>HqlGeneratorQueryModelVisitor</code> to traverse the re-linq <code>QueryModel</code> and retrieve the resulting
