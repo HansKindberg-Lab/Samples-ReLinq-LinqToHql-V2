@@ -102,6 +102,37 @@ shown in the sample can easily be translated into using re-linq to implement a S
 workings of re-linq.
 
 
+
+<h2>Sample Queries</h2>
+Below are some sample queries which our 4 hour re-linq for NHibernate implementation can handle. 
+
+<p>Member Access and Multiple <code>from</code>-Statements (query returns all people who own their homes):
+<pre>
+from l in NHQueryFactory.Queryable<Location> (session)
+from p in NHQueryFactory.Queryable<Person> (session)
+where (l.Owner == p) && (p.Location == l)
+select p;
+</pre>
+
+<p>Joining and Sorting:
+<pre>
+from p in NHQueryFactory.Queryable<Person> (session)
+where p.Surname == "Oerson"
+orderby p.Surname
+join pn in NHQueryFactory.Queryable<PhoneNumber> (session) on p equals pn.Person
+select pn;
+</pre>
+
+<p>Complex Expressions and Method Calling:
+<pre>
+from l in NHQueryFactory.Queryable<Location> (session)
+from p in NHQueryFactory.Queryable<Person> (session)
+where (((((3 * l.ZipCode - 3) / 7)) == 9) && p.Surname.Contains ("M") && p.Location == l)  
+select l;
+</pre>
+
+
+
 <h2>[Setup]</h2>
 
 <p>Before you get started you will need to download and unzip the sample sourcecode. 
@@ -369,36 +400,6 @@ public string BuildHQLString ()
 The examples above are about as complex as it gets, you should now have a good idea of how to go about
 writing a Linq provider based on re-linq. For further exploration please have a look at the
 demo project (download link at top of page).
-
-
-<h3>Sample Queries</h3>
-The following shows some sample queries which our 4 hour re-linq for NHibernate implementation can handle.
-
-<p>Get all people who own their homes:
-<pre>
-from l in NHQueryFactory.Queryable<Location> (session)
-from p in NHQueryFactory.Queryable<Person> (session)
-where (l.Owner == p) && (p.Location == l)
-select p;
-</pre>
-
-<p>Joining and sorting:
-<pre>
-from p in NHQueryFactory.Queryable<Person> (session)
-where p.Surname == "Oerson"
-orderby p.Surname
-join pn in NHQueryFactory.Queryable<PhoneNumber> (session) on p equals pn.Person
-select pn;
-</pre>
-
-<p>Complex expressions, member access and method calling:
-<pre>
-from l in NHQueryFactory.Queryable<Location> (session)
-from p in NHQueryFactory.Queryable<Person> (session)
-where (((((3 * l.ZipCode - 3) / 7)) == 9) && p.Surname.Contains ("M") && p.Location == l)  
-select l;
-</pre>
-
 
 
 
