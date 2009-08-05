@@ -335,6 +335,36 @@ protected override Expression VisitMethodCallExpression (MethodCallExpression ex
 }
 </pre>
 
+
+<h3>Putting it all Together</h3>
+The final step to finish the Linq to NHibernate query transformation is the call to <code>QueryPartsAggregator</code> <code>BuildHQLString</code>,
+which emits the information collected by the two visitors in the correct HQL order. The implementation, again, is straightforward 
+(<code>SeparatedStringBuilder.Build</code> is a re-motion helper method which simply concatenates together strings from an enumerable, separating
+them with its first argument):
+
+<pre>
+public string BuildHQLString ()
+{
+  var stringBuilder = new StringBuilder ();
+
+  if (string.IsNullOrEmpty (SelectPart) || FromParts.Count == 0)
+    throw new InvalidOperationException ("A query must have a select part and at least one from part.");
+
+  stringBuilder.AppendFormat ("select {0}", SelectPart);
+  stringBuilder.AppendFormat (" from {0}", SeparatedStringBuilder.Build (", ", FromParts));
+
+  if (WhereParts.Count > 0)
+    stringBuilder.AppendFormat (" where {0}", SeparatedStringBuilder.Build (" and ", WhereParts));
+
+  if (OrderByParts.Count > 0)
+    stringBuilder.AppendFormat (" order by {0}", SeparatedStringBuilder.Build (", ", OrderByParts));
+
+  return stringBuilder.ToString ();
+}
+</pre>
+
+
+
 <h3>The Rest</h3>
 The examples above are about as complex as it gets, you should now have a good idea of how to go about
 writing a Linq provider based on re-linq. For further exploration please have a look at the
