@@ -371,6 +371,32 @@ writing a Linq provider based on re-linq. For further exploration please have a 
 demo project (download link at top of page).
 
 
+<h3>Sample Queries</h3>
+The following shows some sample queries which our 4 hour re-linq for NHibernate implementation can handle:
+
+<p>Get all people who own their homes:
+<pre>
+from l in NHQueryFactory.Queryable<Location> (session)
+from p in NHQueryFactory.Queryable<Person> (session)
+where (l.Owner == p) && (p.Location == l)
+select p;
+</pre>
+
+<pre>
+
+</pre>
+
+<pre>
+
+</pre>
+
+<pre>
+
+</pre>
+
+
+
+
 <h2>[Teardown]</h2>
 In this article we have shown how the <a href="http://www.re-motion.org/">re-motion</a> re-linq library can be used to easily
 implement feature rich Linq providers with little effort. 
