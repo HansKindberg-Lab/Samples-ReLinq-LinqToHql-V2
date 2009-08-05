@@ -266,7 +266,7 @@ protected override Expression VisitBinaryExpression (BinaryExpression expression
 
 <h3>Binary Expressions</h3>
 
-Since re-linq is already SQL/HQL-friendly, other binary expressions can be handled as trivially as equals:
+Other binary expressions can be handled as trivially as the equality-operator:
 <pre>
     case ExpressionType.Equal:
       _hqlExpression.Append (" = ");
