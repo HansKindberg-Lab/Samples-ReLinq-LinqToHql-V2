@@ -1,20 +1,21 @@
-// This file is part of NHibernate.ReLinq an NHibernate (www.nhibernate.org) Linq-provider.
-// Copyright (C) 2005-2009 rubicon informationstechnologie gmbh, www.rubicon.eu
-// 
-// NHibernate.ReLinq is based on re-motion re-linq (http://www.re-motion.org/).
-// 
-// NHibernate.ReLinq is free software: you can redistribute it and/or modify
-// it under the terms of the Lesser GNU General Public License as published by
-// the Free Software Foundation, either version 2.1 of the License, or
-// (at your option) any later version.
-// 
-// NHibernate.ReLinq is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// Lesser GNU General Public License for more details.
-// 
-// You should have received a copy of the Lesser GNU General Public License
-// along with NHibernate.ReLinq.  If not, see http://www.gnu.org/licenses/.
+//  This file is part of NHibernate.ReLinq.Sample a sample showing
+//  the use of the open source re-linq library to implement a non-trivial 
+//  Linq-provider, on the example of NHibernate (www.nhibernate.org).
+//  Copyright (C) 2005-2009 rubicon informationstechnologie gmbh, www.rubicon.eu
+//  
+//  NHibernate.ReLinq.Sample is based on re-motion re-linq (http://www.re-motion.org/).
+//  
+//  NHibernate.ReLinq.Sample is free software; you can redistribute it 
+//  and/or modify it under the terms of the GNU Lesser General Public License 
+//  version 3.0 as published by the Free Software Foundation.
+//  
+//  re-motion is distributed in the hope that it will be useful, 
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+//  GNU Lesser General Public License for more details.
+//  
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with NHibernate.ReLinq.Sample; if not, see http://www.gnu.org/licenses.
 // 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
