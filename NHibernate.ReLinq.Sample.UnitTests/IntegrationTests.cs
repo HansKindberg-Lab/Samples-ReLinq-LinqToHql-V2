@@ -295,8 +295,6 @@ namespace NHibernate.ReLinq.Sample.UnitTests
     [Test]
     public void SelectFromFromWhereWhereOrderByOrderBy ()
     {
-      // Implicitly concatenated via QueryPartsAggregator
-
       using (ISession session = _sessionFactory.OpenSession ())
       {
         var query = from p in NHQueryFactory.Queryable<Person> (session)
@@ -373,8 +371,6 @@ namespace NHibernate.ReLinq.Sample.UnitTests
                     select p;
 
         var result = query.ToList ();
-        //CommandData commandData = GetCommandData (query);
-        //Assert.That (commandData.Statement, Is.EqualTo ("select p from Location as l, Person as p where (((l.Owner is null and p is null) or l.Owner = p) and ((p.Location is null and l is null) or p.Location = l))"));
         Assert.That (result, Is.EquivalentTo (new[] {person1, person3}));
       }
     }
