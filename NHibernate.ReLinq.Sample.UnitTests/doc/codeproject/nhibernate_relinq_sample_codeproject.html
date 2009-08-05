@@ -47,7 +47,7 @@ Language:    C# 3.0
 Platform:    .NET 3.5
 Technology:  Linq, NHibernate, re-motion
 Level:       Intermediate
-Description: This article shows how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to NHibernate.
+Description: This article shows how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to Hibernate.
 Section      Platforms, Frameworks & Libraries
 SubSection   LINQ
 License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
@@ -80,10 +80,16 @@ implementing an arbitrary Linq provider based on re-linq.
 
 <h2>Why re-linq</h2>
 
-re-linq is a TDD developed open source Linq provider library which is especially well suited for transforming the tree representation of a Linq query (i.e.
-the only representation which is programmatically accessible in .NET) into a SQL (or SQL-like, such as HQL) representation. Typical 
-Linq provider implementations are tree based, which is not well suited to be transformed into SQL-like output
-(although not impossible, if one is prepared to invest a large amount of effort, as proven by Microsoft's Linq2SQL).
+Existing Linq provider implementations (such as Microsoft's Linq2SQL) typically work by transforming the Linq tree representation to another 
+query language in many small steps. This approach has several drawbacks: For instance it requires a wealth of up-front knowledge
+what tree combinations are actually possible, in addition to requiring a deep knowledge on the exact workings of how Linq works internally. 
+It also leads to implementations which are tightly bound to the target query language, i.e. there is very little 
+potential for generically resuable code parts: You have to start every Linq provider from scratch.
+
+<p>The TDD developed re-linq open source Linq provider library takes a different approach: It transforms the Linq query into an internal C#-like model, 
+which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background by re-linq. This makes it easy to implement any kind of Linq provider based on re-linq.
+<br>(If you are interested in the inner workings of re-linq, please see the <a href="http://www.re-motion.org/download/re-linq.pdf">re-linq whitepaper</a>).
+
 
 
 <h2>Background</h2>
