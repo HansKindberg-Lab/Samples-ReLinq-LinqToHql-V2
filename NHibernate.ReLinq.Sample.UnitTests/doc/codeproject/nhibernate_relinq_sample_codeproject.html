@@ -47,7 +47,7 @@ Language:    C# 3.0
 Platform:    .NET 3.5
 Technology:  Linq, NHibernate, re-motion
 Level:       Intermediate
-Description: This article shows how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to Hibernate.
+Description: This article shows how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to NHibernate HQL.
 Section      Platforms, Frameworks & Libraries
 SubSection   LINQ
 License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
@@ -69,10 +69,8 @@ License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
 <p>Implementing a Linq provider which supports basic functionality is a fairly easy task. From this one might be led to deduce that implementing a 
 full blown Linq provider is also not that hard, neither implementation-logic- nor effort-wise. Unfortunately nothing could be further from the 
 truth, which can easily be seen by the lack of availability of non-commercial, above-basic-functionality Linq implementations. 
-The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source re-motion framework supplies a
-commercial class Linq provider library in the form of its re-linq component, which is especially well suited for creating resulting queries
-with an SQL/HQL like syntax.
-<p>This article shows how one can use re-linq to implement a feature rich Linq provider, on the example of creating a
+The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source <a href="http://www.re-motion.org">re-motion</a> framework supplies a commercial class Linq provider library in the form of its re-linq component.
+<p>This article shows how one can use re-linq to implement a feature rich Linq provider in just 4 hours, on the example of creating a
 Linq-to-HQL provider for the open source <a href="http://en.wikipedia.org/wiki/NHibernate">NHibernate</a> O/R mapper.
 After having read through this article and having looked at the accompanying sourcecode, you should have all the information you need to get started on 
 implementing an arbitrary Linq provider based on re-linq.
@@ -82,13 +80,13 @@ implementing an arbitrary Linq provider based on re-linq.
 
 Existing Linq provider implementations (such as Microsoft's Linq2SQL) typically work by transforming the Linq tree representation to another 
 query language in many small steps. This approach has several drawbacks: For instance it requires a wealth of up-front knowledge
-what tree combinations are actually possible, in addition to requiring a deep knowledge on the exact workings of how Linq works internally. 
-It also leads to implementations which are tightly bound to the target query language, i.e. there is very little 
+about what tree combinations are actually possible, in addition to requiring a deep knowledge on the exact workings of how Linq works internally. 
+It also leads to implementations which are tightly coupled to the target query language, i.e. there is very little 
 potential for generically resuable code parts: You have to start every Linq provider from scratch.
 
 <p>The TDD developed re-linq open source Linq provider library takes a different approach: It transforms the Linq query into an internal C#-like model, 
-which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background by re-linq. This makes it easy to implement any kind of Linq provider based on re-linq.
-<br>(If you are interested in the inner workings of re-linq, please see the <a href="http://www.re-motion.org/download/re-linq.pdf">re-linq whitepaper</a>).
+which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of Linq provider a straightforward task.
+<br>(You can find more on the inner workings of re-linq and its design philosophy in the <a href="http://www.re-motion.org/download/re-linq.pdf">re-linq whitepaper</a>).
 
 
 
