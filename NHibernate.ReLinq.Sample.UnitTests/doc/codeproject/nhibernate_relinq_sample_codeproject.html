@@ -99,17 +99,17 @@ The article describes how to implement a Linq provider for <a href="http://en.wi
 it is beneficial if you know the Hibernate Query Language (HQL); however, due to the syntactic similarity of HQL to SQL, the principles
 shown in the sample can easily be translated into using re-linq to implement a SQL Linq provider instead (even most of the code will be identical).
 <p>Knowing the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor pattern</a> is not required, but might aid in understanding the 
-working of re-linq.
+workings of re-linq.
 
 
 <h2>[Setup]</h2>
 
 <p>Before you get started you will need to download and unzip the sample sourcecode. 
-Then open to the "DomainObjects.hbm.xml" file in the <code>NHibernate.ReLinq.Sample.UnitTests</code> project and adapt the 
+Then open the "DomainObjects.hbm.xml" file in the <code>NHibernate.ReLinq.Sample.UnitTests</code> project and adapt the 
 DBMS connection data to your DBMS.
-You will als need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
+You will also need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
 
-<p>Note that while re-linq is implemented following TDD principles, the sample code is only an intergration test spike 
+<p>Note that while re-linq is implemented following TDD principles, the sample code is only an integration test spike 
 (It can be a good exercise for someone getting started with TDD to turn the sample spike into a TDD implementation). 
 
 
