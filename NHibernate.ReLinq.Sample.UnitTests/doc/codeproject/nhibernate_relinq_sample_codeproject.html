@@ -118,15 +118,15 @@ If you are an expert and would rather dig into the code right now, here is a qui
 <code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
 <code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and 
 concrete query provider implementations through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
-<code>ExecuteCollection&lt;T></code> methods. Here it suffices for <code>ExecuteScalar&lt;T></code> and <code>ExecuteSingle&lt;T></code> 
-to basically forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
+<code>ExecuteCollection&lt;T></code> methods. For the NHibernate Linq provider it suffices for <code>ExecuteScalar&lt;T></code> and
+<code>ExecuteSingle&lt;T></code> to basically forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
 <code>HqlGeneratorQueryModelVisitor</code> to traverse the re-linq <code>QueryModel</code> and retrieve the resulting
 HQL query string. 
 
 <p>The <code>HqlGeneratorQueryModelVisitor</code> contains the specific Linq provider code which creates the resulting HQL for the Linq
 <code>select</code>, <code>from</code>, <code>where</code>, <code>orderby</code>, <code>join</code>, etc commands through
 its <code>VisitSelectClause</code>, <code>VisitWhereClause</code>, etc methods. 
-Internally it uses an (also Linq-provider-specific) <code>HqlGeneratorExpressionTreeVisitor</code> to process different Linq expressions, such as
+Internally, it uses an (also Linq-provider-specific) <code>HqlGeneratorExpressionTreeVisitor</code> to process different Linq expressions, such as
 binary expressions (<code>Equal</code>, <code>Add</code>,  <code>Multiply</code>,...), member access (<code>person.Location</code>), 
 method calls (<code>person.FirstName.Contains("John")</code>), etc through its 
 <code>VisitBinaryExpression</code>, <code>VisitMemberExpression</code>,... methods.
