@@ -86,7 +86,7 @@ about what tree combinations are actually possible, in addition to requiring a d
 It also leads to implementations which are tightly coupled to the target query language, i.e. there is very little 
 potential for generically resuable code parts: You have to start every LINQ provider from scratch.
 
-<p>The TDD developed re-linq open source LINQ provider library takes a different approach: It transforms the LINQ query into an internal C#-LINQ-like model, 
+<p>The re-linq open source LINQ provider library takes a different approach: It transforms the LINQ query into an internal C#-LINQ-like model, 
 which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of LINQ provider a straightforward task.
 
 <p>
@@ -426,7 +426,7 @@ ready to be transformed by the two provider specific <code>HqlGeneratorQueryMode
 
 <h2>History</h2>
 <ul>
-<li>2009.08.05 - Initial posting.
+<li>2009.09.03 - Initial posting.
 </ul>
 
 <!-------------------------------    That's it!   --------------------------->
