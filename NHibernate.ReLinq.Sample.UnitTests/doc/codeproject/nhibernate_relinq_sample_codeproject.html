@@ -38,7 +38,7 @@ CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
 <!-------------------------------     STEP 1      --------------------------->
 <!--  Fill in the details (CodeProject will reformat this section for you) -->
 
-<pre>
+<pre lang="cs">
 Title:       Just 4 Hours to re-linq|ish the Pain: Implementing a Non-trivial Linq Provider on the Example of NHibernate
 Author:      Markus Giegl 
 Email:       markus.giegl@rubicon.eu
@@ -110,7 +110,7 @@ workings of re-linq.
 Below are some sample queries which our 4 hour re-linq for NHibernate implementation can handle. 
 
 <p>Member Access and Multiple <code>from</code>-Statements (query returns all people who own their homes):
-<pre>
+<pre lang="cs">
 from l in NHQueryFactory.Queryable<Location> (session)
 from p in NHQueryFactory.Queryable<Person> (session)
 where (l.Owner == p) && (p.Location == l)
@@ -118,7 +118,7 @@ select p;
 </pre>
 
 <p>Joining and Sorting:
-<pre>
+<pre lang="cs">
 from p in NHQueryFactory.Queryable<Person> (session)
 where p.Surname == "Oerson"
 orderby p.Surname
@@ -127,7 +127,7 @@ select pn;
 </pre>
 
 <p>Complex Expressions and Method Calling:
-<pre>
+<pre lang="cs">
 from l in NHQueryFactory.Queryable<Location> (session)
 from p in NHQueryFactory.Queryable<Person> (session)
 where (((((3 * l.ZipCode - 3) / 7)) == 9) && p.Surname.Contains ("M") && p.Location == l)  
@@ -191,7 +191,7 @@ After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibern
 setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
 <code>SelectFrom()</code>.
 The test shows the simplest possible Linq query:
-<pre>
+<pre lang="cs">
 from pn in NHQueryFactory.Queryable<PhoneNumber> (session) 
 select pn;
 </pre>
@@ -199,18 +199,18 @@ which simply returns all <code>PhoneNumber</code>|s created in the <code>SetupTe
 
 <p><code>NHQueryFactory</code> is the re-linq NHibernate Linq queryable factory which allows domain objects of the passed generic type to
 be queried through Linq; e.g. for <code>PhoneNumber</code> instances:
-<pre>NHQueryFactory.Queryable&lt;PhoneNumber></pre>
+<pre lang="cs">NHQueryFactory.Queryable&lt;PhoneNumber></pre>
 In the case of NHibernate it has to be passed the <code>NHibernate.ISession</code> to use.
 
 <p>For testing purposes, <code>CreateNHQuery(session, query.Expression).QueryString</code> gives the HQL query string 
 corresponding to the Linq <code>query</code>, which equals 
-<pre>"select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"</pre>
+<pre lang="cs">"select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"</pre>
 Executing the <code>query</code> directly gives all 5 <code>PhoneNumber</code>|s in the test domain, as expected.
 
 <p>The implementation shows that re-linq does most of the work for us. All we have to do is override <code>VisitMainFromClause</code> and 
 <code>VisitSelectClause</code> in <code>HqlGeneratorQueryModelVisitor</code> (which derives from re-linq's <code>QueryModelVisitorBase</code>), with
 the following trivial implementation. 
-<pre>
+<pre lang="cs">
 public override void VisitMainFromClause (MainFromClause fromClause, QueryModel queryModel)
 {
   _queryParts.AddFromPart (fromClause);
@@ -228,13 +228,13 @@ different query components of the same type
 (e.g. <code>from</code>-statements) and emits them in the correct order at the end.
 
 <p>The <code>from</code>-statement is just stored:
-<pre>
+<pre lang="cs">
 public string SelectPart { get; set; }
 </pre>
 
 <p>
 In the case of the <code>from</code>-statement, it also handles emission of the correct HQL-alias-syntax:
-<pre>
+<pre lang="cs">
 public void AddFromPart (IQuerySource querySource)
 {
   FromParts.Add (string.Format ("{0} as {1}", GetEntityName (querySource), querySource.ItemName));
@@ -248,14 +248,14 @@ Note that this is easy to do, since re-linq already supplies us with the informa
 
 The next test introduces the <code>where</code>-statement and the equality comparison operator:
 
-<pre>
+<pre lang="cs">
 from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
   where pn.CountryCode == "11111"
   select pn;
 </pre>
 
 The implementation is as straightforward as above:
-<pre>
+<pre lang="cs">
 public override void VisitWhereClause (WhereClause whereClause, QueryModel queryModel, int index)
 {
   _queryParts.AddWherePart (GetHqlExpression (whereClause.Predicate));
@@ -267,7 +267,7 @@ public override void VisitWhereClause (WhereClause whereClause, QueryModel query
 <code>ThrowingExpressionTreeVisitor</code>, aptly named since he throws when he encounters an expression for which no
 handler has been implemented.), which handles e.g. binary expression evaluation; in the case of the equality operator:
 
-<pre>
+<pre lang="cs">
 protected override Expression VisitBinaryExpression (BinaryExpression expression)
 {
   _hqlExpression.Append ("(");
@@ -302,7 +302,7 @@ protected override Expression VisitBinaryExpression (BinaryExpression expression
 <h3>Binary Expressions</h3>
 
 Other binary expressions can be handled as trivially as the equality-operator:
-<pre>
+<pre lang="cs">
     case ExpressionType.Equal:
       _hqlExpression.Append (" = ");
       break;
@@ -331,7 +331,7 @@ Other binary expressions can be handled as trivially as the equality-operator:
 
 <h3>join Clause</h3>
 Implementing <code>join</code>-operations also takes only a few lines of code: 
-<pre>
+<pre lang="cs">
 public override void VisitJoinClause (JoinClause joinClause, QueryModel queryModel, int index)
 {
   _queryParts.AddFromPart (joinClause);
@@ -350,7 +350,7 @@ Where again the <code>VisitJoinClause</code> call is executed by re-linq.
 
 The following shows the implementation of a method call, in this case the test whether a string contains the given substring; the 
 call to <code>Contains</code> is transformed into the SQL/HQL "<code>like %</code>&lt;substring><code>%</code>" syntax:
-<pre>
+<pre lang="cs">
 protected override Expression VisitMethodCallExpression (MethodCallExpression expression)
 {
   var supportedMethod = typeof (string).GetMethod ("Contains");
@@ -377,7 +377,7 @@ which emits the information collected by the two visitors in the correct HQL ord
 (<code>SeparatedStringBuilder.Build</code> is a re-motion helper method which simply concatenates together strings from an enumerable, separating
 them with its first argument):
 
-<pre>
+<pre lang="cs">
 public string BuildHQLString ()
 {
   var stringBuilder = new StringBuilder ();
