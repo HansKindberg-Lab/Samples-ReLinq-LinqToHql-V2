@@ -39,15 +39,15 @@ CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
 <!--  Fill in the details (CodeProject will reformat this section for you) -->
 
 <pre lang="cs">
-Title:       Just 4 Hours to re-linq|ish the Pain: Implementing a Non-trivial Linq Provider on the Example of NHibernate
+Title:       Just 4 Hours to re-linq|ish the Pain: Implementing a Non-trivial LINQ Provider on the Example of NHibernate
 Author:      Markus Giegl 
 Email:       markus.giegl@rubicon.eu
 Member ID:   6161754
 Language:    C# 3.0
 Platform:    .NET 3.5
-Technology:  Linq, NHibernate, re-motion
+Technology:  LINQ, NHibernate, re-motion
 Level:       Intermediate
-Description: This article shows how to use the open source re-linq library to easily implement a powerful Linq provider on the example of Linq to NHibernate HQL.
+Description: This article shows how to use the open source re-linq library to easily implement a powerful LINQ provider on the example of LINQ to NHibernate HQL.
 Section      Platforms, Frameworks & Libraries
 SubSection   LINQ
 License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
@@ -72,7 +72,7 @@ The reason for this is that .NET does not provide a LINQ provider with the LINQ 
 C# source code (from-where-select etc.), but instead in the form of an abstract syntax tree. Unfortunately this abstract syntax tree is not well suited to transforming the query expression to typical query languages (the implementation effort can easily reach several man months for a single specific LINQ provider; in addition only very little code reuse is possible between different LINQ providers based directly on the abstract syntax tree representation).
 
 <p>
-The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source <a href="http://www.re-motion.org">re-motion</a> framework supplies a commercial class Linq provider library in the form of its re-linq component, that transforms the abstract syntax tree back to an object model that represents the LINQ query expression in a form much closer to typical query languages (In fact, re-linq can even transform hand-made abstract syntax trees into a semantically identical representation in query expression syntax). Using the re-linq provided representation, one can easily create powerful LINQ providers that emit queries in any number of query languages, including SQL, NHibernate's HQL, XQuery or Entity Framework's Entity SQL.
+The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source <a href="http://www.re-motion.org">re-motion</a> framework supplies a commercial class LINQ provider library in the form of its re-linq component, that transforms the abstract syntax tree back to an object model that represents the LINQ query expression in a form much closer to typical query languages (In fact, re-linq can even transform hand-made abstract syntax trees into a semantically identical representation in query expression syntax). Using the re-linq provided representation, one can easily create powerful LINQ providers that emit queries in any number of query languages, including SQL, NHibernate's HQL, XQuery or Entity Framework's Entity SQL.
 
 <p> 
 Moreover, re-linq provides a flexible query model that lets you modify existing queries before generating code in a target query language. This allows you to create and modify queries from application code, but also to share transformation methods between different LINQ providers based on re-linq. For more information on this addvanced topic see "Transforming queries" in the <a href="http://www.re-motion.org/blogs/mix/archive/2009/09/02/how-to-write-a-linq-provider-the-simple-way-again.aspx">"How to write a LINQ provider - the simple way"-blog-post</a>, which also goes into more detail on how to implement a general re-linq based LINQ provider.
@@ -80,14 +80,14 @@ Moreover, re-linq provides a flexible query model that lets you modify existing 
 
 <h2>Why re-linq</h2>
 
-Existing Linq provider implementations (such as Microsoft's Linq2SQL) typically work by transforming the Linq tree representation to another 
+Existing LINQ provider implementations (such as Microsoft's Linq2SQL) typically work by transforming the LINQ tree representation to another 
 query language in many small steps. This approach has several drawbacks: For instance it requires a wealth of up-front knowledge
-about what tree combinations are actually possible, in addition to requiring a deep knowledge on the exact workings of how Linq works internally. 
+about what tree combinations are actually possible, in addition to requiring a deep knowledge on the exact workings of how LINQ works internally. 
 It also leads to implementations which are tightly coupled to the target query language, i.e. there is very little 
-potential for generically resuable code parts: You have to start every Linq provider from scratch.
+potential for generically resuable code parts: You have to start every LINQ provider from scratch.
 
-<p>The TDD developed re-linq open source Linq provider library takes a different approach: It transforms the Linq query into an internal C#-LINQ-like model, 
-which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of Linq provider a straightforward task.
+<p>The TDD developed re-linq open source LINQ provider library takes a different approach: It transforms the LINQ query into an internal C#-LINQ-like model, 
+which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of LINQ provider a straightforward task.
 
 <p>
 You can find more on the inner workings of re-linq and its design philosophy in the <a href="http://www.re-motion.org/download/re-linq.pdf">re-linq whitepaper</a>. 
@@ -96,10 +96,10 @@ You can find more on the inner workings of re-linq and its design philosophy in 
 
 <h2>Background</h2>
 
-<p>To understand this article you will need to have a basic knowledge of Microsoft <a href="http://en.wikipedia.org/wiki/Linq">Linq</a> technology. 
-The article describes how to implement a Linq provider for <a href="http://en.wikipedia.org/wiki/NHibernate">NHibernate</a>, so
+<p>To understand this article you will need to have a basic knowledge of Microsoft <a href="http://en.wikipedia.org/wiki/Linq">LINQ</a> technology. 
+The article describes how to implement a LINQ provider for <a href="http://en.wikipedia.org/wiki/NHibernate">NHibernate</a>, so
 it is beneficial if you know the Hibernate Query Language (HQL); however, due to the syntactic similarity of HQL to SQL, the principles
-shown in the sample can easily be translated into using re-linq to implement a SQL Linq provider instead (even most of the code will be identical).
+shown in the sample can easily be translated into using re-linq to implement a SQL LINQ provider instead (even most of the code will be identical).
 <p>Knowing the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor pattern</a> is not required, but might aid in understanding the 
 workings of re-linq.
 
@@ -149,25 +149,25 @@ You will also need to create the sample DB given under Catalog="...", which defa
 
 <h2>Fast Forward</h2>
 If you are an expert and would rather dig into the code right now, here is a quick rundown of how the sample works:
-<code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific Linq <code>IQueryable&lt;T></code>.
+<code>NHQueryFactory</code> creates  <code>NHQueryable&lt;T></code>, the NHibernate specific LINQ <code>IQueryable&lt;T></code>.
 <code>NHQueryable&lt;T></code> creates and holds a <code>NHQueryExecutor</code>, which forms the bridge between re-linq and the
 concrete query provider implementation through its <code>ExecuteScalar&lt;T></code>, <code>ExecuteSingle&lt;T></code> and 
-<code>ExecuteCollection&lt;T></code> methods. For the NHibernate Linq provider it suffices for <code>ExecuteScalar&lt;T></code> and
+<code>ExecuteCollection&lt;T></code> methods. For the NHibernate LINQ provider it suffices for <code>ExecuteScalar&lt;T></code> and
 <code>ExecuteSingle&lt;T></code> to basically forward to <code>ExecuteCollection&lt;T></code>; <code>ExecuteCollection&lt;T></code> in turn uses a 
 <code>HqlGeneratorQueryModelVisitor</code> to traverse the re-linq <code>QueryModel</code> and retrieve the resulting
 HQL query string. 
 
-<p>The <code>HqlGeneratorQueryModelVisitor</code> contains the specific Linq provider code which creates the resulting HQL for the Linq
+<p>The <code>HqlGeneratorQueryModelVisitor</code> contains the specific LINQ provider code which creates the resulting HQL for the LINQ
 <code>select</code>, <code>from</code>, <code>where</code>, <code>orderby</code>, <code>join</code>, etc commands through
 its <code>VisitSelectClause</code>, <code>VisitWhereClause</code>, etc methods. 
-Internally, it uses an (also Linq-provider-specific) <code>HqlGeneratorExpressionTreeVisitor</code> to process different Linq expressions, such as
+Internally, it uses an (also LINQ-provider-specific) <code>HqlGeneratorExpressionTreeVisitor</code> to process different LINQ expressions, such as
 binary expressions (<code>Equal</code>, <code>Add</code>,  <code>Multiply</code>,...), member access (<code>person.Location</code>), 
 method calls (<code>person.FirstName.Contains("John")</code>), etc through its 
 <code>VisitBinaryExpression</code>, <code>VisitMemberExpression</code>,... methods.
-These two classes constitute the heart of any specific re-linq based Linq provider.
+These two classes constitute the heart of any specific re-linq based LINQ provider.
 
 <p><code>HqlGeneratorQueryModelVisitor</code> internally uses a <code>QueryPartsAggregator</code> to collect multiple <code>from</code>, 
-<code>where</code>, etc statements and emit them in the correct HQL order. This is necessary, since Linq is much more flexible than HQL 
+<code>where</code>, etc statements and emit them in the correct HQL order. This is necessary, since LINQ is much more flexible than HQL 
 (or SQL) with regards to the order of operations (<code>QueryPartsAggregator</code> might be moved to re-linq or the 
 <a href="https://svn.re-motion.org/svn/Remotion-Contrib">re-motion contrib library</a> in the future).
 
@@ -189,20 +189,20 @@ how to persist instances of our test domain in the DBMS, and how to query them u
 After having set up the DB, open the file "IntegrationTests.cs" in <code>NHibernate.ReLinq.Sample.UnitTests</code>. It contains typical NHibernate
 setup and teardown code, making sure that the tests do not interfere with each other. Scroll down until you come to the first <code>[Test]</code>,
 <code>SelectFrom()</code>.
-The test shows the simplest possible Linq query:
+The test shows the simplest possible LINQ query:
 <pre lang="cs">
 from pn in NHQueryFactory.Queryable<PhoneNumber> (session) 
 select pn;
 </pre>
 which simply returns all <code>PhoneNumber</code>|s created in the <code>SetupTestData()</code> method.
 
-<p><code>NHQueryFactory</code> is the re-linq NHibernate Linq queryable factory which allows domain objects of the passed generic type to
-be queried through Linq; e.g. for <code>PhoneNumber</code> instances:
+<p><code>NHQueryFactory</code> is the re-linq NHibernate LINQ queryable factory which allows domain objects of the passed generic type to
+be queried through LINQ; e.g. for <code>PhoneNumber</code> instances:
 <pre lang="cs">NHQueryFactory.Queryable&lt;PhoneNumber></pre>
 In the case of NHibernate it has to be passed the <code>NHibernate.ISession</code> to use.
 
 <p>For testing purposes, <code>CreateNHQuery(session, query.Expression).QueryString</code> gives the HQL query string 
-corresponding to the Linq <code>query</code>, which equals 
+corresponding to the LINQ <code>query</code>, which equals 
 <pre lang="cs">"select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn"</pre>
 Executing the <code>query</code> directly gives all 5 <code>PhoneNumber</code>|s in the test domain, as expected.
 
@@ -371,7 +371,7 @@ protected override Expression VisitMethodCallExpression (MethodCallExpression ex
 
 
 <h3>Putting it all Together</h3>
-The final step to finish the Linq to NHibernate query transformation is the call to <code>QueryPartsAggregator</code> <code>BuildHQLString</code>,
+The final step to finish the LINQ to NHibernate query transformation is the call to <code>QueryPartsAggregator</code> <code>BuildHQLString</code>,
 which emits the information collected by the two visitors in the correct HQL order. The implementation, again, is straightforward 
 (<code>SeparatedStringBuilder.Build</code> is a re-motion helper method which simply concatenates together strings from an enumerable, separating
 them with its first argument):
@@ -401,15 +401,15 @@ public string BuildHQLString ()
 
 <h3>The Rest</h3>
 The examples above are about as complex as it gets, you should now have a good idea of how to go about
-writing a Linq provider based on re-linq. For further exploration please have a look at the
+writing a LINQ provider based on re-linq. For further exploration please have a look at the
 demo project (download link at top of page).
 
 
 
 <h2>[Teardown]</h2>
 In this article we have shown how the <a href="http://www.re-motion.org/">re-motion</a> re-linq library can be used to easily
-implement feature rich Linq providers with little effort. 
-re-linq makes it easy to do so, since it encapsulates the complex Linq parsing algorithms and provides a easily digestible model of the query, 
+implement feature rich LINQ providers with little effort. 
+re-linq makes it easy to do so, since it encapsulates the complex LINQ parsing algorithms and provides a easily digestible model of the query, 
 ready to be transformed by the two provider specific <code>HqlGeneratorQueryModelVisitor</code> and <code>HqlGeneratorExpressionTreeVisitor</code> visitor classes. 
 
 <p><code>// May all your tests be green.</code>
