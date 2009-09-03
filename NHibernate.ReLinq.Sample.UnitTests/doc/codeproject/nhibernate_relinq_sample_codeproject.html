@@ -138,9 +138,8 @@ select l;
 <h2>[Setup]</h2>
 
 <p>Before you get started you will need to download and unzip the sample sourcecode. 
-Then open the "DomainObjects.hbm.xml" file in the <code>NHibernate.ReLinq.Sample.UnitTests</code> project and adapt the 
-DBMS connection data to your DBMS.
-You will also need to create the sample DB given under Catalog="...", which defaults to "NHibernate_ReLinq".
+If you want to execute the tests you then need to open the "hibernate.cfg.xml" file in the <code>NHibernate.ReLinq.Sample.UnitTests</code> project and adapt the DBMS connection data to your DBMS.
+You will also need to create the sample DB given under Initial Catalog="...", which defaults to "NHibernate_ReLinq".
 
 <p>Note that while re-linq is implemented following TDD principles, the sample code is only an integration test spike 
 (It can be a good exercise for someone getting started with TDD to turn the spike into a TDD implementation). 
@@ -405,6 +404,13 @@ writing a LINQ provider based on re-linq. For further exploration please have a 
 demo project (download link at top of page).
 
 
+<h2>
+Troubleshooting
+</h2>
+Q: If I execute the tests, all tests fail. What gives ?
+<br />
+A: Please check if you created the "NHibernate_ReLinq" DB in your DBMS and adapted the "hibernate.cfg.xml" file.
+
 
 <h2>[Teardown]</h2>
 In this article we have shown how the <a href="http://www.re-motion.org/">re-motion</a> re-linq library can be used to easily
@@ -415,6 +421,7 @@ ready to be transformed by the two provider specific <code>HqlGeneratorQueryMode
 <p><code>// May all your tests be green.</code>
 <br/><code>Cleanup();</code>
 <br/><code>// Ma;-)rkus</code>
+
 
 
 <h2>History</h2>
