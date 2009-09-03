@@ -235,7 +235,8 @@ In the case of the <code>from</code>-statement, it also handles emission of the 
 <pre lang="cs">
 public void AddFromPart (IQuerySource querySource)
 {
-  FromParts.Add (string.Format ("{0} as {1}", GetEntityName (querySource), querySource.ItemName));
+  FromParts.Add (string.Format ("{0} as {1}", GetEntityName (querySource), 
+  querySource.ItemName));
 }
 </pre>
 Note that this is easy to do, since re-linq already supplies us with the information we need.
@@ -254,7 +255,8 @@ from pn in NHQueryFactory.Queryable<PhoneNumber> (session)
 
 The implementation is as straightforward as above:
 <pre lang="cs">
-public override void VisitWhereClause (WhereClause whereClause, QueryModel queryModel, int index)
+public override void VisitWhereClause (WhereClause whereClause, 
+  QueryModel queryModel, int index)
 {
   _queryParts.AddWherePart (GetHqlExpression (whereClause.Predicate));
   base.VisitWhereClause (whereClause, queryModel, index);
@@ -330,7 +332,8 @@ Other binary expressions can be handled as trivially as the equality-operator:
 <h3>join Clause</h3>
 Implementing <code>join</code>-operations also takes only a few lines of code: 
 <pre lang="cs">
-public override void VisitJoinClause (JoinClause joinClause, QueryModel queryModel, int index)
+public override void VisitJoinClause (JoinClause joinClause, 
+  QueryModel queryModel, int index)
 {
   _queryParts.AddFromPart (joinClause);
   _queryParts.AddWherePart (
@@ -381,16 +384,20 @@ public string BuildHQLString ()
   var stringBuilder = new StringBuilder ();
 
   if (string.IsNullOrEmpty (SelectPart) || FromParts.Count == 0)
-    throw new InvalidOperationException ("A query must have a select part and at least one from part.");
+    throw new InvalidOperationException (
+      "A query must have a select part and at least one from part.");
 
   stringBuilder.AppendFormat ("select {0}", SelectPart);
-  stringBuilder.AppendFormat (" from {0}", SeparatedStringBuilder.Build (", ", FromParts));
+  stringBuilder.AppendFormat (" from {0}", 
+    SeparatedStringBuilder.Build (", ", FromParts));
 
   if (WhereParts.Count > 0)
-    stringBuilder.AppendFormat (" where {0}", SeparatedStringBuilder.Build (" and ", WhereParts));
+    stringBuilder.AppendFormat (" where {0}", 
+      SeparatedStringBuilder.Build (" and ", WhereParts));
 
   if (OrderByParts.Count > 0)
-    stringBuilder.AppendFormat (" order by {0}", SeparatedStringBuilder.Build (", ", OrderByParts));
+    stringBuilder.AppendFormat (" order by {0}", 
+      SeparatedStringBuilder.Build (", ", OrderByParts));
 
   return stringBuilder.ToString ();
 }
