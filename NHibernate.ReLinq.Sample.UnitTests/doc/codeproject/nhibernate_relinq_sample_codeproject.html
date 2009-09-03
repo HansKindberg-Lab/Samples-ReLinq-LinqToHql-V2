@@ -42,7 +42,7 @@ CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
 Title:       Just 4 Hours to re-linq|ish the Pain: Implementing a Non-trivial Linq Provider on the Example of NHibernate
 Author:      Markus Giegl 
 Email:       markus.giegl@rubicon.eu
-Member ID:   ?????
+Member ID:   6161754
 Language:    C# 3.0
 Platform:    .NET 3.5
 Technology:  Linq, NHibernate, re-motion
@@ -67,13 +67,12 @@ License:     <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPL</a>
 <h2>Introduction</h2>
 
 <p>
-While a lot of free LINQ providers exist, most just provide very basic functionality and fail at even mildly complex queries.
-The reason for this is that .NET does not provide a LINQ provider with the LINQ query syntax most people use in their 
-source code (from-where-select etc.), but instead as an abstract syntax tree. However, most LINQ providers need to transform the query expression to some other query language, for the abstract syntax tree representation is not well suited (efforts easily reach several man-months for just one specific LINQ provider).
+While a lot of free LINQ providers exist, they typically provide only basic functionality and fail at even mildly complex queries.
+The reason for this is that .NET does not provide a LINQ provider with the LINQ query in the syntax most people use in their 
+C# source code (from-where-select etc.), but instead in the form of an abstract syntax tree. Unfortunately this abstract syntax tree is not well suited to transforming the query expression to typical query languages (the implementation effort can easily reach several man months for a single specific LINQ provider; in addition only very little code reuse is possible between different LINQ providers based directly on the abstract syntax tree representation).
 
 <p>
-The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source <a href="http://www.re-motion.org">re-motion</a> framework supplies a commercial class Linq provider library in the form of its re-linq component.
-re-linq transforms the abstract syntax tree back to an object model that represents the LINQ query expression in a form much closer to typical query languages (In fact, re-linq can even transform hand-made abstract syntax trees into a semantically identical representation in query expression syntax). Using the re-linq provided representation, one can easily create powerful LINQ providers that emit queries in any number of query languages, including SQL, NHibernate's HQL, XQuery or Entity Framework's Entity SQL.
+The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source <a href="http://www.re-motion.org">re-motion</a> framework supplies a commercial class Linq provider library in the form of its re-linq component, that transforms the abstract syntax tree back to an object model that represents the LINQ query expression in a form much closer to typical query languages (In fact, re-linq can even transform hand-made abstract syntax trees into a semantically identical representation in query expression syntax). Using the re-linq provided representation, one can easily create powerful LINQ providers that emit queries in any number of query languages, including SQL, NHibernate's HQL, XQuery or Entity Framework's Entity SQL.
 
 <p> 
 Moreover, re-linq provides a flexible query model that lets you modify existing queries before generating code in a target query language. This allows you to create and modify queries from application code, but also to share transformation methods between different LINQ providers based on re-linq. For more information on this addvanced topic see "Transforming queries" in the <a href="http://www.re-motion.org/blogs/mix/archive/2009/09/02/how-to-write-a-linq-provider-the-simple-way-again.aspx">"How to write a LINQ provider - the simple way"-blog-post</a>, which also goes into more detail on how to implement a general re-linq based LINQ provider.
@@ -87,7 +86,7 @@ about what tree combinations are actually possible, in addition to requiring a d
 It also leads to implementations which are tightly coupled to the target query language, i.e. there is very little 
 potential for generically resuable code parts: You have to start every Linq provider from scratch.
 
-<p>The TDD developed re-linq open source Linq provider library takes a different approach: It transforms the Linq query into an internal C#-like model, 
+<p>The TDD developed re-linq open source Linq provider library takes a different approach: It transforms the Linq query into an internal C#-LINQ-like model, 
 which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of Linq provider a straightforward task.
 
 <p>
