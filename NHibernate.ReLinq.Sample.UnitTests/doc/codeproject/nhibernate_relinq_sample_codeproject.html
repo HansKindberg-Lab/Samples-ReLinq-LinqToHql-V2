@@ -15,7 +15,7 @@ C# source code (from-where-select etc.), but instead in the form of an abstract 
 The <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> developed open source <a href="http://www.re-motion.org">re-motion</a> framework supplies a commercial class LINQ provider library in the form of its re-linq component, that transforms the abstract syntax tree back to an object model that represents the LINQ query expression in a form much closer to typical query languages (In fact, re-linq can even transform hand-made abstract syntax trees into a semantically identical representation in query expression syntax). Using the re-linq provided representation, one can easily create powerful LINQ providers that emit queries in any number of query languages, including SQL, NHibernate's HQL, XQuery or Entity Framework's Entity SQL.
 
 <p> 
-Moreover, re-linq provides a flexible query model that lets you modify existing queries before generating code in a target query language. This allows you to create and modify queries from application code, but also to share transformation methods between different LINQ providers based on re-linq. For more information on this addvanced topic see "Transforming queries" in the <a href="http://www.re-motion.org/blogs/mix/archive/2009/09/02/how-to-write-a-linq-provider-the-simple-way-again.aspx">"How to write a LINQ provider - the simple way"-blog-post</a>, which also goes into more detail on how to implement a general re-linq based LINQ provider.
+Moreover, re-linq provides a flexible query model that lets you modify existing queries before generating code in a target query language. This allows you to create and modify queries from application code, but also to share transformation methods between different LINQ providers based on re-linq. For more information on this advanced topic see "Transforming queries" in the <a href="http://www.re-motion.org/blogs/mix/archive/2009/09/02/how-to-write-a-linq-provider-the-simple-way-again.aspx">"How to write a LINQ provider - the simple way"-blog-post</a>, which also goes into more detail on how to implement a general re-linq based LINQ provider.
 
 
 <h2>Why re-linq</h2>
@@ -24,10 +24,10 @@ Existing LINQ provider implementations (such as Microsoft's Linq2SQL) typically 
 query language in many small steps. This approach has several drawbacks: For instance it requires a wealth of up-front knowledge
 about what tree combinations are actually possible, in addition to requiring a deep knowledge on the exact workings of how LINQ works internally. 
 It also leads to implementations which are tightly coupled to the target query language, i.e. there is very little 
-potential for generically resuable code parts: You have to start every LINQ provider from scratch.
+potential for generically reusable code parts: You have to start every LINQ provider from scratch.
 
 <p>The re-linq open source LINQ provider library takes a different approach: It transforms the LINQ query into an internal C#-LINQ-like model, 
-which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumeable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of LINQ provider a straightforward task.
+which is easier to understand and therefore to translate. re-linq requires the implementer to just override some methods in two visitor classes, which re-linq feeds with easily consumable parameters, while the whole tree traversal is handled in the background. This makes implementing any kind of LINQ provider a straightforward task.
 
 <p>
 You can find more on the inner workings of re-linq and its design philosophy in the <a href="http://www.re-motion.org/download/re-linq.pdf">re-linq whitepaper</a>. 
@@ -77,7 +77,7 @@ select l;
 
 <h2>[Setup]</h2>
 
-<p>Before you get started you will need to download and unzip the sample sourcecode. 
+<p>Before you get started you will need to download and unzip the sample source code. 
 If you want to execute the tests you then need to open the "hibernate.cfg.xml" file in the <code>NHibernate.ReLinq.Sample.UnitTests</code> project and adapt the DBMS connection data to your DBMS.
 You will also need to create the sample DB given under Initial Catalog="...", which defaults to "NHibernate_ReLinq".
 
