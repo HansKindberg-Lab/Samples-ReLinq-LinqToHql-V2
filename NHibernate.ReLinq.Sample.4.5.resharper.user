@@ -14,51 +14,50 @@
       <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:CommandData.cs" caret="0" fromTop="0" />
       <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:NamedParameter.cs" caret="0" fromTop="0" />
       <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:ParameterAggregator.cs" caret="0" fromTop="0" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryable.cs" caret="1355" fromTop="33" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryExecutor.cs" caret="2227" fromTop="52" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryable.cs" caret="890" fromTop="33" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryExecutor.cs" caret="1762" fromTop="52" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:DomainObjects/f:Location.cs" caret="0" fromTop="0" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:DomainObjects/f:Person.cs" caret="1292" fromTop="28" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:DomainObjects/f:PhoneNumber.cs" caret="0" fromTop="0" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:hibernate.cfg.xml" caret="0" fromTop="0" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:Mappings/f:DomainObjects.hbm.xml" caret="0" fromTop="0" />
       <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:IntegrationTests.cs" caret="4910" fromTop="15" />
       <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/f:NHQueryFactory.cs" caret="0" fromTop="0" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:QueryParts.cs" caret="1462" fromTop="22" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4098" fromTop="29" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2623" fromTop="41" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="796" fromTop="13" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="3633" fromTop="29" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="532" fromTop="13" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/f:hibernate.cfg.xml" caret="540" fromTop="6" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="17434" fromTop="350" />
     </RecentFiles>
     <RecentEdits>
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="13963" fromTop="40" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="14805" fromTop="37" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorExpressionTreeVisitor.cs" caret="4706" fromTop="55" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="14679" fromTop="35" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="16074" fromTop="52" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2234" fromTop="42" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="15421" fromTop="27" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="15907" fromTop="36" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2623" fromTop="37" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="1910" fromTop="17" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="3921" fromTop="40" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="4402" fromTop="44" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="4977" fromTop="45" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="5163" fromTop="33" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="5163" fromTop="39" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="5163" fromTop="46" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="5163" fromTop="24" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="5786" fromTop="35" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="8084" fromTop="48" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="8731" fromTop="47" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="9178" fromTop="46" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="10911" fromTop="49" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="11215" fromTop="54" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="11598" fromTop="52" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="13270" fromTop="38" />
-      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2623" fromTop="41" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="1023" fromTop="33" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="1021" fromTop="21" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="6641" fromTop="48" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="7288" fromTop="47" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="7735" fromTop="46" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="9468" fromTop="49" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="9782" fromTop="54" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="10175" fromTop="52" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="539" fromTop="33" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="537" fromTop="21" />
       <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="433" fromTop="15" />
-      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="1019" fromTop="17" />
+      <File id="58908F3F-5961-4666-AF85-5AFE7BBC7828/d:HqlQueryGeneration/f:HqlGeneratorQueryModelVisitor.cs" caret="535" fromTop="17" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2458" fromTop="19" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2458" fromTop="19" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2458" fromTop="9" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="0" fromTop="28" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="18298" fromTop="22" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="17551" fromTop="17" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="17660" fromTop="17" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="11966" fromTop="22" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="12526" fromTop="20" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="14679" fromTop="20" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="17078" fromTop="37" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="16799" fromTop="30" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="16625" fromTop="27" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="0" fromTop="0" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="130" fromTop="1" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="18372" fromTop="33" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="2134" fromTop="17" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="3452" fromTop="14" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="5606" fromTop="19" />
+      <File id="0DD578B0-AC74-44FB-877E-318F45544251/d:doc/d:codeproject/f:nhibernate_relinq_sample_codeproject.html" caret="12784" fromTop="350" />
     </RecentEdits>
   </RecentFiles>
   <UnitTestRunner>
