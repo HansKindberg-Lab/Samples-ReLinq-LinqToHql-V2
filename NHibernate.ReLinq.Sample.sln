@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.ReLinq.Sample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.ReLinq.Sample.UnitTests", "NHibernate.ReLinq.Sample.UnitTests\NHibernate.ReLinq.Sample.UnitTests.csproj", "{0DD578B0-AC74-44FB-877E-318F45544251}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{70BBE979-171C-4B81-83AC-14BFEE01E8F6}"
+	ProjectSection(SolutionItems) = preProject
+		doc\codeproject\nhibernate_relinq_sample_codeproject.html = doc\codeproject\nhibernate_relinq_sample_codeproject.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
