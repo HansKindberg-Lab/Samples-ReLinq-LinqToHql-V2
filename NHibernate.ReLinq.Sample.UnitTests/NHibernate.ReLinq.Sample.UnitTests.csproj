@@ -113,6 +113,11 @@
     <EmbeddedResource Include="Mappings\DomainObjects.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\MIT.licenseheader">
+      <Link>MIT.licenseheader</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
