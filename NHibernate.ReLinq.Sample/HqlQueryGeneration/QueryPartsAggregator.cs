@@ -9,6 +9,7 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,57 +18,69 @@ using Remotion.Text;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class QueryPartsAggregator
-  {
-    public QueryPartsAggregator()
-    {
-      FromParts = new List<string> ();
-      WhereParts = new List<string> ();
-      OrderByParts = new List<string> ();
-    }
+	public class QueryPartsAggregator
+	{
+		#region Constructors
 
-    public string SelectPart { get; set; }
-    private List<string> FromParts { get; set; }
-    private List<string> WhereParts { get; set; }
-    private List<string> OrderByParts { get; set; }
+		public QueryPartsAggregator ()
+		{
+			this.FromParts = new List<string>();
+			this.WhereParts = new List<string>();
+			this.OrderByParts = new List<string>();
+		}
 
-    public void AddFromPart (IQuerySource querySource)
-    {
-      FromParts.Add (string.Format ("{0} as {1}", GetEntityName (querySource), querySource.ItemName));
-    }
+		#endregion
 
-    public void AddWherePart (string formatString, params object[] args)
-    {
-      WhereParts.Add (string.Format (formatString, args));
-    }
+		#region Properties
 
-    public void AddOrderByPart (IEnumerable<string> orderings)
-    {
-      OrderByParts.Insert (0, SeparatedStringBuilder.Build (", ", orderings));
-    }
+		private List<string> FromParts { get; }
+		private List<string> OrderByParts { get; }
+		public string SelectPart { get; set; }
+		private List<string> WhereParts { get; }
 
-    public string BuildHQLString ()
-    {
-      var stringBuilder = new StringBuilder ();
+		#endregion
 
-      if (string.IsNullOrEmpty (SelectPart) || FromParts.Count == 0)
-        throw new InvalidOperationException ("A query must have a select part and at least one from part.");
+		#region Methods
 
-      stringBuilder.AppendFormat ("select {0}", SelectPart);
-      stringBuilder.AppendFormat (" from {0}", SeparatedStringBuilder.Build (", ", FromParts));
+		public void AddFromPart (IQuerySource querySource)
+		{
+			this.FromParts.Add (string.Format ("{0} as {1}", this.GetEntityName (querySource), querySource.ItemName));
+		}
 
-      if (WhereParts.Count > 0)
-        stringBuilder.AppendFormat (" where {0}", SeparatedStringBuilder.Build (" and ", WhereParts));
+		public void AddOrderByPart (IEnumerable<string> orderings)
+		{
+			this.OrderByParts.Insert (0, SeparatedStringBuilder.Build (", ", orderings));
+		}
 
-      if (OrderByParts.Count > 0)
-        stringBuilder.AppendFormat (" order by {0}", SeparatedStringBuilder.Build (", ", OrderByParts));
+		public void AddWherePart (string formatString, params object[] args)
+		{
+			this.WhereParts.Add (string.Format (formatString, args));
+		}
 
-      return stringBuilder.ToString ();
-    }
+		public string BuildHQLString ()
+		{
+			var stringBuilder = new StringBuilder();
 
-    private string GetEntityName (IQuerySource querySource)
-    {
-      return NHibernateUtil.Entity (querySource.ItemType).Name;
-    }
-  }
+			if(string.IsNullOrEmpty (this.SelectPart) || this.FromParts.Count == 0)
+				throw new InvalidOperationException ("A query must have a select part and at least one from part.");
+
+			stringBuilder.AppendFormat ("select {0}", this.SelectPart);
+			stringBuilder.AppendFormat (" from {0}", SeparatedStringBuilder.Build (", ", this.FromParts));
+
+			if(this.WhereParts.Count > 0)
+				stringBuilder.AppendFormat (" where {0}", SeparatedStringBuilder.Build (" and ", this.WhereParts));
+
+			if(this.OrderByParts.Count > 0)
+				stringBuilder.AppendFormat (" order by {0}", SeparatedStringBuilder.Build (", ", this.OrderByParts));
+
+			return stringBuilder.ToString();
+		}
+
+		private string GetEntityName (IQuerySource querySource)
+		{
+			return NHibernateUtil.Entity (querySource.ItemType).Name;
+		}
+
+		#endregion
+	}
 }

@@ -9,17 +9,28 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
+using System;
+
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class NamedParameter
-  {
-    public NamedParameter (string name, object value)
-    {
-      Name = name;
-      Value = value;
-    }
+	public class NamedParameter
+	{
+		#region Constructors
 
-    public string Name { get; set; }
-    public object Value { get; set; }
-  }
+		public NamedParameter (string name, object value)
+		{
+			this.Name = name;
+			this.Value = value;
+		}
+
+		#endregion
+
+		#region Properties
+
+		public string Name { get; set; }
+		public object Value { get; set; }
+
+		#endregion
+	}
 }

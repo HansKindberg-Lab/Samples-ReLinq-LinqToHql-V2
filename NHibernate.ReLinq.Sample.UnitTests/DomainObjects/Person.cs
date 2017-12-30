@@ -9,6 +9,7 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
 using System;
 using System.Collections.Generic;
 using Remotion.Collections;
@@ -16,82 +17,84 @@ using Remotion.Diagnostics.ToText;
 
 namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 {
-  public class Person : IToTextConvertible
-  {
-    public virtual Guid NHibernateId { get; protected set; }
-    public virtual string FirstName { get; set; }
-    public virtual string Surname { get; set; }
-    public virtual Location Location { get; set; }
+	public class Person : IToTextConvertible
+	{
+		#region Properties
 
-    public virtual IList<PhoneNumber> PhoneNumbers { get; set; }
+		public virtual string FirstName { get; set; }
+		public virtual Location Location { get; set; }
+		public virtual Guid NHibernateId { get; protected set; }
+		public virtual IList<PhoneNumber> PhoneNumbers { get; set; }
+		public virtual string Surname { get; set; }
 
+		#endregion
 
-    public static Person NewObject()
-    {
-      var person = new Person();
-      person.PhoneNumbers = new List<PhoneNumber> ();
-      return person;  
-    }
+		#region Methods
 
-    public static Person NewObject (string FirstName, string Surname, Location Location)
-    {
-      var person = NewObject ();
-      person.FirstName = FirstName;
-      person.Surname = Surname;
-      person.Location = Location;
-      return person;
-    }
+		public virtual void AddPhoneNumber (PhoneNumber phoneNumber)
+		{
+			phoneNumber.Person = this;
+			this.PhoneNumbers.Add (phoneNumber);
+		}
 
+		public static Person NewObject ()
+		{
+			var person = new Person();
+			person.PhoneNumbers = new List<PhoneNumber>();
+			return person;
+		}
 
+		public static Person NewObject (string FirstName, string Surname, Location Location)
+		{
+			var person = NewObject();
+			person.FirstName = FirstName;
+			person.Surname = Surname;
+			person.Location = Location;
+			return person;
+		}
 
-    #region CompoundValueEqualityComparer
+		public virtual void RemovePhoneNumber (PhoneNumber phoneNumber)
+		{
+			this.PhoneNumbers.Remove (phoneNumber);
+		}
 
-    private static readonly CompoundValueEqualityComparer<Person> _equalityComparer =
-        new CompoundValueEqualityComparer<Person> (a => new object[] {
-                                                                         a.FirstName, a.Surname, a.Location, ComponentwiseEqualsAndHashcodeWrapper.New (a.PhoneNumbers)
-                                                                     });
+		#endregion
 
-    public override int GetHashCode ()
-    {
-      return _equalityComparer.GetHashCode (this);
-    }
+		#region CompoundValueEqualityComparer
 
-    public override bool Equals (object obj)
-    {
-      return _equalityComparer.Equals (this, obj);
-    }
+		private static readonly CompoundValueEqualityComparer<Person> _equalityComparer =
+				new CompoundValueEqualityComparer<Person> (
+						a => new object[]
+						     {
+								     a.FirstName, a.Surname, a.Location, ComponentwiseEqualsAndHashcodeWrapper.New (a.PhoneNumbers)
+						     });
 
-    #endregion
+		public override int GetHashCode ()
+		{
+			return _equalityComparer.GetHashCode (this);
+		}
 
+		public override bool Equals (object obj)
+		{
+			return _equalityComparer.Equals (this, obj);
+		}
 
-    #region ToString-ToText
+		#endregion
 
-    public virtual void ToText (IToTextBuilder toTextBuilder)
-    {
-      toTextBuilder.ib<Person> ().e (FirstName).e (Surname).e (Location).e (PhoneNumbers).ie ();
-    }
+		#region ToString-ToText
 
-    public override string ToString ()
-    {
-      var ttb = To.String;
-      ToText (ttb);
-      return ttb.ToString ();
-    }
+		public virtual void ToText (IToTextBuilder toTextBuilder)
+		{
+			toTextBuilder.ib<Person>().e (this.FirstName).e (this.Surname).e (this.Location).e (this.PhoneNumbers).ie();
+		}
 
-    #endregion
+		public override string ToString ()
+		{
+			var ttb = To.String;
+			this.ToText (ttb);
+			return ttb.ToString();
+		}
 
-
-
-    public virtual void AddPhoneNumber (PhoneNumber phoneNumber)
-    {
-      phoneNumber.Person = this;
-      PhoneNumbers.Add (phoneNumber);
-    }
-
-    public virtual void RemovePhoneNumber (PhoneNumber phoneNumber)
-    {
-      PhoneNumbers.Remove (phoneNumber);
-    }
-
-  }
+		#endregion
+	}
 }

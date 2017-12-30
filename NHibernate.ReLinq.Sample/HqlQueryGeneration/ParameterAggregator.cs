@@ -9,24 +9,34 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
+using System;
 using System.Collections.Generic;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class ParameterAggregator
-  {
-    private readonly List<NamedParameter> _parameters = new List<NamedParameter> ();
+	public class ParameterAggregator
+	{
+		#region Fields
 
-    public NamedParameter AddParameter (object value)
-    {
-      var parameter = new NamedParameter ("p" + (_parameters.Count + 1), value);
-      _parameters.Add (parameter);
-      return parameter;
-    }
+		private readonly List<NamedParameter> _parameters = new List<NamedParameter>();
 
-    public NamedParameter[] GetParameters ()
-    {
-      return _parameters.ToArray ();
-    }
-  }
+		#endregion
+
+		#region Methods
+
+		public NamedParameter AddParameter (object value)
+		{
+			var parameter = new NamedParameter ("p" + (this._parameters.Count + 1), value);
+			this._parameters.Add (parameter);
+			return parameter;
+		}
+
+		public NamedParameter[] GetParameters ()
+		{
+			return this._parameters.ToArray();
+		}
+
+		#endregion
+	}
 }

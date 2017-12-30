@@ -9,82 +9,89 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
 using System;
 using Remotion.Collections;
 using Remotion.Diagnostics.ToText;
 
 namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 {
-  public class Location : IToTextConvertible
-  {
-    public virtual Guid NHibernateId { get; protected set; }
- 
-    public virtual string Street { get; set; }
-    public virtual string No { get; set; }
-    public virtual string City { get; set; }
-    public virtual Country? Country { get; set; }
-    public virtual int ZipCode { get; set; }
+	public class Location : IToTextConvertible
+	{
+		#region Properties
 
-    public virtual Person Owner { get; set; }
+		public virtual string City { get; set; }
+		public virtual Country? Country { get; set; }
+		public virtual Guid NHibernateId { get; protected set; }
+		public virtual string No { get; set; }
+		public virtual Person Owner { get; set; }
+		public virtual string Street { get; set; }
+		public virtual int ZipCode { get; set; }
 
-    public static Location NewObject ()
-    {
-      return new Location();
-    }
+		#endregion
 
-    public static Location NewObject (string Street, string No, Country Country, int ZipCode, string City)
-    {
-      var location = NewObject ();
-      location.Street = Street;
-      location.No = No;
-      location.Country = Country;
-      location.ZipCode = ZipCode;
-      location.City = City;
-      return location;
-    }
+		#region Methods
 
+		public static Location NewObject ()
+		{
+			return new Location();
+		}
 
-    #region CompoundValueEqualityComparer
+		public static Location NewObject (string Street, string No, Country Country, int ZipCode, string City)
+		{
+			var location = NewObject();
+			location.Street = Street;
+			location.No = No;
+			location.Country = Country;
+			location.ZipCode = ZipCode;
+			location.City = City;
+			return location;
+		}
 
-    private static readonly CompoundValueEqualityComparer<Location> _equalityComparer =
-        new CompoundValueEqualityComparer<Location> (a => new object[] {
-                                                                           a.Street, a.Country, a.City, a.ZipCode, a.No
-                                                                       });
+		#endregion
 
-    public override int GetHashCode ()
-    {
-      return _equalityComparer.GetHashCode (this);
-    }
+		#region CompoundValueEqualityComparer
 
-    public override bool Equals (object obj)
-    {
-      return _equalityComparer.Equals (this, obj);
-    }
+		private static readonly CompoundValueEqualityComparer<Location> _equalityComparer =
+				new CompoundValueEqualityComparer<Location> (
+						a => new object[]
+						     {
+								     a.Street, a.Country, a.City, a.ZipCode, a.No
+						     });
 
-    #endregion
+		public override int GetHashCode ()
+		{
+			return _equalityComparer.GetHashCode (this);
+		}
 
-    #region ToString-ToText
+		public override bool Equals (object obj)
+		{
+			return _equalityComparer.Equals (this, obj);
+		}
 
-    public virtual void ToText (IToTextBuilder toTextBuilder)
-    {
-      toTextBuilder.ib<Location> ().e (Street).e (No).e (City).e (ZipCode).e (Country).ie ();
-    }
+		#endregion
 
-    public override string ToString ()
-    {
-      var ttb = To.String;
-      ToText (ttb);
-      return ttb.ToString ();
-    }
+		#region ToString-ToText
 
-    #endregion
+		public virtual void ToText (IToTextBuilder toTextBuilder)
+		{
+			toTextBuilder.ib<Location>().e (this.Street).e (this.No).e (this.City).e (this.ZipCode).e (this.Country).ie();
+		}
 
-  }
+		public override string ToString ()
+		{
+			var ttb = To.String;
+			this.ToText (ttb);
+			return ttb.ToString();
+		}
 
-  public enum Country
-  {
-    Austria = 0,
-    Australia = 1,
-    BurkinaFaso = 2
-  }
+		#endregion
+	}
+
+	public enum Country
+	{
+		Austria = 0,
+		Australia = 1,
+		BurkinaFaso = 2
+	}
 }

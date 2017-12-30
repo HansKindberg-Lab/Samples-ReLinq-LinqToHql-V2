@@ -9,27 +9,42 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
+using System;
+
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class CommandData
-  {
-    public CommandData (string statement, NamedParameter[] namedParameters)
-    {
-      Statement = statement;
-      NamedParameters = namedParameters;
-    }
+	public class CommandData
+	{
+		#region Constructors
 
-    public string Statement { get; private set; }
-    public NamedParameter[] NamedParameters { get; private set; }
+		public CommandData (string statement, NamedParameter[] namedParameters)
+		{
+			this.Statement = statement;
+			this.NamedParameters = namedParameters;
+		}
 
-    public IQuery CreateQuery (ISession session)
-    {
-      var query = session.CreateQuery (Statement);
+		#endregion
 
-      foreach (var parameter in NamedParameters)
-        query.SetParameter (parameter.Name, parameter.Value);
+		#region Properties
 
-      return query;
-    }
-  }
+		public NamedParameter[] NamedParameters { get; }
+		public string Statement { get; }
+
+		#endregion
+
+		#region Methods
+
+		public IQuery CreateQuery (ISession session)
+		{
+			var query = session.CreateQuery (this.Statement);
+
+			foreach(var parameter in this.NamedParameters)
+				query.SetParameter (parameter.Name, parameter.Value);
+
+			return query;
+		}
+
+		#endregion
+	}
 }

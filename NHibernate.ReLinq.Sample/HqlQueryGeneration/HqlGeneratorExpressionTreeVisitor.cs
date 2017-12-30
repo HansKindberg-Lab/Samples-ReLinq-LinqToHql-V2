@@ -9,6 +9,7 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
 using System;
 using System.Linq.Expressions;
 using System.Text;
@@ -18,132 +19,144 @@ using Remotion.Data.Linq.Parsing;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 {
-  public class HqlGeneratorExpressionTreeVisitor : ThrowingExpressionTreeVisitor
-  {
-    public static string GetHqlExpression (Expression linqExpression, ParameterAggregator parameterAggregator)
-    {
-      var visitor = new HqlGeneratorExpressionTreeVisitor (parameterAggregator);
-      visitor.VisitExpression (linqExpression);
-      return visitor.GetHqlExpression ();
-    }
+	public class HqlGeneratorExpressionTreeVisitor : ThrowingExpressionTreeVisitor
+	{
+		#region Fields
 
-    private readonly StringBuilder _hqlExpression = new StringBuilder ();
-    private readonly ParameterAggregator _parameterAggregator;
+		private readonly StringBuilder _hqlExpression = new StringBuilder();
+		private readonly ParameterAggregator _parameterAggregator;
 
-    private HqlGeneratorExpressionTreeVisitor (ParameterAggregator parameterAggregator)
-    {
-      _parameterAggregator = parameterAggregator;
-    }
+		#endregion
 
-    public string GetHqlExpression ()
-    {
-      return _hqlExpression.ToString ();
-    }
+		#region Constructors
 
-    protected override Expression VisitQuerySourceReferenceExpression (QuerySourceReferenceExpression expression)
-    {
-      _hqlExpression.Append (expression.ReferencedQuerySource.ItemName);
-      return expression;
-    }
+		private HqlGeneratorExpressionTreeVisitor (ParameterAggregator parameterAggregator)
+		{
+			this._parameterAggregator = parameterAggregator;
+		}
 
-    protected override Expression VisitBinaryExpression (BinaryExpression expression)
-    {
-      _hqlExpression.Append ("(");
+		#endregion
 
-      VisitExpression (expression.Left);
+		#region Methods
 
-      // In production code, handle this via lookup tables.
-      switch (expression.NodeType)
-      {
-        case ExpressionType.Equal:
-          _hqlExpression.Append (" = ");
-          break;
+		// Called when a LINQ expression type is not handled above.
+		protected override Exception CreateUnhandledItemException<T> (T unhandledItem, string visitMethod)
+		{
+			string itemText = this.FormatUnhandledItem (unhandledItem);
+			var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", itemText, typeof(T));
+			return new NotSupportedException (message);
+		}
 
-        case ExpressionType.AndAlso:
-        case ExpressionType.And:
-          _hqlExpression.Append (" and ");
-          break;
-        
-        case ExpressionType.OrElse:
-        case ExpressionType.Or:
-          _hqlExpression.Append (" or ");
-          break;
+		private string FormatUnhandledItem<T> (T unhandledItem)
+		{
+			var itemAsExpression = unhandledItem as Expression;
+			return itemAsExpression != null ? FormattingExpressionTreeVisitor.Format (itemAsExpression) : unhandledItem.ToString();
+		}
 
-        case ExpressionType.Add:
-          _hqlExpression.Append (" + ");
-          break;
+		public static string GetHqlExpression (Expression linqExpression, ParameterAggregator parameterAggregator)
+		{
+			var visitor = new HqlGeneratorExpressionTreeVisitor (parameterAggregator);
+			visitor.VisitExpression (linqExpression);
+			return visitor.GetHqlExpression();
+		}
 
-        case ExpressionType.Subtract:
-          _hqlExpression.Append (" - ");
-          break;
+		public string GetHqlExpression ()
+		{
+			return this._hqlExpression.ToString();
+		}
 
-        case ExpressionType.Multiply:
-          _hqlExpression.Append (" * ");
-          break;
+		protected override Expression VisitBinaryExpression (BinaryExpression expression)
+		{
+			this._hqlExpression.Append ("(");
 
-        case ExpressionType.Divide:
-          _hqlExpression.Append (" / ");
-          break;
+			this.VisitExpression (expression.Left);
 
-        default:
-          base.VisitBinaryExpression (expression);
-          break;
-      }
+			// In production code, handle this via lookup tables.
+			switch(expression.NodeType)
+			{
+				case ExpressionType.Equal:
+					this._hqlExpression.Append (" = ");
+					break;
 
-      VisitExpression (expression.Right);
-      _hqlExpression.Append (")");
+				case ExpressionType.AndAlso:
+				case ExpressionType.And:
+					this._hqlExpression.Append (" and ");
+					break;
 
-      return expression;
-    }
+				case ExpressionType.OrElse:
+				case ExpressionType.Or:
+					this._hqlExpression.Append (" or ");
+					break;
 
-    protected override Expression VisitMemberExpression (MemberExpression expression)
-    {
-      VisitExpression (expression.Expression);
-      _hqlExpression.AppendFormat (".{0}", expression.Member.Name);
+				case ExpressionType.Add:
+					this._hqlExpression.Append (" + ");
+					break;
 
-      return expression;
-    }
+				case ExpressionType.Subtract:
+					this._hqlExpression.Append (" - ");
+					break;
 
-    protected override Expression VisitConstantExpression (ConstantExpression expression)
-    {
-      var namedParameter = _parameterAggregator.AddParameter (expression.Value);
-      _hqlExpression.AppendFormat (":{0}", namedParameter.Name);
+				case ExpressionType.Multiply:
+					this._hqlExpression.Append (" * ");
+					break;
 
-      return expression;
-    }
+				case ExpressionType.Divide:
+					this._hqlExpression.Append (" / ");
+					break;
 
-    protected override Expression VisitMethodCallExpression (MethodCallExpression expression)
-    {
-      // In production code, handle this via method lookup tables.
+				default:
+					base.VisitBinaryExpression (expression);
+					break;
+			}
 
-      var supportedMethod = typeof (string).GetMethod ("Contains");
-      if (expression.Method.Equals (supportedMethod))
-      {
-        _hqlExpression.Append ("(");
-        VisitExpression (expression.Object);
-        _hqlExpression.Append (" like '%'+");
-        VisitExpression (expression.Arguments[0]);
-        _hqlExpression.Append ("+'%')");
-        return expression;
-      }
-      else
-      {
-        return base.VisitMethodCallExpression (expression); // throws
-      }
-    }
+			this.VisitExpression (expression.Right);
+			this._hqlExpression.Append (")");
 
-    // Called when a LINQ expression type is not handled above.
-    protected override Exception CreateUnhandledItemException<T>(T unhandledItem, string visitMethod)
-    {
-      string itemText = FormatUnhandledItem(unhandledItem);
-      var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", itemText, typeof (T));
-      return new NotSupportedException (message);
-    }
+			return expression;
+		}
 
-    private string FormatUnhandledItem<T>(T unhandledItem)
-    {
-      var itemAsExpression = unhandledItem as Expression;
-      return itemAsExpression != null ? FormattingExpressionTreeVisitor.Format (itemAsExpression) : unhandledItem.ToString ();
-    }
-  }
+		protected override Expression VisitConstantExpression (ConstantExpression expression)
+		{
+			var namedParameter = this._parameterAggregator.AddParameter (expression.Value);
+			this._hqlExpression.AppendFormat (":{0}", namedParameter.Name);
+
+			return expression;
+		}
+
+		protected override Expression VisitMemberExpression (MemberExpression expression)
+		{
+			this.VisitExpression (expression.Expression);
+			this._hqlExpression.AppendFormat (".{0}", expression.Member.Name);
+
+			return expression;
+		}
+
+		protected override Expression VisitMethodCallExpression (MethodCallExpression expression)
+		{
+			// In production code, handle this via method lookup tables.
+
+			var supportedMethod = typeof(string).GetMethod ("Contains");
+			if(expression.Method.Equals (supportedMethod))
+			{
+				this._hqlExpression.Append ("(");
+				this.VisitExpression (expression.Object);
+				this._hqlExpression.Append (" like '%'+");
+				this.VisitExpression (expression.Arguments[0]);
+				this._hqlExpression.Append ("+'%')");
+				return expression;
+			}
+			else
+			{
+				return base.VisitMethodCallExpression (expression); // throws
+			}
+		}
+
+		protected override Expression VisitQuerySourceReferenceExpression (QuerySourceReferenceExpression expression)
+		{
+			this._hqlExpression.Append (expression.ReferencedQuerySource.ItemName);
+			return expression;
+		}
+
+		#endregion
+	}
 }

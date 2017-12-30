@@ -9,6 +9,7 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,34 +18,46 @@ using Remotion.Data.Linq;
 
 namespace NHibernate.ReLinq.Sample
 {
-  // Called by re-linq when a query is to be executed.
-  public class NHQueryExecutor : IQueryExecutor
-  {
-    private readonly ISession _session;
+	// Called by re-linq when a query is to be executed.
+	public class NHQueryExecutor : IQueryExecutor
+	{
+		#region Fields
 
-    public NHQueryExecutor (ISession session)
-    {
-      _session = session;
-    }
+		private readonly ISession _session;
 
-    // Executes a query with a scalar result, i.e. a query that ends with a result operator such as Count, Sum, or Average.
-    public T ExecuteScalar<T> (QueryModel queryModel)
-    {
-      return ExecuteCollection<T> (queryModel).Single();
-    }
+		#endregion
 
-    // Executes a query with a single result object, i.e. a query that ends with a result operator such as First, Last, Single, Min, or Max.
-    public T ExecuteSingle<T> (QueryModel queryModel, bool returnDefaultWhenEmpty)
-    {
-      return returnDefaultWhenEmpty ? ExecuteCollection<T> (queryModel).SingleOrDefault () : ExecuteCollection<T> (queryModel).Single ();
-    }
+		#region Constructors
 
-    // Executes a query with a collection result.
-    public IEnumerable<T> ExecuteCollection<T> (QueryModel queryModel)
-    {
-      var commandData = HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel);
-      var query = commandData.CreateQuery (_session);
-      return query.Enumerable<T> ();
-    }
-  }
+		public NHQueryExecutor (ISession session)
+		{
+			this._session = session;
+		}
+
+		#endregion
+
+		#region Methods
+
+		// Executes a query with a collection result.
+		public IEnumerable<T> ExecuteCollection<T> (QueryModel queryModel)
+		{
+			var commandData = HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel);
+			var query = commandData.CreateQuery (this._session);
+			return query.Enumerable<T>();
+		}
+
+		// Executes a query with a scalar result, i.e. a query that ends with a result operator such as Count, Sum, or Average.
+		public T ExecuteScalar<T> (QueryModel queryModel)
+		{
+			return this.ExecuteCollection<T> (queryModel).Single();
+		}
+
+		// Executes a query with a single result object, i.e. a query that ends with a result operator such as First, Last, Single, Min, or Max.
+		public T ExecuteSingle<T> (QueryModel queryModel, bool returnDefaultWhenEmpty)
+		{
+			return returnDefaultWhenEmpty ? this.ExecuteCollection<T> (queryModel).SingleOrDefault() : this.ExecuteCollection<T> (queryModel).Single();
+		}
+
+		#endregion
+	}
 }

@@ -9,13 +9,20 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
+using System;
+
 namespace NHibernate.ReLinq.Sample
 {
-  public class NHQueryFactory
-  {
-    public static NHQueryable<T> Queryable<T> (ISession session)
-    {
-      return new NHQueryable<T> (session);
-    }
-  }
+	public class NHQueryFactory
+	{
+		#region Methods
+
+		public static NHQueryable<T> Queryable<T> (ISession session)
+		{
+			return new NHQueryable<T> (session);
+		}
+
+		#endregion
+	}
 }

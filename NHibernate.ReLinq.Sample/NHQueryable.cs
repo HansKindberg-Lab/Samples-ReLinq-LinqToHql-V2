@@ -9,6 +9,7 @@
 //  and/or modify it under the terms of the MIT License 
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
+
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,25 +17,30 @@ using Remotion.Data.Linq;
 
 namespace NHibernate.ReLinq.Sample
 {
-  /// <summary>
-  /// Provides the main entry point to a LINQ query.
-  /// </summary>
-  public class NHQueryable<T> : QueryableBase<T>
-  {
-    private static IQueryExecutor CreateExecutor (ISession session)
-    {
-      return new NHQueryExecutor (session);
-    }
-    
-    // This constructor is called by our users, create a new IQueryExecutor.
-    public NHQueryable (ISession session)
-        : base (CreateExecutor (session))
-    {
-    }
+	/// <summary>
+	/// Provides the main entry point to a LINQ query.
+	/// </summary>
+	public class NHQueryable<T> : QueryableBase<T>
+	{
+		#region Constructors
 
-    // This constructor is called indirectly by LINQ's query methods, just pass to base.
-    public NHQueryable (IQueryProvider provider, Expression expression) : base(provider, expression)
-    {
-    }
-  }
+		// This constructor is called by our users, create a new IQueryExecutor.
+		public NHQueryable (ISession session)
+				: base (CreateExecutor (session)) { }
+
+		// This constructor is called indirectly by LINQ's query methods, just pass to base.
+		public NHQueryable (IQueryProvider provider, Expression expression)
+				: base (provider, expression) { }
+
+		#endregion
+
+		#region Methods
+
+		private static IQueryExecutor CreateExecutor (ISession session)
+		{
+			return new NHQueryExecutor (session);
+		}
+
+		#endregion
+	}
 }
