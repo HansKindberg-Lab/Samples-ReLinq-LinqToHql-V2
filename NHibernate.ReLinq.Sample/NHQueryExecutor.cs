@@ -10,7 +10,6 @@
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.ReLinq.Sample.HqlQueryGeneration;
@@ -29,7 +28,7 @@ namespace NHibernate.ReLinq.Sample
 
 		#region Constructors
 
-		public NHQueryExecutor (ISession session)
+		public NHQueryExecutor(ISession session)
 		{
 			this._session = session;
 		}
@@ -39,23 +38,23 @@ namespace NHibernate.ReLinq.Sample
 		#region Methods
 
 		// Executes a query with a collection result.
-		public IEnumerable<T> ExecuteCollection<T> (QueryModel queryModel)
+		public IEnumerable<T> ExecuteCollection<T>(QueryModel queryModel)
 		{
-			var commandData = HqlGeneratorQueryModelVisitor.GenerateHqlQuery (queryModel);
-			var query = commandData.CreateQuery (this._session);
+			var commandData = HqlGeneratorQueryModelVisitor.GenerateHqlQuery(queryModel);
+			var query = commandData.CreateQuery(this._session);
 			return query.Enumerable<T>();
 		}
 
 		// Executes a query with a scalar result, i.e. a query that ends with a result operator such as Count, Sum, or Average.
-		public T ExecuteScalar<T> (QueryModel queryModel)
+		public T ExecuteScalar<T>(QueryModel queryModel)
 		{
-			return this.ExecuteCollection<T> (queryModel).Single();
+			return this.ExecuteCollection<T>(queryModel).Single();
 		}
 
 		// Executes a query with a single result object, i.e. a query that ends with a result operator such as First, Last, Single, Min, or Max.
-		public T ExecuteSingle<T> (QueryModel queryModel, bool returnDefaultWhenEmpty)
+		public T ExecuteSingle<T>(QueryModel queryModel, bool returnDefaultWhenEmpty)
 		{
-			return returnDefaultWhenEmpty ? this.ExecuteCollection<T> (queryModel).SingleOrDefault() : this.ExecuteCollection<T> (queryModel).Single();
+			return returnDefaultWhenEmpty ? this.ExecuteCollection<T>(queryModel).SingleOrDefault() : this.ExecuteCollection<T>(queryModel).Single();
 		}
 
 		#endregion

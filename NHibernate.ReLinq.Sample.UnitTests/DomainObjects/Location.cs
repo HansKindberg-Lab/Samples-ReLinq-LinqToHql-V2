@@ -32,12 +32,12 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 
 		#region Methods
 
-		public static Location NewObject ()
+		public static Location NewObject()
 		{
 			return new Location();
 		}
 
-		public static Location NewObject (string Street, string No, Country Country, int ZipCode, string City)
+		public static Location NewObject(string Street, string No, Country Country, int ZipCode, string City)
 		{
 			var location = NewObject();
 			location.Street = Street;
@@ -53,35 +53,35 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 		#region CompoundValueEqualityComparer
 
 		private static readonly CompoundValueEqualityComparer<Location> _equalityComparer =
-				new CompoundValueEqualityComparer<Location> (
-						a => new object[]
-						     {
-								     a.Street, a.Country, a.City, a.ZipCode, a.No
-						     });
+			new CompoundValueEqualityComparer<Location>(
+				a => new object[]
+				{
+					a.Street, a.Country, a.City, a.ZipCode, a.No
+				});
 
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
-			return _equalityComparer.GetHashCode (this);
+			return _equalityComparer.GetHashCode(this);
 		}
 
-		public override bool Equals (object obj)
+		public override bool Equals(object obj)
 		{
-			return _equalityComparer.Equals (this, obj);
+			return _equalityComparer.Equals(this, obj);
 		}
 
 		#endregion
 
 		#region ToString-ToText
 
-		public virtual void ToText (IToTextBuilder toTextBuilder)
+		public virtual void ToText(IToTextBuilder toTextBuilder)
 		{
-			toTextBuilder.ib<Location>().e (this.Street).e (this.No).e (this.City).e (this.ZipCode).e (this.Country).ie();
+			toTextBuilder.ib<Location>().e(this.Street).e(this.No).e(this.City).e(this.ZipCode).e(this.Country).ie();
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			var ttb = To.String;
-			this.ToText (ttb);
+			this.ToText(ttb);
 			return ttb.ToString();
 		}
 

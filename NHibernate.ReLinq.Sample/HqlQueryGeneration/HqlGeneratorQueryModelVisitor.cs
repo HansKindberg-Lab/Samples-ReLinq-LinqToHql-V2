@@ -32,92 +32,92 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
 		#region Methods
 
-		public static CommandData GenerateHqlQuery (QueryModel queryModel)
+		public static CommandData GenerateHqlQuery(QueryModel queryModel)
 		{
 			var visitor = new HqlGeneratorQueryModelVisitor();
-			visitor.VisitQueryModel (queryModel);
+			visitor.VisitQueryModel(queryModel);
 			return visitor.GetHqlCommand();
 		}
 
-		public CommandData GetHqlCommand ()
+		public CommandData GetHqlCommand()
 		{
-			return new CommandData (this._queryParts.BuildHQLString(), this._parameterAggregator.GetParameters());
+			return new CommandData(this._queryParts.BuildHQLString(), this._parameterAggregator.GetParameters());
 		}
 
-		private string GetHqlExpression (Expression expression)
+		private string GetHqlExpression(Expression expression)
 		{
-			return HqlGeneratorExpressionTreeVisitor.GetHqlExpression (expression, this._parameterAggregator);
+			return HqlGeneratorExpressionTreeVisitor.GetHqlExpression(expression, this._parameterAggregator);
 		}
 
-		public override void VisitAdditionalFromClause (AdditionalFromClause fromClause, QueryModel queryModel, int index)
+		public override void VisitAdditionalFromClause(AdditionalFromClause fromClause, QueryModel queryModel, int index)
 		{
-			this._queryParts.AddFromPart (fromClause);
+			this._queryParts.AddFromPart(fromClause);
 
-			base.VisitAdditionalFromClause (fromClause, queryModel, index);
+			base.VisitAdditionalFromClause(fromClause, queryModel, index);
 		}
 
-		public override void VisitGroupJoinClause (GroupJoinClause groupJoinClause, QueryModel queryModel, int index)
+		public override void VisitGroupJoinClause(GroupJoinClause groupJoinClause, QueryModel queryModel, int index)
 		{
-			throw new NotSupportedException ("Adding a join ... into ... implementation to the query provider is left to the reader for extra points.");
+			throw new NotSupportedException("Adding a join ... into ... implementation to the query provider is left to the reader for extra points.");
 		}
 
-		public override void VisitJoinClause (JoinClause joinClause, QueryModel queryModel, int index)
+		public override void VisitJoinClause(JoinClause joinClause, QueryModel queryModel, int index)
 		{
 			// HQL joins work differently, need to simulate using a cross join with a where condition
 
-			this._queryParts.AddFromPart (joinClause);
-			this._queryParts.AddWherePart (
-					"({0} = {1})",
-					this.GetHqlExpression (joinClause.OuterKeySelector),
-					this.GetHqlExpression (joinClause.InnerKeySelector));
+			this._queryParts.AddFromPart(joinClause);
+			this._queryParts.AddWherePart(
+				"({0} = {1})",
+				this.GetHqlExpression(joinClause.OuterKeySelector),
+				this.GetHqlExpression(joinClause.InnerKeySelector));
 
-			base.VisitJoinClause (joinClause, queryModel, index);
+			base.VisitJoinClause(joinClause, queryModel, index);
 		}
 
-		public override void VisitMainFromClause (MainFromClause fromClause, QueryModel queryModel)
+		public override void VisitMainFromClause(MainFromClause fromClause, QueryModel queryModel)
 		{
-			this._queryParts.AddFromPart (fromClause);
+			this._queryParts.AddFromPart(fromClause);
 
-			base.VisitMainFromClause (fromClause, queryModel);
+			base.VisitMainFromClause(fromClause, queryModel);
 		}
 
-		public override void VisitOrderByClause (OrderByClause orderByClause, QueryModel queryModel, int index)
+		public override void VisitOrderByClause(OrderByClause orderByClause, QueryModel queryModel, int index)
 		{
-			this._queryParts.AddOrderByPart (orderByClause.Orderings.Select (o => this.GetHqlExpression (o.Expression)));
+			this._queryParts.AddOrderByPart(orderByClause.Orderings.Select(o => this.GetHqlExpression(o.Expression)));
 
-			base.VisitOrderByClause (orderByClause, queryModel, index);
+			base.VisitOrderByClause(orderByClause, queryModel, index);
 		}
 
-		public override void VisitQueryModel (QueryModel queryModel)
+		public override void VisitQueryModel(QueryModel queryModel)
 		{
-			queryModel.SelectClause.Accept (this, queryModel);
-			queryModel.MainFromClause.Accept (this, queryModel);
-			this.VisitBodyClauses (queryModel.BodyClauses, queryModel);
-			this.VisitResultOperators (queryModel.ResultOperators, queryModel);
+			queryModel.SelectClause.Accept(this, queryModel);
+			queryModel.MainFromClause.Accept(this, queryModel);
+			this.VisitBodyClauses(queryModel.BodyClauses, queryModel);
+			this.VisitResultOperators(queryModel.ResultOperators, queryModel);
 		}
 
-		public override void VisitResultOperator (ResultOperatorBase resultOperator, QueryModel queryModel, int index)
+		public override void VisitResultOperator(ResultOperatorBase resultOperator, QueryModel queryModel, int index)
 		{
 			if(resultOperator is CountResultOperator)
-				this._queryParts.SelectPart = string.Format ("cast(count({0}) as int)", this._queryParts.SelectPart);
+				this._queryParts.SelectPart = string.Format("cast(count({0}) as int)", this._queryParts.SelectPart);
 			else
-				throw new NotSupportedException ("Only Count() result operator is showcased in this sample. Adding Sum, Min, Max is left to the reader.");
+				throw new NotSupportedException("Only Count() result operator is showcased in this sample. Adding Sum, Min, Max is left to the reader.");
 
-			base.VisitResultOperator (resultOperator, queryModel, index);
+			base.VisitResultOperator(resultOperator, queryModel, index);
 		}
 
-		public override void VisitSelectClause (SelectClause selectClause, QueryModel queryModel)
+		public override void VisitSelectClause(SelectClause selectClause, QueryModel queryModel)
 		{
-			this._queryParts.SelectPart = this.GetHqlExpression (selectClause.Selector);
+			this._queryParts.SelectPart = this.GetHqlExpression(selectClause.Selector);
 
-			base.VisitSelectClause (selectClause, queryModel);
+			base.VisitSelectClause(selectClause, queryModel);
 		}
 
-		public override void VisitWhereClause (WhereClause whereClause, QueryModel queryModel, int index)
+		public override void VisitWhereClause(WhereClause whereClause, QueryModel queryModel, int index)
 		{
-			this._queryParts.AddWherePart (this.GetHqlExpression (whereClause.Predicate));
+			this._queryParts.AddWherePart(this.GetHqlExpression(whereClause.Predicate));
 
-			base.VisitWhereClause (whereClause, queryModel, index);
+			base.VisitWhereClause(whereClause, queryModel, index);
 		}
 
 		#endregion

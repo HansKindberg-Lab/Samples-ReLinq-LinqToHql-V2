@@ -31,20 +31,20 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 
 		#region Methods
 
-		public virtual void AddPhoneNumber (PhoneNumber phoneNumber)
+		public virtual void AddPhoneNumber(PhoneNumber phoneNumber)
 		{
 			phoneNumber.Person = this;
-			this.PhoneNumbers.Add (phoneNumber);
+			this.PhoneNumbers.Add(phoneNumber);
 		}
 
-		public static Person NewObject ()
+		public static Person NewObject()
 		{
 			var person = new Person();
 			person.PhoneNumbers = new List<PhoneNumber>();
 			return person;
 		}
 
-		public static Person NewObject (string FirstName, string Surname, Location Location)
+		public static Person NewObject(string FirstName, string Surname, Location Location)
 		{
 			var person = NewObject();
 			person.FirstName = FirstName;
@@ -53,9 +53,9 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 			return person;
 		}
 
-		public virtual void RemovePhoneNumber (PhoneNumber phoneNumber)
+		public virtual void RemovePhoneNumber(PhoneNumber phoneNumber)
 		{
-			this.PhoneNumbers.Remove (phoneNumber);
+			this.PhoneNumbers.Remove(phoneNumber);
 		}
 
 		#endregion
@@ -63,35 +63,35 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 		#region CompoundValueEqualityComparer
 
 		private static readonly CompoundValueEqualityComparer<Person> _equalityComparer =
-				new CompoundValueEqualityComparer<Person> (
-						a => new object[]
-						     {
-								     a.FirstName, a.Surname, a.Location, ComponentwiseEqualsAndHashcodeWrapper.New (a.PhoneNumbers)
-						     });
+			new CompoundValueEqualityComparer<Person>(
+				a => new object[]
+				{
+					a.FirstName, a.Surname, a.Location, ComponentwiseEqualsAndHashcodeWrapper.New(a.PhoneNumbers)
+				});
 
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
-			return _equalityComparer.GetHashCode (this);
+			return _equalityComparer.GetHashCode(this);
 		}
 
-		public override bool Equals (object obj)
+		public override bool Equals(object obj)
 		{
-			return _equalityComparer.Equals (this, obj);
+			return _equalityComparer.Equals(this, obj);
 		}
 
 		#endregion
 
 		#region ToString-ToText
 
-		public virtual void ToText (IToTextBuilder toTextBuilder)
+		public virtual void ToText(IToTextBuilder toTextBuilder)
 		{
-			toTextBuilder.ib<Person>().e (this.FirstName).e (this.Surname).e (this.Location).e (this.PhoneNumbers).ie();
+			toTextBuilder.ib<Person>().e(this.FirstName).e(this.Surname).e(this.Location).e(this.PhoneNumbers).ie();
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			var ttb = To.String;
-			this.ToText (ttb);
+			this.ToText(ttb);
 			return ttb.ToString();
 		}
 

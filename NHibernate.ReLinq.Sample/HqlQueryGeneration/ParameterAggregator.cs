@@ -10,7 +10,6 @@
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
 
-using System;
 using System.Collections.Generic;
 
 namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
@@ -25,14 +24,14 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 
 		#region Methods
 
-		public NamedParameter AddParameter (object value)
+		public NamedParameter AddParameter(object value)
 		{
-			var parameter = new NamedParameter ("p" + (this._parameters.Count + 1), value);
-			this._parameters.Add (parameter);
+			var parameter = new NamedParameter("p" + (this._parameters.Count + 1), value);
+			this._parameters.Add(parameter);
 			return parameter;
 		}
 
-		public NamedParameter[] GetParameters ()
+		public NamedParameter[] GetParameters()
 		{
 			return this._parameters.ToArray();
 		}

@@ -31,12 +31,12 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 
 		#region Methods
 
-		public static PhoneNumber NewObject ()
+		public static PhoneNumber NewObject()
 		{
 			return new PhoneNumber();
 		}
 
-		public static PhoneNumber NewObject (string CountryCode, string AreaCode, string Number, string Extension, Person person)
+		public static PhoneNumber NewObject(string CountryCode, string AreaCode, string Number, string Extension, Person person)
 		{
 			var phoneNumber = NewObject();
 			phoneNumber.CountryCode = CountryCode;
@@ -46,17 +46,17 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 
 			if(person != null)
 			{
-				person.AddPhoneNumber (phoneNumber);
+				person.AddPhoneNumber(phoneNumber);
 			}
 
 			return phoneNumber;
 		}
 
-		public virtual void SetPerson (Person person)
+		public virtual void SetPerson(Person person)
 		{
 			if(this.Person != null)
 			{
-				this.Person.RemovePhoneNumber (this);
+				this.Person.RemovePhoneNumber(this);
 			}
 
 			this.Person = person;
@@ -67,35 +67,35 @@ namespace NHibernate.ReLinq.Sample.UnitTests.DomainObjects
 		#region CompoundValueEqualityComparer
 
 		private static readonly CompoundValueEqualityComparer<PhoneNumber> _equalityComparer =
-				new CompoundValueEqualityComparer<PhoneNumber> (
-						a => new object[]
-						     {
-								     a.CountryCode, a.AreaCode, a.AreaCode, a.Number, a.Extension
-						     });
+			new CompoundValueEqualityComparer<PhoneNumber>(
+				a => new object[]
+				{
+					a.CountryCode, a.AreaCode, a.AreaCode, a.Number, a.Extension
+				});
 
-		public override int GetHashCode ()
+		public override int GetHashCode()
 		{
-			return _equalityComparer.GetHashCode (this);
+			return _equalityComparer.GetHashCode(this);
 		}
 
-		public override bool Equals (object obj)
+		public override bool Equals(object obj)
 		{
-			return _equalityComparer.Equals (this, obj);
+			return _equalityComparer.Equals(this, obj);
 		}
 
 		#endregion
 
 		#region ToString-ToText
 
-		public virtual void ToText (IToTextBuilder toTextBuilder)
+		public virtual void ToText(IToTextBuilder toTextBuilder)
 		{
-			toTextBuilder.ib<PhoneNumber>().e (this.CountryCode).e (this.AreaCode).e (this.Number).e (this.Extension).e (this.Person.FirstName).e (this.Person.Surname).ie();
+			toTextBuilder.ib<PhoneNumber>().e(this.CountryCode).e(this.AreaCode).e(this.Number).e(this.Extension).e(this.Person.FirstName).e(this.Person.Surname).ie();
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			var ttb = To.String;
-			this.ToText (ttb);
+			this.ToText(ttb);
 			return ttb.ToString();
 		}
 

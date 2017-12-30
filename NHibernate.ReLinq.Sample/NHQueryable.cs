@@ -10,7 +10,6 @@
 // (http://www.opensource.org/licenses/mit-license.php).
 // 
 
-using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Remotion.Data.Linq;
@@ -25,20 +24,20 @@ namespace NHibernate.ReLinq.Sample
 		#region Constructors
 
 		// This constructor is called by our users, create a new IQueryExecutor.
-		public NHQueryable (ISession session)
-				: base (CreateExecutor (session)) { }
+		public NHQueryable(ISession session)
+			: base(CreateExecutor(session)) { }
 
 		// This constructor is called indirectly by LINQ's query methods, just pass to base.
-		public NHQueryable (IQueryProvider provider, Expression expression)
-				: base (provider, expression) { }
+		public NHQueryable(IQueryProvider provider, Expression expression)
+			: base(provider, expression) { }
 
 		#endregion
 
 		#region Methods
 
-		private static IQueryExecutor CreateExecutor (ISession session)
+		private static IQueryExecutor CreateExecutor(ISession session)
 		{
-			return new NHQueryExecutor (session);
+			return new NHQueryExecutor(session);
 		}
 
 		#endregion
