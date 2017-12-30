@@ -372,6 +372,30 @@ namespace NHibernate.ReLinq.Sample.UnitTests
 		}
 
 		[Test]
+		public void MyTest()
+		{
+			// Implement VisitBinaryExpression (And/AndAlso/Or/OrElse)
+
+			using (var session = this._sessionFactory.OpenSession())
+			{
+				var query = from pn in NHQueryFactory.Queryable<PhoneNumber>(session)
+								//where pn.CountryCode == "11111" || pn.Person.FirstName == "Pierre" && pn.Person.Surname == "Oerson"
+							where pn.CountryCode.StartsWith("1")
+						select pn;
+
+				var nhibernateQuery = this.CreateNHQuery(session, query.Expression);
+				Assert.That(
+						nhibernateQuery.QueryString,
+						Is.EqualTo(
+								"select pn from NHibernate.ReLinq.Sample.UnitTests.DomainObjects.PhoneNumber as pn "
+								+ "where ((pn.CountryCode = :p1) or ((pn.Person.FirstName = :p2) and (pn.Person.Surname = :p3)))"));
+
+				var result = query.ToList();
+				Assert.That(result, Is.EquivalentTo(new[] { this._phoneNumber, this._phoneNumber2, this._phoneNumber3, this._phoneNumber4, this._phoneNumber5 }));
+			}
+		}
+
+		[Test]
 		public void SelectFromWhere_WithContains ()
 		{
 			// Implement VisitMethodCallExpression

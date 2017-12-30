@@ -11,6 +11,7 @@
 // 
 
 using System;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
 using Remotion.Data.Linq.Clauses.Expressions;
@@ -42,9 +43,11 @@ namespace NHibernate.ReLinq.Sample.HqlQueryGeneration
 		// Called when a LINQ expression type is not handled above.
 		protected override Exception CreateUnhandledItemException<T> (T unhandledItem, string visitMethod)
 		{
-			string itemText = this.FormatUnhandledItem (unhandledItem);
-			var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", itemText, typeof(T));
-			return new NotSupportedException (message);
+			return new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "The expression \"{0}\", of type \"{1}\", handled by visit-method \"{2}\" is not supported by this LINQ-provider.", unhandledItem, typeof(T), visitMethod));
+
+			//string itemText = this.FormatUnhandledItem (unhandledItem);
+			//var message = string.Format ("The expression '{0}' (type: {1}) is not supported by this LINQ provider.", itemText, typeof(T));
+			//return new NotSupportedException (message);
 		}
 
 		private string FormatUnhandledItem<T> (T unhandledItem)
