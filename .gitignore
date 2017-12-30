@@ -189,3 +189,6 @@ remotion.snk
 
 # Named
 GitExtensions.settings.backup
+
+.vs/
+App_Data/
